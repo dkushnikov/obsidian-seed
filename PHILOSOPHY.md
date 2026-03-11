@@ -51,7 +51,7 @@ This is the key insight: a well-built vault isn't a tool FOR thinking about your
 
 Your `Me.md` captures who you are right now. Your `Areas.md` maps your life's dimensions. Your `Goals.md` tracks where you're heading and why. Your daily reflections show the delta between intention and reality. Your graph shows connections you didn't consciously plan.
 
-"Happiness is a well-tuned model of the world." The vault is that model — external, editable, queryable, and continuously refined through living and reflecting.
+I think of it this way: "Happiness is a well-tuned model of the world." That's a personal conviction, not a universal claim. You might define happiness through relationships, achievement, peace, or something else entirely. But whatever your definition, an accurate model of your own life is probably useful. The vault is that model — external, editable, queryable, and continuously refined through living and reflecting.
 
 ---
 
