@@ -87,6 +87,12 @@ The short version:
 
 The long version: [PHILOSOPHY.md](PHILOSOPHY.md)
 
+## Status
+
+This is an early release. The methodology behind it is battle-tested — it was developed through 40+ hours of real vault building over two weeks, and the resulting vault is in daily use. But the seed file itself hasn't been cold-tested by someone other than the author yet.
+
+If something doesn't work as expected, Claude Code is good at adapting on the fly. Open an issue with what happened — that feedback is the fastest way to improve it.
+
 ## Contributing
 
 Found a bug? Got stuck somewhere? Have a suggestion?
