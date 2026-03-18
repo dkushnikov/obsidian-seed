@@ -823,8 +823,9 @@ For the impatient — the minimum viable setup:
 - [ ] Create _meta/Me.md
 - [ ] Create _meta/Areas.md + folder structure
 - [ ] Establish frontmatter + tag conventions (update CLAUDE.md)
+- [ ] Set up session continuity: `_claude/TODO.md` + `_claude/session-logs/` + MEMORY.md
+- [ ] Create first session log (do this NOW — not at end of session)
 - [ ] Create Goals/Goals [YEAR].md
-- [ ] Create first session log
 - [ ] Commit everything
 - [ ] Start using the vault
 
