@@ -111,6 +111,8 @@ Before starting, make sure:
 └── ...
 ```
 
+> **Skills limitation:** Claude Code only scans `~/.claude/skills/` (global) and `<project>/.claude/skills/` (project-level). Skills placed in intermediate directories (e.g., `~/Obsidian/.claude/skills/`) are NOT loaded. Place all skills in one of these two locations.
+
 ### 0.2 — Create a starter CLAUDE.md in vault root
 
 This is the most important file. It tells Claude Code how to behave in this vault. Start minimal — you'll expand it as the vault takes shape.
@@ -145,6 +147,8 @@ This file applies to ALL projects, not just the vault. Include:
 - Language preferences
 - What you never want (generic advice? process narration? asking permission for reads?)
 
+> **How the walk-up chain works:** Claude Code reads ALL `CLAUDE.md` files from your current directory up to `~`. So `~/.claude/CLAUDE.md` (who you are) + vault `CLAUDE.md` (how this vault works) compose into one context. Keep identity in the global file, project conventions in the vault file. They stack, not replace.
+
 ### 0.4 — Set up `.gitignore`
 
 ```
@@ -156,6 +160,8 @@ This file applies to ALL projects, not just the vault. Include:
 ### 0.5 — Set up auto-memory
 
 Claude Code has persistent memory at `~/.claude/projects/<project-path>/memory/`. Create a `MEMORY.md` there. Claude will update it across sessions to remember context, decisions, and patterns. Keep it under 200 lines (Claude sees the first 200 lines automatically).
+
+> **Going further:** For multi-machine sync, data pipelines (calendar, health, voice), cron automation, and portable dotfiles, see [claude-environment](https://github.com/dkushnikov/claude-environment). That's the infrastructure layer; this wizard is the content layer.
 
 ---
 
