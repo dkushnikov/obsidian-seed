@@ -93,6 +93,10 @@ This is an early release. The methodology behind it is battle-tested — it was 
 
 If something doesn't work as expected, Claude Code is good at adapting on the fly. Open an issue with what happened — that feedback is the fastest way to improve it.
 
+## Related
+
+- [Claude Environment](https://github.com/dkushnikov/claude-environment) — multi-machine Claude Code setup with data pipelines and automation. **Seed = vault content, Environment = infrastructure.** Once your vault is running, use Environment to add calendar sync, health data, cron jobs, and multi-machine support.
+
 ## Contributing
 
 Found a bug? Got stuck somewhere? Have a suggestion?

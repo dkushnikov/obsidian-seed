@@ -1,3 +1,4 @@
+<!-- seed v2026.03.18 -->
 # Obsidian Vault Setup Wizard — Claude Code Edition
 
 > This is a step-by-step guide for Claude Code to help a user build a personal Obsidian vault from scratch. Place this file in your vault root or `.claude/` directory, open Claude Code, and say "let's start" or reference this file.
