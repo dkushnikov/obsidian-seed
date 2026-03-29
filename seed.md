@@ -1,4 +1,4 @@
-<!-- seed v2026.03.18 -->
+<!-- seed v2026.03.29 -->
 # Obsidian Vault Setup Wizard — Claude Code Edition
 
 > This is a step-by-step guide for Claude Code to help a user build a personal Obsidian vault from scratch. Place this file in your vault root or `.claude/` directory, open Claude Code, and say "let's start" or reference this file.
@@ -161,7 +161,37 @@ This file applies to ALL projects, not just the vault. Include:
 
 Claude Code has persistent memory at `~/.claude/projects/<project-path>/memory/`. Create a `MEMORY.md` there. Claude will update it across sessions to remember context, decisions, and patterns. Keep it under 200 lines (Claude sees the first 200 lines automatically).
 
-> **Going further:** For multi-machine sync, data pipelines (calendar, health, voice), cron automation, and portable dotfiles, see [claude-environment](https://github.com/dkushnikov/claude-environment). That's the infrastructure layer; this wizard is the content layer.
+### 0.6 — Understand the environment model
+
+You don't need to set this up now. But understanding the architecture early saves confusion later.
+
+**Your Claude configuration has three layers:**
+
+```
+Layer 1: Person (~/.claude/)
+  Who you are, style, universal preferences. Goes with you everywhere.
+  Source: a dotfiles repo (git), symlinked into ~/.claude/
+
+Layer 2: Domain (intermediate CLAUDE.md files)
+  Domain conventions. Claude reads ALL CLAUDE.md files upward from CWD to ~.
+  Example: ~/Obsidian/CLAUDE.md — shared rules for all vaults in this directory.
+
+Layer 3: Project (vault's CLAUDE.md + .claude/)
+  Vault-specific: protocols, permissions, skills, commands.
+```
+
+**Why this matters:** Your global `~/.claude/CLAUDE.md` (who you are) + vault `CLAUDE.md` (how this vault works) compose into one context automatically. Keep identity in the global file, conventions in the vault file. They stack, not replace.
+
+**When you'll want more:**
+
+| Need | What to add |
+|------|-------------|
+| Same setup on a second machine | Dotfiles repo: CLAUDE.md + rules + skills + hooks, git-synced |
+| Calendar/health/voice data flowing in | Data pipelines: sync scripts + scheduled agents + `_inputs/` |
+| Automated daily checks or reports | Cron jobs: LaunchAgents (macOS) or systemd timers |
+| Session continuity across machines | Session hooks: auto-naming, briefings, offboarding checklists |
+
+All of this is covered in [claude-environment](https://github.com/dkushnikov/claude-environment) — the infrastructure layer that complements this content wizard. Start with the vault, add environment when you outgrow a single machine.
 
 ---
 
@@ -335,7 +365,6 @@ Whichever style they choose, the full vault structure looks like:
 [People folder]/               # If using cross-layer approach
 Reflections/                   # Daily notes, journaling
 Goals/                         # Goals, OKRs, reviews
-  Session Logs/                # Claude session logs
 Projects/                      # Active cross-area projects
 Templates/                     # Obsidian templates
 _meta/                         # Foundation files (Me, Areas, values)
@@ -343,6 +372,7 @@ _attachments/                  # Images, PDFs, non-markdown
 _inputs/                       # Raw material for import
 _claude/                       # Claude's workspace
   TODO.md                      # Cross-session task tracker
+  session-logs/                # Session history (continuity backbone)
 ```
 
 **Why underscored folders:** `_meta/`, `_attachments/`, `_inputs/`, `_claude/` sort to the bottom and signal "infrastructure, not content."
@@ -625,48 +655,53 @@ Respective area folders         # with proper frontmatter, tags, links
 
 ---
 
-## Phase 9: Session Workflow — Continuity Across Conversations
+## Phase 9: Session Lifecycle — Continuity Across Conversations
 
-**Goal:** Set up patterns that make every Claude session build on previous ones.
+**Goal:** Set up patterns that make every Claude session build on previous ones. This is what transforms Claude from a tool you use into a partner that accumulates context.
+
+### Session onboarding (what Claude does at session start)
+
+At the start of every session, Claude should:
+
+1. Read CLAUDE.md, MEMORY.md, last session log, and `_claude/TODO.md`
+2. Check any cached data (calendar, health — if integrations exist)
+3. Show a brief: today's date, last session title + when, stale TODO items, contextual suggestions
+
+You can codify this in `.claude/rules/session-onboarding.md` — a file Claude reads automatically. The brief doesn't need to be fancy. Even "Last session: Goals Deep Dive (3 days ago). 2 TODO items older than a week." changes the conversation quality.
+
+> **Why this matters:** Session 1 and session 10 feel identical without onboarding — Claude starts from zero every time. With onboarding, session 10 opens with "You haven't touched Goals in two weeks, and there's a Victoria session to process." That's a different relationship.
 
 ### Session logs
 
 Create a session log at the START of every session:
 
 ```
-Goals/Session Logs/YYYY-MM-DD - Session.md
+_claude/session-logs/YYYY-MM-DD — Session.md
 ```
-
-The separator between date and title is a style choice (dash, em dash, colon — whatever feels natural). Pick one and stay consistent.
 
 Structure:
 ```markdown
 ---
+type: session-log
 created: YYYY-MM-DD
-origin: session
-tags:
-  - goals
-  - project/vault-setup
 ---
 
-# YYYY-MM-DD — Session
+## Topic
+[one line — what this session is about]
 
 ## What we did
-- ...
+[key results, not process narration]
 
-## Key decisions
-- ...
-
-## Artifacts created
-| File | What it is |
-|------|-----------|
+### Artifacts
+| File | What |
+|------|------|
 | ... | ... |
 
-## What's next
-- ...
+## Key decisions
+[decisions made, with rationale]
 
-## Related files
-- [[...]]
+## What's next
+[next steps, open questions]
 ```
 
 Rename the file when the theme becomes clear (e.g., `2026-03-01 — Goals Deep Dive.md`).
@@ -685,27 +720,61 @@ Keep MEMORY.md under 200 lines. For detailed notes, create separate files in the
 
 ### Cross-session TODO tracker
 
-Create `_claude/TODO.md` — a simple task list that persists across sessions:
+Create `_claude/TODO.md` — a task list that persists across sessions. Add a `<!-- since: YYYY-MM-DD -->` marker to each item so Claude can track age:
 
 ```markdown
 # TODO
 
-## Waiting for user
-- [ ] Item description → what Claude will do once received
+## This week
+- [ ] Process Victoria coaching notes <!-- since: 2026-03-28 -->
+- [ ] Goals 2026 deep review <!-- since: 2026-03-15 -->
 
-## Waiting for Claude
-- [ ] Task description (when conditions are met)
+## When available
+- [ ] Import Apple Notes (23 items) <!-- since: 2026-03-01 -->
+
+## Parked
+- [ ] Vipassana research <!-- since: 2026-03-10 -->
 ```
 
-Claude checks this at session start and updates during/after sessions. It bridges the gap between session logs (historical) and active work.
+**Deferral escalation** — Claude checks TODO at session start:
+
+| Age | What Claude does |
+|-----|------------------|
+| 7-13 days | Soft mention: "This has been in TODO for 10 days" |
+| 14-20 days | Direct question: "This keeps getting deferred. Intentional?" |
+| 21+ days | Propose: "Remove, park, or schedule a dedicated session?" |
+
+This prevents the TODO from becoming a graveyard of good intentions.
+
+### Repeatable operations → Protocol + Skill
+
+When you find yourself doing the same operation repeatedly (daily reflection, weekly review, goal check), formalize it:
+
+- **Protocol** (`_claude/protocols/...` or `_claude/extracts/.../protocol.md`) — step-by-step procedure: what to read, what to create, what format
+- **Skill or command** (`.claude/skills/` or `.claude/commands/`) — one-word trigger for Claude
+
+Example: `/daily-reflection` → reads protocol → checks calendar + health data → creates structured reflection. One command, reproducible every time, by any Claude session.
+
+You won't need this on day one. But after 2-3 weeks, when you notice yourself explaining the same procedure to Claude for the third time — that's the signal to formalize.
+
+### Session offboarding (2-minute end-of-session checklist)
+
+At session end, Claude should:
+
+1. Update `_claude/TODO.md` — close done items, add new ones with `<!-- since: -->` markers
+2. Update memory — capture new preferences, decisions, patterns
+3. Finalize session log — artifacts table, key decisions, what's next
+4. Commit to git — don't let work pile up uncommitted
+
+This can also live in `.claude/rules/` as an offboarding rule. The key insight: **knowledge loss happens between sessions, not during them.** Two minutes of structured closing prevents hours of re-discovery next time.
 
 ### What makes sessions productive
 
-1. **Read context first** — at session start, Claude should read CLAUDE.md, MEMORY.md, and the last session log
+1. **Onboarding brief at start** — Claude reads context and shows what matters today
 2. **Create the session log early** — don't wait until the end
-3. **Commit after meaningful changes** — don't let work pile up uncommitted
-4. **Update memory at session end** — capture what was learned
-5. **Leave breadcrumbs** — the "what's next" section in session logs is the most valuable part
+3. **Commit after meaningful changes** — git is your safety net
+4. **Offboarding checklist at end** — TODO, memory, log, commit
+5. **Leave breadcrumbs** — the "what's next" section is the most valuable part of any session log
 
 ---
 
@@ -809,6 +878,42 @@ Things that worked:
 
 14. **Obsidian CLI is powerful but has gotchas.** `property:set` for list fields (like tags) writes comma-separated strings, not YAML arrays. Multi-line JS in `eval` fails — write to temp file first. Always use the Edit tool for frontmatter, CLI for reads and searches.
 
+15. **Session lifecycle is the multiplier.** Onboarding (read context, show brief) + offboarding (update TODO, memory, log, commit) takes 3-4 minutes combined but compounds session over session. Without it, every conversation starts from zero. With it, Claude becomes a partner with a growing model of who you are and what you're working on.
+
+16. **TODO markers prevent drift.** `<!-- since: YYYY-MM-DD -->` on every TODO item lets Claude track age and escalate. Without markers, tasks silently age until they're forgotten or irrelevant. With markers, Claude asks "this has been deferred for 3 weeks — intentional?" That question alone is worth the 5 seconds of adding the marker.
+
+---
+
+## What's Next — Beyond the Foundation
+
+The vault you've built is a foundation. Here's where it leads.
+
+### Knowledge Store
+
+Your vault is for YOUR thinking — original thoughts, goals, reflections, decisions. But you also consume external knowledge: articles, books, podcasts, ideas from conversations. Where does that go?
+
+Not in your vault. An article about sleep optimization isn't your thought about sleep — it's raw material. Mixing external sources with your own thinking muddies both.
+
+The answer is a companion vault: a **Knowledge Store** for external sources, with AI-assisted extraction (summarize, tag, cross-reference) and federated search across your vaults. AI does the filing. You do the understanding. The boundary matters — delegating filing is efficient, delegating understanding is self-deception.
+
+A companion seed for Knowledge Store setup is planned.
+
+### Work Context: The Missing Layer
+
+Every company investing in AI tools makes the same mistake: they deploy AI at the company level and wonder why adoption stalls. The tools are good. The models are capable. But they're missing the most important input: **the person**.
+
+An AI that knows your company's Confluence but doesn't know your decision-making style, your current priorities, your energy level, your relationship dynamics with specific colleagues — is a search engine with better grammar. It can retrieve information. It cannot exercise judgment.
+
+What makes the vault approach different: Claude knows YOU. Your values (what you optimize for when goals conflict). Your strengths and blind spots (from psychometrics, coaching, self-reflection). Your current state (sleep data, energy, what happened yesterday). Your relationships (who needs what from you, who you trust for what).
+
+When it helps you write a message, it writes it the way YOU would — not corporate average. When it prepares for a meeting, it knows what YOU care about beyond the agenda. When it reviews your week, it sees patterns across health, work, relationships, and goals that no single-domain tool can see.
+
+**Company AI + Personal context = the combination that actually works.** Neither alone is sufficient. The company layer has the operational data — documents, tickets, channels. The personal layer has the judgment — values, priorities, relationships, energy. An AI with both layers doesn't just retrieve and summarize. It thinks with you.
+
+This is not a feature of any particular tool. It's a thesis about how AI collaboration should work: **context about the person is not optional, it's the primary input.** The vault is your personal context layer — portable, private, yours.
+
+We're exploring this further under the working title **Personal AI**.
+
 ---
 
 ## Quick Start Checklist
@@ -823,8 +928,9 @@ For the impatient — the minimum viable setup:
 - [ ] Create _meta/Me.md
 - [ ] Create _meta/Areas.md + folder structure
 - [ ] Establish frontmatter + tag conventions (update CLAUDE.md)
-- [ ] Set up session continuity: `_claude/TODO.md` + `_claude/session-logs/` + MEMORY.md
+- [ ] Set up session continuity: `_claude/TODO.md` (with `<!-- since: -->` markers) + `_claude/session-logs/` + MEMORY.md
 - [ ] Create first session log (do this NOW — not at end of session)
+- [ ] Set up session onboarding rule in `.claude/rules/` (even a simple one: read last log + TODO)
 - [ ] Create Goals/Goals [YEAR].md
 - [ ] Commit everything
 - [ ] Start using the vault
