@@ -19,6 +19,38 @@
   - Knowledge Store — companion vault for external sources, AI-assisted extraction
   - Work Context — thesis on why company AI fails without personal context layer (Personal AI)
 
+### Adopting v2 in an existing vault
+
+If you set up your vault with an earlier version of the seed, ask Claude to run this migration. Copy the block below into your conversation:
+
+```
+Read the updated seed.md (focus on Phase 0.6, Phase 9, and "What's Next").
+Then check my vault against these changes and apply what's missing:
+
+1. Session onboarding: if .claude/rules/session-onboarding.md doesn't exist,
+   create a minimal one that reads CLAUDE.md, MEMORY.md, last session log,
+   and _claude/TODO.md at session start, then shows a brief.
+
+2. TODO markers: check _claude/TODO.md — if any items are missing
+   <!-- since: YYYY-MM-DD --> markers, add them (use today's date
+   for items with unknown age).
+
+3. Session logs location: if session logs live in Goals/Session Logs/,
+   move them to _claude/session-logs/ and update any references
+   in CLAUDE.md.
+
+4. Session offboarding: if .claude/rules/session-offboarding.md doesn't
+   exist, create a minimal one: update TODO, update memory, finalize
+   session log, git commit.
+
+5. CLAUDE.md: add a "Session Lifecycle" section if missing — reference
+   the onboarding and offboarding rules.
+
+Show me what you plan to change before applying.
+```
+
+Phase 0.6 (environment model) and "What's Next" (Knowledge Store, Work Context) are awareness — read them, no vault changes needed.
+
 ### Minor
 - Added: Lessons Learned #15 (session lifecycle as multiplier) and #16 (TODO markers prevent drift)
 - Updated: Quick Start Checklist — added session onboarding rule setup
