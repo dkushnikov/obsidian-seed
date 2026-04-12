@@ -20,12 +20,19 @@ A wizard (single markdown file) that turns Claude Code into a personal Obsidian 
 
 ## Vault mirror
 
-This repo has a mirror in the author's Obsidian vault (`Projects/Obsidian Wizard/`). The vault copy contains:
+This repo has a mirror in the author's Obsidian vault (`Projects/Obsidian Seed/`). The vault copy contains:
 - `index.md` — project status, history, roadmap (private, not published)
-- `messages.md` — communications and feedback log (private)
+- `messages.md` — legacy single-file communications log (archived 2026-04-12)
+- `communication/` — structured communications directory (replaces messages.md):
+  - `releases/` — per-release comms packages (Slack drafts, outreach lists, follow-up schedules)
+  - `users/` — per-user tracking files
+  - `templates/` — reusable outreach message drafts
+  - `feedback-log.md` — cross-user themes synthesized
+- `test-personas/` — private test fixtures for cold-run validation (4 archetype personas)
+- `drafts/` — pre-shipping draft content
 - Redirect stubs for `wizard.md`, `PHILOSOPHY.md`, `README.md` pointing back here
 
-**This repo is canonical.** Vault copies are redirects, not sources.
+**This repo is canonical.** Vault copies are redirects for public files; private vault content (index, communication, test-personas, drafts) lives only in vault.
 
 ## Companion project
 

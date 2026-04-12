@@ -134,7 +134,7 @@ Ready? Let's start.
 
 ## How to use this file
 
-**For the human:** Put this file in your Obsidian vault directory. Open Claude Code there. Say something like: "I want to set up my vault. Follow the wizard in `Obsidian Vault Setup Wizard.md`." Claude will guide you through each phase as a conversation.
+**For the human:** Put this file in your Obsidian vault directory. Open Claude Code there. Say something like: "I want to set up my vault. Follow the guide in `seed.md`." Claude will guide you through each phase as a conversation.
 
 **For Claude Code:** This is your playbook. Follow the phases in order. Each phase has a goal, questions to ask, and artifacts to create. Do NOT skip the discovery phase — the entire vault structure depends on understanding the person first.
 
