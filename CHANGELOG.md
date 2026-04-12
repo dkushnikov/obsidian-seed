@@ -1,5 +1,48 @@
 # Changelog
 
+## 2026.04.12
+
+Quality pass focused on first-time failure modes and the gap for users with existing vaults.
+
+### Added
+- **"How Claude Works in This System"** — new first-class section at the top of seed.md. Explains Claude reactivity, compound interest, the stateful multiplier (5-piece infrastructure), what Claude will/won't do. Addresses the most common reason new users quit: expectation mismatch.
+- **`ADOPT.md`** — separate entry point for users who already have an Obsidian vault. Intent recognition first (4 commitment levels), then non-destructive scan, human-confirmed merge plan, staged git commits per change. Handles existing CLAUDE.md conflicts explicitly.
+- **`guides/session-workflow.md`** — post-setup guide for ongoing use. Session rhythm, closing ritual, episodic user patterns (brain-dump before complex ops, weekly reflection, memory calibration), anti-patterns, compound interest curve, troubleshooting.
+- **`examples/non-technical.md`** — Sarah the coach: fictional walkthrough for non-technical professionals (coaches, consultants, therapists, educators).
+- **`examples/technical.md`** — Marcus the engineering leader: fictional walkthrough for technical professionals with episodic vault use.
+- **`examples/obsidian-adopter.md`** — Chen the Obsidian power user: fictional walkthrough of ADOPT mode for users with existing vaults.
+- **Phase 9 episodic subsection** — short pointer to `guides/session-workflow.md` with three core patterns for users who don't use the vault daily.
+- **Lesson #17** — "Context in your head compounds faster than the vault." Brain-dump pattern for episodic users.
+
+### Changed
+- **Renamed H1** from "Obsidian Vault Setup Wizard" to "Obsidian Seed." Aligns with project rename from 2026-03-29.
+
+### Adopting this version in an existing vault
+
+If you set up your vault with an earlier version, ask Claude to run this migration:
+
+```
+Read the updated seed.md and CHANGELOG. Apply what's missing:
+
+1. Read the new "How Claude Works" section at the top of seed.md.
+   No vault changes needed — just context for how the tool works.
+
+2. Check if you have session workflow patterns from guides/session-workflow.md.
+   If your session lifecycle rules are missing the closing ritual or TODO
+   age markers, propose additions (with my approval).
+
+3. If you use the vault episodically (less than a few times per week),
+   introduce the brain-dump pattern and help set up _inputs/ if missing.
+
+Show me what you plan to change before applying.
+```
+
+### For existing vault users (pre-seed)
+
+If you have an existing Obsidian vault and seed.md felt like it would overwrite your work — `ADOPT.md` is the new path. It scans your vault, shows what you have, proposes what to add, and gets explicit approval before every change.
+
+---
+
 ## 2026.03.29
 
 ### Session Lifecycle

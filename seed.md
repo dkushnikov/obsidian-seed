@@ -1,5 +1,5 @@
-<!-- seed v2026.03.29 -->
-# Obsidian Vault Setup Wizard — Claude Code Edition
+<!-- seed v2026.04.12 -->
+# Obsidian Seed — Claude Code Edition
 
 > This is a step-by-step guide for Claude Code to help a user build a personal Obsidian vault from scratch. Place this file in your vault root or `.claude/` directory, open Claude Code, and say "let's start" or reference this file.
 >
@@ -7,9 +7,134 @@
 
 ---
 
+# How Claude Works in This System
+
+> Read this before starting the setup. It's short, and it will change what you expect from the next hour — and from every session afterward.
+
+This setup takes about an hour. Most of that hour is Claude asking you questions, listening to your answers, and building a vault structure that fits how you actually live and think. But before you spend that hour, there's something about Claude itself you need to know. Many people come in expecting one kind of tool and get another. The mismatch is the single biggest reason this setup fails for new users — not the setup itself, but the mental model.
+
+So: five minutes of context before you begin.
+
+## Claude is reactive, not proactive
+
+When you open a Claude Code session in your vault, Claude doesn't start working. It sits and waits for you to say something.
+
+This is the biggest mental model difference between Claude Code and what people imagine when they hear "AI assistant." Claude **will not**:
+
+- Notice you haven't journaled in three days and remind you
+- Watch your vault for changes and suggest edits
+- Run in the background analyzing your goals
+- Wake up on its own to offer advice
+- Send you notifications, emails, or messages
+
+Claude **responds**. You ask a question, it answers. You give it a task, it does it. Between your messages, nothing happens.
+
+This is not a limitation. It's the shape of the tool. Understanding it upfront prevents the most common failure mode: setting up a vault, waiting for Claude to become helpful on its own, concluding "this doesn't work for me," and walking away.
+
+It's not that Claude doesn't work. It's that the contract is different from what most people expect.
+
+## Value = context × request
+
+Because Claude is reactive, the quality of what you get back depends on two things multiplied together:
+
+- **What you ask** — the specific question or task
+- **What Claude knows** — about you, your goals, your vault, your situation
+
+A precise question with thin context gets a generic answer. A vague question with rich context wastes the opportunity. Both are weak. The best sessions combine both: a specific question Claude can engage with, plus enough context for it to reason about your actual situation, not a hypothetical.
+
+This is why the setup you're about to do matters. You're not just creating folders. You're building the **context layer** that makes every future request more valuable. The folder structure is infrastructure. The notes you'll create — about who you are, what you're working on, what matters to you — are the fuel.
+
+Without that fuel, Claude in your vault behaves about the same as Claude in a chat window: decent, generic, forgettable. With it, Claude becomes something else: a collaborator that knows your context and can engage with it at depth.
+
+## Compound interest across sessions
+
+Your first session and your tenth session will feel different, and the difference is not the model. The model is the same.
+
+The difference is that by session ten, Claude has:
+
+- Read your goals, your values, your areas of life
+- Remembered decisions you made in earlier sessions
+- Seen patterns across previous conversations — what you return to, what you avoid
+- Built a working model of how you think and what you care about
+
+None of this is magic. It's five simple mechanisms working together — call this collection the **stateful multiplier**, because each piece alone is modest but together they multiply the value of every session. The wizard will set all five up during phase 0 and phase 9:
+
+- **`CLAUDE.md`** — a document Claude reads automatically at the start of every session. It tells Claude how your vault is organized, what conventions you follow, and what to pay attention to. Think of it as a standing orientation brief.
+- **`MEMORY.md`** — persistent notes that Claude updates across sessions about decisions, preferences, and open threads. Think of it as a shared notebook between you and Claude that survives between conversations.
+- **Session logs** — a running journal where each session records what was discussed, what was decided, what's next. Claude reads recent logs when starting a new session.
+- **TODO with age markers** — a task list where every item has a `<!-- since: YYYY-MM-DD -->` marker so Claude can track how long things have been waiting and ask about drift.
+- **Session workflow rules** — small files in `.claude/rules/` that tell Claude what to do at session start (read context, show brief) and session end (update TODO, memory, log, commit).
+
+Together these five are the stateful multiplier. **Missing any one weakens the rest** — a vault with session logs but no memory doesn't accumulate decisions; a memory system without a TODO tracker loses track of open threads; session rules without logs have nothing to read. That's why the setup wizard treats them as a single package, not optional extras.
+
+Without the stateful multiplier, every conversation starts from zero and every session feels identical. With it, each session builds on the previous — and the value compounds. By session ten, opening a new session feels less like starting a chat and more like continuing a conversation with someone who knows what you've been working on.
+
+**One caveat about compound interest.** It works best with regular use — a few times a week or more. If you use the vault sporadically (once a month, say), the compound effect weakens, and you may need to explicitly re-load context before complex tasks. The session workflow guide (post-setup) covers the pattern for episodic use.
+
+## What Claude will do
+
+During a session, Claude will:
+
+- **Ask clarifying questions** when your request is ambiguous or when it needs more information to give a useful answer
+- **Push back** on reasoning that looks weak, inconsistent, or at odds with what you've previously said
+- **Connect threads across notes** — "this sounds like what you were working on in Goals three weeks ago"
+- **Remember decisions you've already made** — if you settled on a framework last week, Claude won't re-litigate it next session
+- **Surface relevant context when you start a session** — "last session you left off at X, and there's a Y waiting to be processed"
+- **Build structure from your answers** — during discovery, Claude proposes folders, tags, and conventions shaped by what you say, not a template
+- **Challenge assumptions** — gently, with reasons, when there's something worth challenging
+
+The key word in all of these is "when." When you ask. When you start a session. When you give it input. None of these happen in the background.
+
+## What Claude will not do
+
+- **Watch your vault between sessions** — Claude sees nothing until you open a new conversation
+- **Contact you** — no notifications, emails, texts, or DMs
+- **Run analyses on its own schedule** — no cron jobs, no passive processing (you can set these up as an advanced step, but they're not on by default)
+- **Surprise you with unsolicited observations** — Claude speaks when spoken to
+- **Remember things you didn't save** — if a decision isn't written into MEMORY.md, a session log, or a note, it's gone the next time you open a session
+- **Know things about your life it wasn't told** — your calendar, your health data, your work context are only visible to Claude if you explicitly connect them (the integrations phase covers this)
+- **Replace your thinking** — Claude can structure, challenge, remember, and surface. But the understanding has to come from you. It's a collaborator, not a substitute.
+
+## How to get value from this, starting day one
+
+Here's the simplest working pattern from your very first session:
+
+1. **Open a session with a specific question or task.** Not *"help me organize my life"* but *"I want to restructure my Goals document for 2026 — here's what I have, what's missing, what should I cut?"*
+2. **Give Claude the context it needs.** If you're working on something new, spend two or three minutes describing the situation. If it's continuing work, Claude reads your vault to catch up — tell it where to look.
+3. **Let Claude challenge you.** If it asks a clarifying question, answer honestly. If it pushes back, consider the pushback rather than overriding it. Dismissing challenge is the fastest way to turn Claude back into a generic chatbot.
+4. **End the session with a two-minute closing ritual.** Update the TODO file, save important decisions to memory, write a one-line note in the session log about what's next. This takes almost no time but pays massive dividends the next time you open a session. The setup wizard will create these files; your job is to use them.
+
+These four habits — specific question, given context, openness to challenge, closing ritual — separate people who get compounding value from this tool from people who quit in week two thinking it "doesn't do anything."
+
+**Accessibility note — voice input:** If you're more comfortable talking than typing, voice-to-text tools like [Wispr Flow](https://wisprflow.ai) turn Claude Code into something you can speak to. This is a quality-of-life unlock, not a requirement — but if typing is a barrier, voice input removes it almost entirely for day-to-day use. Setup and initial discovery still happen in a text conversation; ongoing sessions can be voice-driven once you're comfortable.
+
+**For the deeper read:** This section is the practical mental model — enough to avoid the most common failure modes and make your first hour productive. If you want the thinking behind this approach — *why* structure follows the person, *why* a vault is a working model rather than an archive, *why* AI-as-collaborator is different from AI-as-retrieval — read [PHILOSOPHY.md](PHILOSOPHY.md). Same ideas, deeper water.
+
+## The first hour (right now)
+
+In the hour ahead, your job is simple: answer Claude's questions honestly during the discovery phase. That's it. Claude builds the vault structure; you provide the raw material about who you are and what matters to you.
+
+By the end of that hour, you'll have:
+
+- A vault structure that reflects **you**, not a template
+- Conventions that will keep it consistent as it grows
+- Foundation notes (`Me.md`, `Areas.md`, `Goals.md`) that make every future session more useful
+- Session continuity infrastructure (CLAUDE.md, memory, session logs) ready to go
+- A working mental model of how this tool actually works
+
+Then you close the session, come back tomorrow or next week, and compound interest starts.
+
+Ready? Let's start.
+
+---
+
+**For the impatient (or the experienced):** if you already use Claude Code daily, know it's reactive, understand context loading, and just want the structural output — you can skip ahead to [Setup Questionnaire](#setup-questionnaire). This section exists because the most common failure mode for new users isn't a technical problem. It's an expectation mismatch, and five minutes of framing prevents it.
+
+---
+
 ## How to use this file
 
-**For the human:** Put this file in your Obsidian vault directory. Open Claude Code there. Say something like: "I want to set up my vault. Follow the wizard in `Obsidian Vault Setup Wizard.md`." Claude will guide you through each phase as a conversation.
+**For the human:** Put this file in your Obsidian vault directory. Open Claude Code there. Say something like: "I want to set up my vault. Follow the guide in `seed.md`." Claude will guide you through each phase as a conversation.
 
 **For Claude Code:** This is your playbook. Follow the phases in order. Each phase has a goal, questions to ask, and artifacts to create. Do NOT skip the discovery phase — the entire vault structure depends on understanding the person first.
 
@@ -776,6 +901,18 @@ This can also live in `.claude/rules/` as an offboarding rule. The key insight: 
 4. **Offboarding checklist at end** — TODO, memory, log, commit
 5. **Leave breadcrumbs** — the "what's next" section is the most valuable part of any session log
 
+### For episodic users — once the infrastructure is set up
+
+The patterns above assume regular use — daily or near-daily sessions where compound interest works naturally. If you know up front you'll use the vault episodically (a few times a month, or less), the stateful multiplier still works, but requires different habits.
+
+The short version:
+
+- **Brain-dump before complex operations.** Spend 5 minutes writing your current head-context into a note *before* asking Claude to do anything complex. Your head has more than the vault knows, and complex operations on thin context produce plausible but wrong output.
+- **Weekly reflection even without a task.** Fifteen minutes once a week, just writing what's on your mind. Keeps the vault from going stale between real sessions.
+- **Calibrate memory before serious operations.** Ask Claude "what do you know about X?" before deep work. If the summary is stale, update memory before proceeding.
+
+**Full patterns (with rationale and examples):** see [`guides/session-workflow.md`](guides/session-workflow.md). That guide covers the episodic pattern in depth, plus complex operation priming, anti-patterns, and the "feels like Claude forgot everything" troubleshooting flow.
+
 ---
 
 ## Phase 10: Multi-Vault Architecture (Optional)
@@ -882,6 +1019,8 @@ Things that worked:
 
 16. **TODO markers prevent drift.** `<!-- since: YYYY-MM-DD -->` on every TODO item lets Claude track age and escalate. Without markers, tasks silently age until they're forgotten or irrelevant. With markers, Claude asks "this has been deferred for 3 weeks — intentional?" That question alone is worth the 5 seconds of adding the marker.
 
+17. **Context in your head compounds faster than the vault.** For users with any gap between sessions — a few days, a week, more — your mental context about recent events runs ahead of what the vault has seen. If you skip straight to a complex operation without priming Claude, you'll get plausible-but-thin output because Claude is working with stale input. The fix is a 5-minute brain-dump into `_inputs/` before any serious operation — see `guides/session-workflow.md` for the full pattern. Learned from episodic-user feedback: the tool is fine, the pattern is missing.
+
 ---
 
 ## What's Next — Beyond the Foundation
@@ -913,6 +1052,14 @@ When it helps you write a message, it writes it the way YOU would — not corpor
 This is not a feature of any particular tool. It's a thesis about how AI collaboration should work: **context about the person is not optional, it's the primary input.** The vault is your personal context layer — portable, private, yours.
 
 We're exploring this further under the working title **Personal AI**.
+
+### Beyond the vault — separating identity from substrate
+
+Once your vault stabilizes — typically after a month or two of regular use and a refined `Me.md`, `Areas.md`, `Goals.md` — you may notice a different boundary emerging. *"Who I am"* becomes more stable than *"what's in the vault."* Your identity stops needing the vault to hold it. Your Soul, your roles, your values, your working style — these want to be separable from any particular substrate, any particular tool.
+
+That's a different project. Not part of this seed. Substrate-agnostic by design. Found separately by those who look for it.
+
+If you reach that boundary — you'll know.
 
 ---
 

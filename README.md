@@ -1,24 +1,53 @@
 # Obsidian Seed
 
-Build a personal Obsidian vault that fits YOUR life — not a template. Powered by Claude Code.
+**Turn Claude Code from a smart stranger into a thinking partner that actually knows who you are.**
 
-## What this is
+Set up a personal Obsidian vault in 1-2 hours. Claude asks you questions about who you are, what matters, how you think. It builds a vault structure that reflects your life — plus the session continuity infrastructure that makes every future Claude conversation better than the last.
 
-A single file that turns Claude Code into a vault setup assistant. Drop it into an empty Obsidian vault, run `claude`, and it guides you through building a personalized knowledge system from scratch.
+Not a template. Not a chatbot integration. A methodology for building a personal knowledge system where your AI partner has context — and where that context compounds over months.
 
-No templates to fill in. No folder structure to copy. It asks who you are, what matters to you, and how you think — then builds a vault that reflects YOUR answers.
+---
 
-## Why
+## What shifts for you
 
-Every Obsidian starter vault, PARA template, and "my perfect setup" YouTube video shares the same flaw: they start with structure and ask you to fit your life into it.
+**Before:** Claude is a smart stranger every session. You re-explain yourself, paste in context, get plausible-but-generic output. Your notes live in apps that don't talk to each other. Decisions made three weeks ago are gone by the time you need them.
 
-This starts with you. Structure emerges from your answers, not from someone else's framework.
+**After:** Claude reads your values, your areas, your working style at every session start. It remembers decisions, pushes back when your reasoning drifts, surfaces patterns across weeks. Your vault is the place hard thinking happens — and your AI actually shows up as a partner.
 
-Read [PHILOSOPHY.md](PHILOSOPHY.md) for the thinking behind this approach.
+The difference isn't a better model. It's the context layer you build once, that loads forever after.
 
-## Quick start
+---
 
-### Option A: Just the seed (recommended)
+## Who this is for
+
+- **Professionals with rich context in their head** that lives nowhere searchable. Coaches, consultants, therapists, engineering leaders, writers, researchers, founders. Your mental models are more refined than any of your current tools.
+- **People who want a thinking partner, not a note archive.** You'll use this to work through hard decisions, not to log every thought.
+- **Users comfortable with a little setup.** You'll run `claude` in a terminal, answer discovery questions for 30-60 minutes, and trust the process to build something useful.
+- **Anyone already using Claude Code, or willing to.** This is a Claude Code-first methodology.
+
+## Who this isn't for
+
+- **Task managers.** Use Linear, Todoist, Things.
+- **Daily journals.** Use Day One, Obsidian with a different template, or plain paper.
+- **Team wikis.** Use Notion, Confluence. This is personal.
+- **"AI that runs on its own."** Claude here is reactive — it responds when you ask, doesn't watch in the background.
+- **"I want it done in 15 minutes."** First setup is 1-2 hours. The value compounds over weeks. If that tradeoff sounds bad, this is the wrong tool.
+
+---
+
+## Read a walkthrough before trying
+
+Three fictional walkthroughs show what setup and early use actually look like. If any of them sounds like you, this probably works for you too.
+
+- [**Sarah, a coach**](examples/non-technical.md) — non-technical professional, clean start. Covers the mental model shift ("Claude is reactive, not proactive") that trips up most new users.
+- [**Marcus, an engineering leader**](examples/technical.md) — technical professional, episodic vault use. Shows the brain-dump protocol that makes compound interest work for users who don't open the vault daily.
+- [**Chen, an Obsidian power user**](examples/obsidian-adopter.md) — existing vault with two years of refinement, using `ADOPT.md` instead of `seed.md`. Shows non-destructive adoption with per-change git commits.
+
+---
+
+## Quick start — three paths
+
+### Path A: New empty vault (recommended starting point)
 
 1. Create an empty Obsidian vault
 2. Download [`seed.md`](seed.md) into the vault root
@@ -26,82 +55,110 @@ Read [PHILOSOPHY.md](PHILOSOPHY.md) for the thinking behind this approach.
 4. Run `claude` (requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code))
 5. Say: *"Follow the guide in seed.md"*
 
-Claude handles everything from there — asks you questions, builds your structure, sets up conventions, creates your first notes.
+Claude asks questions, you answer, it builds your structure. Takes 1-2 hours. At the end you have a working vault with the full session continuity infrastructure in place.
 
-### Option B: Full repo
+**Before you start**, `seed.md` has a section at the top called *How Claude Works in This System*. Read it. Five minutes. It explains what Claude will and won't do and prevents the single biggest first-time failure mode (expecting a proactive AI, getting a reactive one).
 
-```bash
-git clone https://github.com/dkushnikov/obsidian-seed.git
-cd obsidian-seed
-```
+### Path B: You already have an Obsidian vault
 
-This gives you:
-- `seed.md` — the setup guide itself
-- `PHILOSOPHY.md` — the thinking behind the approach
+If you have an existing vault you've built up over months or years, **don't use `seed.md`** — it assumes an empty vault. Use [`ADOPT.md`](ADOPT.md) instead.
 
-More content (phases, guides, examples) coming in future releases.
+`ADOPT.md` scans your existing vault, shows you what you have, proposes what seed's methodology would add, and gets your explicit approval before any change. Each change is a separate git commit — you can roll back any step. Your existing conventions, plugins, and notes stay intact.
 
-## What happens when you run it
+Walkthrough: [Chen's example](examples/obsidian-adopter.md).
 
-1. **Questionnaire** — How much time do you have? What's your experience level? What integrations do you need? This determines which phases to run today and what to defer.
+### Path C: Just want to see what it does first
 
-2. **Discovery** — Claude asks about your life: what you do, what matters, what you're working on, how you think. This is the most important phase — everything else builds on it.
+Read [PHILOSOPHY.md](PHILOSOPHY.md) for the thinking behind this approach. Read the [examples](examples/) for concrete walkthroughs of what setup feels like. Browse [`seed.md`](seed.md) itself — the wizard is literally just a long instruction document. You can preview the whole process by reading before trying.
 
-3. **Framework** — From your answers, Claude proposes 5-10 life areas (domains). You refine until they feel right. Folders and tags are created.
+No cost to look. The quick start is waiting when you're ready.
 
-4. **Conventions** — Frontmatter rules, tag system, linking habits. 30 minutes here saves hours of cleanup later.
-
-5. **Foundation** — First notes: `Me.md` (who you are), `Areas.md` (your life map), `Goals.md` (what you're working toward).
-
-6. **Ongoing** — Session workflow, daily reflections, people tracking, imports — added incrementally as your vault grows.
-
-## What you get
-
-After one session (~2 hours):
-- A vault structure that matches YOUR life, not a template
-- Conventions that keep things consistent as you grow
-- `CLAUDE.md` tailored to your vault — so future Claude sessions know how to help
-- `MEMORY.md` — Claude remembers your context between sessions
-- Foundation notes: who you are, your areas, your goals
-- Everything committed to git (rollback safety)
+---
 
 ## Prerequisites
 
 - [Obsidian](https://obsidian.md) — installed, vault created
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — installed and working
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — installed and authenticated (signup is free; a [Claude](https://claude.ai) subscription covers real use)
 - [Git](https://git-scm.com) — initialized in vault directory (`git init`)
-- ~2 hours for the first session (you can also do 1 hour for just discovery + structure)
+- **Time:** 1-2 hours for the first session. Can also do 1 hour for just discovery and structure, return later for the rest.
 
-**Recommended:**
-- [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) — copy to `.claude/skills/` to teach Claude correct Obsidian syntax
+**Recommended but not required:**
+- [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) — copy to `.claude/skills/` to teach Claude correct Obsidian syntax.
 
-## Philosophy
+---
 
-The short version:
-1. **Structure follows the person** — frameworks are tools, not answers
-2. **A vault is a working model, not an archive** — only keep what's alive
-3. **AI is a collaborator, not a search engine** — Claude remembers, connects, challenges
-4. **Conventions before content** — frontmatter and tags prevent chaos
-5. **Build incrementally** — foundation first, then grow organically
-6. **Git is not optional** — safety net and decision journal
+## What you get
 
-The long version: [PHILOSOPHY.md](PHILOSOPHY.md)
+After the first session, you have a vault with:
+
+- **Your structure** — folders, areas, conventions emerged from your answers, not a template.
+- **`CLAUDE.md`** at vault root — tells Claude how your vault works. Read at every session start.
+- **`MEMORY.md`** — persistent notes Claude updates across sessions. Decisions remembered, patterns noted.
+- **Session logs** — a running journal of what each session accomplished, read at the start of the next.
+- **TODO with age markers** — tasks with `<!-- since: YYYY-MM-DD -->` so Claude can track drift and escalate stale items.
+- **Session workflow rules** — small files that tell Claude what to do at session start (read context, show brief) and end (update TODO, memory, log, commit).
+
+These five pieces together are the **stateful multiplier**. Each alone is modest. Together they're what makes session 10 feel qualitatively different from session 1.
+
+Plus: foundation notes (`Me.md`, `Areas.md`, `Goals.md`) drafted with Claude's help, your first session log, and everything under git with clean commit history.
+
+---
+
+## Ongoing use
+
+Setup is the start, not the end. Two guides cover ongoing use:
+
+- [**`guides/session-workflow.md`**](guides/session-workflow.md) — the session rhythm (open → work → close), patterns for episodic users (brain-dump before complex operations, weekly reflection, memory calibration), anti-patterns, troubleshooting.
+- [**`examples/`**](examples/) — the three walkthroughs for how this looks in practice over weeks.
+
+---
+
+## Philosophy (short version)
+
+1. **Structure follows the person** — frameworks are tools, not answers. Your vault emerges from your life, not from PARA or Zettelkasten applied on top.
+2. **A vault is a working model, not an archive** — only keep what's alive.
+3. **AI is a collaborator, not a search engine** — Claude remembers, connects, challenges.
+4. **Conventions before content** — frontmatter and tags prevent chaos.
+5. **Build incrementally** — foundation first, then grow organically.
+6. **Git is not optional** — safety net and decision journal.
+
+The long version: [PHILOSOPHY.md](PHILOSOPHY.md).
+
+---
 
 ## Status
 
-This is an early release. The methodology behind it is battle-tested — it was developed through 40+ hours of real vault building over two weeks, and the resulting vault is in daily use. But the seed file itself hasn't been cold-tested by someone other than the author yet.
+This is an early release. The methodology was developed through 40+ hours of real vault building over two weeks, and the resulting vault has been in daily use for months. The seed file itself has been through v2026.03.29 and now v2026.04.12 — with feedback from several external users shaping the quality pass.
 
-If something doesn't work as expected, Claude Code is good at adapting on the fly. Open an issue with what happened — that feedback is the fastest way to improve it.
+If something breaks, confuses, or surprises you: open an issue. I read every one.
+
+---
+
+## Feedback
+
+If you try this, please tell me what happened. Success, failure, anything surprising.
+
+- **Something broke?** Open an [issue](https://github.com/dkushnikov/obsidian-seed/issues).
+- **Got stuck somewhere?** Open an issue describing where and what confused you.
+- **Worked beautifully?** I'd love to hear that too.
+
+Early-stage work improves with real-use feedback. Yours specifically helps more than you think.
+
+---
 
 ## Related
 
-- [Claude Environment](https://github.com/dkushnikov/claude-environment) — multi-machine Claude Code setup with data pipelines and automation. **Seed = vault content, Environment = infrastructure.** Once your vault is running, use Environment to add calendar sync, health data, cron jobs, and multi-machine support.
+- [**Claude Environment**](https://github.com/dkushnikov/claude-environment) — infrastructure layer for multi-machine Claude Code setup with data pipelines and automation. **Seed = vault content, Environment = infrastructure.** Once your vault is running, use Environment to add calendar sync, health data, cron jobs, and multi-machine support.
+
+---
 
 ## Contributing
 
-Found a bug? Got stuck somewhere? Have a suggestion?
+Found a bug? Got stuck? Have a suggestion?
 
 Open an issue. Describe what happened — where you got stuck, what confused you, what you wish it had done differently. That feedback makes it better for everyone.
+
+---
 
 ## License
 
