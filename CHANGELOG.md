@@ -8,7 +8,9 @@ Quality pass focused on first-time failure modes and the gap for users with exis
 - **"How Claude Works in This System"** — new first-class section at the top of seed.md. Explains Claude reactivity, compound interest, the stateful multiplier (5-piece infrastructure), what Claude will/won't do. Addresses the most common reason new users quit: expectation mismatch.
 - **`ADOPT.md`** — separate entry point for users who already have an Obsidian vault. Intent recognition first (4 commitment levels), then non-destructive scan, human-confirmed merge plan, staged git commits per change. Handles existing CLAUDE.md conflicts explicitly.
 - **`guides/session-workflow.md`** — post-setup guide for ongoing use. Session rhythm, closing ritual, episodic user patterns (brain-dump before complex ops, weekly reflection, memory calibration), anti-patterns, compound interest curve, troubleshooting.
-- **`examples/coach.md`** — fictional walkthrough showing a non-technical coach (Sarah) going through seed setup. What worked, what was hard, what the vault looks like after 6 weeks.
+- **`examples/non-technical.md`** — Sarah the coach: fictional walkthrough for non-technical professionals (coaches, consultants, therapists, educators).
+- **`examples/technical.md`** — Marcus the engineering leader: fictional walkthrough for technical professionals with episodic vault use.
+- **`examples/obsidian-adopter.md`** — Chen the Obsidian power user: fictional walkthrough of ADOPT mode for users with existing vaults.
 - **Phase 9 episodic subsection** — short pointer to `guides/session-workflow.md` with three core patterns for users who don't use the vault daily.
 - **Lesson #17** — "Context in your head compounds faster than the vault." Brain-dump pattern for episodic users.
 

@@ -1,6 +1,8 @@
-# Example — Sarah the Coach
+# Example — Non-Technical Professional
 
-**This is a fictional walkthrough showing how a non-technical coach uses Obsidian Seed. Sarah is made up. The structure of her vault and her experience with the wizard are real patterns — based on friction points we've seen, questions people actually ask, and outcomes that work. If you're a coach thinking about whether this tool fits you, this is what it looks like from inside.**
+**This example follows Sarah, a coach. The friction patterns — expecting a proactive AI assistant, struggling with terminal and install, navigating "how personal should I be" in notes — apply broadly to non-technical professionals adapting to AI-assisted tools: consultants, therapists, educators, HR practitioners, and similar service providers with deep expertise in their field but limited exposure to developer tooling.**
+
+**Sarah is fictional. The structure of her vault and her experience with the setup are real patterns — based on friction points we've seen, questions people actually ask, and outcomes that work. If any of the above sounds like you, this is what it looks like from inside.**
 
 ---
 
