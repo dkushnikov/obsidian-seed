@@ -1053,6 +1053,14 @@ This is not a feature of any particular tool. It's a thesis about how AI collabo
 
 We're exploring this further under the working title **Personal AI**.
 
+### Beyond the vault — separating identity from substrate
+
+Once your vault stabilizes — typically after a month or two of regular use and a refined `Me.md`, `Areas.md`, `Goals.md` — you may notice a different boundary emerging. *"Who I am"* becomes more stable than *"what's in the vault."* Your identity stops needing the vault to hold it. Your Soul, your roles, your values, your working style — these want to be separable from any particular substrate, any particular tool.
+
+That's a different project. Not part of this seed. Substrate-agnostic by design. Found separately by those who look for it.
+
+If you reach that boundary — you'll know.
+
 ---
 
 ## Quick Start Checklist
