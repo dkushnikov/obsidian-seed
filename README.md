@@ -148,6 +148,7 @@ Early-stage work improves with real-use feedback. Yours specifically helps more 
 
 ## Related
 
+- [**Mnemon**](https://github.com/dkushnikov/mnemon) — personal library with an AI reader. Captures articles, PDFs, podcasts, YouTube — extracts what matters *for you* using the `reader-context.md` that Seed creates. **Seed builds the vault. Mnemon fills it with knowledge.** Same article, different reader → different insights. Install after Seed when you start accumulating sources.
 - [**Claude Environment**](https://github.com/dkushnikov/claude-environment) — infrastructure layer for multi-machine Claude Code setup with data pipelines and automation. **Seed = vault content, Environment = infrastructure.** Once your vault is running, use Environment to add calendar sync, health data, cron jobs, and multi-machine support.
 
 ---
