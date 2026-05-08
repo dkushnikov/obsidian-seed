@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+- Added Codex as a first-class supported runner: `AGENTS.md` now mirrors `CLAUDE.md` as the Codex project instruction surface, with session lifecycle instructions embedded there instead of `.claude/rules/`.
+- Renamed the opening mental-model section from "How Claude Works" to "How the Agent Works" and made the framing apply to both Claude Code and Codex.
+- Added a Codex verification command so users can confirm `AGENTS.md` is loaded before trusting the session lifecycle.
+- Clarified the continuity contract: `_claude/MEMORY.md` is Seed's canonical portable vault memory, while Claude Code auto-memory is an optional helper.
+- Standardized session workflow rule names as `.claude/rules/session-onboarding.md` and `.claude/rules/session-offboarding.md`.
+
 ## 2026.04.12
 
 Quality pass focused on first-time failure modes and the gap for users with existing vaults.
@@ -24,7 +33,7 @@ If you set up your vault with an earlier version, ask Claude to run this migrati
 ```
 Read the updated seed.md and CHANGELOG. Apply what's missing:
 
-1. Read the new "How Claude Works" section at the top of seed.md.
+1. Read the new "How the Agent Works" section at the top of seed.md.
    No vault changes needed — just context for how the tool works.
 
 2. Check if you have session workflow patterns from guides/session-workflow.md.
@@ -71,7 +80,7 @@ Read the updated seed.md (focus on Phase 0.6, Phase 9, and "What's Next").
 Then check my vault against these changes and apply what's missing:
 
 1. Session onboarding: if .claude/rules/session-onboarding.md doesn't exist,
-   create a minimal one that reads CLAUDE.md, MEMORY.md, last session log,
+   create a minimal one that reads CLAUDE.md, _claude/MEMORY.md, last session log,
    and _claude/TODO.md at session start, then shows a brief.
 
 2. TODO markers: check _claude/TODO.md — if any items are missing
@@ -83,7 +92,7 @@ Then check my vault against these changes and apply what's missing:
    in CLAUDE.md.
 
 4. Session offboarding: if .claude/rules/session-offboarding.md doesn't
-   exist, create a minimal one: update TODO, update memory, finalize
+   exist, create a minimal one: update TODO, update _claude/MEMORY.md, finalize
    session log, git commit.
 
 5. CLAUDE.md: add a "Session Lifecycle" section if missing — reference
@@ -105,7 +114,7 @@ Phase 0.6 (environment model) and "What's Next" (Knowledge Store, Work Context) 
 - Added: CHANGELOG.md
 - Added: GitHub issue template for feedback
 - Added: CLAUDE.md with project conventions
-- Changed: Quick Start checklist — front-loaded session continuity (TODO.md, session-logs, MEMORY.md)
+- Changed: Quick Start checklist — front-loaded session continuity (`_claude/TODO.md`, `_claude/session-logs`, `_claude/MEMORY.md`)
 - Added: walk-up chain documentation in Phase 0.3
 - Added: skills limitation warning in Phase 0.1
 

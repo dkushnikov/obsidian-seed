@@ -1,25 +1,25 @@
 <!-- seed v2026.04.12 -->
-# Obsidian Seed — Claude Code Edition
+# Obsidian Seed — Coding Agent Edition
 
-> This is a step-by-step guide for Claude Code to help a user build a personal Obsidian vault from scratch. Place this file in your vault root or `.claude/` directory, open Claude Code, and say "let's start" or reference this file.
+> This is a step-by-step guide for Claude Code or Codex to help a user build a personal Obsidian vault from scratch. Place this file in your vault root, open your agent, and say "let's start" or reference this file.
 >
-> Based on a real multi-session vault build. The process works — but only if Claude asks, not assumes.
+> Based on a real multi-session vault build. The process works — but only if the agent asks, not assumes.
 
 ---
 
-# How Claude Works in This System
+# How the Agent Works in This System
 
 > Read this before starting the setup. It's short, and it will change what you expect from the next hour — and from every session afterward.
 
-This setup takes about an hour. Most of that hour is Claude asking you questions, listening to your answers, and building a vault structure that fits how you actually live and think. But before you spend that hour, there's something about Claude itself you need to know. Many people come in expecting one kind of tool and get another. The mismatch is the single biggest reason this setup fails for new users — not the setup itself, but the mental model.
+This setup takes about an hour. Most of that hour is Claude Code or Codex asking you questions, listening to your answers, and building a vault structure that fits how you actually live and think. But before you spend that hour, there's something about coding agents you need to know. Many people come in expecting one kind of tool and get another. The mismatch is the single biggest reason this setup fails for new users — not the setup itself, but the mental model.
 
 So: five minutes of context before you begin.
 
-## Claude is reactive, not proactive
+## The agent is reactive, not proactive
 
-When you open a Claude Code session in your vault, Claude doesn't start working. It sits and waits for you to say something.
+When you open an agent session in your vault, the agent doesn't start working. It sits and waits for you to say something.
 
-This is the biggest mental model difference between Claude Code and what people imagine when they hear "AI assistant." Claude **will not**:
+This is the biggest mental model difference between coding agents and what people imagine when they hear "AI assistant." The agent **will not**:
 
 - Notice you haven't journaled in three days and remind you
 - Watch your vault for changes and suggest edits
@@ -27,30 +27,30 @@ This is the biggest mental model difference between Claude Code and what people 
 - Wake up on its own to offer advice
 - Send you notifications, emails, or messages
 
-Claude **responds**. You ask a question, it answers. You give it a task, it does it. Between your messages, nothing happens.
+The agent **responds**. You ask a question, it answers. You give it a task, it does it. Between your messages, nothing happens.
 
-This is not a limitation. It's the shape of the tool. Understanding it upfront prevents the most common failure mode: setting up a vault, waiting for Claude to become helpful on its own, concluding "this doesn't work for me," and walking away.
+This is not a limitation. It's the shape of the tool. Understanding it upfront prevents the most common failure mode: setting up a vault, waiting for the agent to become helpful on its own, concluding "this doesn't work for me," and walking away.
 
-It's not that Claude doesn't work. It's that the contract is different from what most people expect.
+It's not that the agent doesn't work. It's that the contract is different from what most people expect.
 
 ## Value = context × request
 
-Because Claude is reactive, the quality of what you get back depends on two things multiplied together:
+Because the agent is reactive, the quality of what you get back depends on two things multiplied together:
 
 - **What you ask** — the specific question or task
-- **What Claude knows** — about you, your goals, your vault, your situation
+- **What the agent knows** — about you, your goals, your vault, your situation
 
-A precise question with thin context gets a generic answer. A vague question with rich context wastes the opportunity. Both are weak. The best sessions combine both: a specific question Claude can engage with, plus enough context for it to reason about your actual situation, not a hypothetical.
+A precise question with thin context gets a generic answer. A vague question with rich context wastes the opportunity. Both are weak. The best sessions combine both: a specific question the agent can engage with, plus enough context for it to reason about your actual situation, not a hypothetical.
 
 This is why the setup you're about to do matters. You're not just creating folders. You're building the **context layer** that makes every future request more valuable. The folder structure is infrastructure. The notes you'll create — about who you are, what you're working on, what matters to you — are the fuel.
 
-Without that fuel, Claude in your vault behaves about the same as Claude in a chat window: decent, generic, forgettable. With it, Claude becomes something else: a collaborator that knows your context and can engage with it at depth.
+Without that fuel, the agent in your vault behaves about the same as a fresh chat window: decent, generic, forgettable. With it, the agent becomes something else: a collaborator that knows your context and can engage with it at depth.
 
 ## Compound interest across sessions
 
 Your first session and your tenth session will feel different, and the difference is not the model. The model is the same.
 
-The difference is that by session ten, Claude has:
+The difference is that by session ten, the agent has:
 
 - Read your goals, your values, your areas of life
 - Remembered decisions you made in earlier sessions
@@ -59,11 +59,11 @@ The difference is that by session ten, Claude has:
 
 None of this is magic. It's five simple mechanisms working together — call this collection the **stateful multiplier**, because each piece alone is modest but together they multiply the value of every session. The wizard will set all five up during phase 0 and phase 9:
 
-- **`CLAUDE.md`** — a document Claude reads automatically at the start of every session. It tells Claude how your vault is organized, what conventions you follow, and what to pay attention to. Think of it as a standing orientation brief.
-- **`MEMORY.md`** — persistent notes that Claude updates across sessions about decisions, preferences, and open threads. Think of it as a shared notebook between you and Claude that survives between conversations.
-- **Session logs** — a running journal where each session records what was discussed, what was decided, what's next. Claude reads recent logs when starting a new session.
-- **TODO with age markers** — a task list where every item has a `<!-- since: YYYY-MM-DD -->` marker so Claude can track how long things have been waiting and ask about drift.
-- **Session workflow rules** — small files in `.claude/rules/` that tell Claude what to do at session start (read context, show brief) and session end (update TODO, memory, log, commit).
+- **`CLAUDE.md` or `AGENTS.md`** — a document the agent reads at the start of every session. It tells the agent how your vault is organized, what conventions you follow, and what to pay attention to. Think of it as a standing orientation brief.
+- **`_claude/MEMORY.md`** — portable vault memory that the agent updates across sessions about decisions, preferences, and open threads. Think of it as a shared notebook between you and the agent that travels with the vault.
+- **Session logs** — a running journal where each session records what was discussed, what was decided, what's next. The agent reads recent logs when starting a new session.
+- **TODO with age markers** — a task list where every item has a `<!-- since: YYYY-MM-DD -->` marker so the agent can track how long things have been waiting and ask about drift.
+- **Session workflow rules** — `.claude/rules/session-onboarding.md` and `.claude/rules/session-offboarding.md` for Claude Code, or `## Session Start` / `## Session Close` sections in `AGENTS.md` for Codex.
 
 Together these five are the stateful multiplier. **Missing any one weakens the rest** — a vault with session logs but no memory doesn't accumulate decisions; a memory system without a TODO tracker loses track of open threads; session rules without logs have nothing to read. That's why the setup wizard treats them as a single package, not optional extras.
 
@@ -71,55 +71,55 @@ Without the stateful multiplier, every conversation starts from zero and every s
 
 **One caveat about compound interest.** It works best with regular use — a few times a week or more. If you use the vault sporadically (once a month, say), the compound effect weakens, and you may need to explicitly re-load context before complex tasks. The session workflow guide (post-setup) covers the pattern for episodic use.
 
-## What Claude will do
+## What the agent will do
 
-During a session, Claude will:
+During a session, the agent will:
 
 - **Ask clarifying questions** when your request is ambiguous or when it needs more information to give a useful answer
 - **Push back** on reasoning that looks weak, inconsistent, or at odds with what you've previously said
 - **Connect threads across notes** — "this sounds like what you were working on in Goals three weeks ago"
-- **Remember decisions you've already made** — if you settled on a framework last week, Claude won't re-litigate it next session
+- **Remember decisions you've already made** — if you settled on a framework last week, the agent won't re-litigate it next session
 - **Surface relevant context when you start a session** — "last session you left off at X, and there's a Y waiting to be processed"
-- **Build structure from your answers** — during discovery, Claude proposes folders, tags, and conventions shaped by what you say, not a template
+- **Build structure from your answers** — during discovery, the agent proposes folders, tags, and conventions shaped by what you say, not a template
 - **Challenge assumptions** — gently, with reasons, when there's something worth challenging
 
 The key word in all of these is "when." When you ask. When you start a session. When you give it input. None of these happen in the background.
 
-## What Claude will not do
+## What the agent will not do
 
-- **Watch your vault between sessions** — Claude sees nothing until you open a new conversation
+- **Watch your vault between sessions** — the agent sees nothing until you open a new conversation
 - **Contact you** — no notifications, emails, texts, or DMs
 - **Run analyses on its own schedule** — no cron jobs, no passive processing (you can set these up as an advanced step, but they're not on by default)
-- **Surprise you with unsolicited observations** — Claude speaks when spoken to
-- **Remember things you didn't save** — if a decision isn't written into MEMORY.md, a session log, or a note, it's gone the next time you open a session
-- **Know things about your life it wasn't told** — your calendar, your health data, your work context are only visible to Claude if you explicitly connect them (the integrations phase covers this)
-- **Replace your thinking** — Claude can structure, challenge, remember, and surface. But the understanding has to come from you. It's a collaborator, not a substitute.
+- **Surprise you with unsolicited observations** — the agent speaks when spoken to
+- **Remember things you didn't save** — if a decision isn't written into `_claude/MEMORY.md`, a session log, or a note, it's gone the next time you open a session
+- **Know things about your life it wasn't told** — your calendar, your health data, your work context are only visible to the agent if you explicitly connect them (the integrations phase covers this)
+- **Replace your thinking** — the agent can structure, challenge, remember, and surface. But the understanding has to come from you. It's a collaborator, not a substitute.
 
 ## How to get value from this, starting day one
 
 Here's the simplest working pattern from your very first session:
 
 1. **Open a session with a specific question or task.** Not *"help me organize my life"* but *"I want to restructure my Goals document for 2026 — here's what I have, what's missing, what should I cut?"*
-2. **Give Claude the context it needs.** If you're working on something new, spend two or three minutes describing the situation. If it's continuing work, Claude reads your vault to catch up — tell it where to look.
-3. **Let Claude challenge you.** If it asks a clarifying question, answer honestly. If it pushes back, consider the pushback rather than overriding it. Dismissing challenge is the fastest way to turn Claude back into a generic chatbot.
+2. **Give the agent the context it needs.** If you're working on something new, spend two or three minutes describing the situation. If it's continuing work, the agent reads your vault to catch up — tell it where to look.
+3. **Let the agent challenge you.** If it asks a clarifying question, answer honestly. If it pushes back, consider the pushback rather than overriding it. Dismissing challenge is the fastest way to turn the agent back into a generic chatbot.
 4. **End the session with a two-minute closing ritual.** Update the TODO file, save important decisions to memory, write a one-line note in the session log about what's next. This takes almost no time but pays massive dividends the next time you open a session. The setup wizard will create these files; your job is to use them.
 
 These four habits — specific question, given context, openness to challenge, closing ritual — separate people who get compounding value from this tool from people who quit in week two thinking it "doesn't do anything."
 
-**Accessibility note — voice input:** If you're more comfortable talking than typing, voice-to-text tools like [Wispr Flow](https://wisprflow.ai) turn Claude Code into something you can speak to. This is a quality-of-life unlock, not a requirement — but if typing is a barrier, voice input removes it almost entirely for day-to-day use. Setup and initial discovery still happen in a text conversation; ongoing sessions can be voice-driven once you're comfortable.
+**Accessibility note — voice input:** If you're more comfortable talking than typing, voice-to-text tools like [Wispr Flow](https://wisprflow.ai) turn an agent session into something you can speak to. This is a quality-of-life unlock, not a requirement — but if typing is a barrier, voice input removes it almost entirely for day-to-day use. Setup and initial discovery still happen in a text conversation; ongoing sessions can be voice-driven once you're comfortable.
 
 **For the deeper read:** This section is the practical mental model — enough to avoid the most common failure modes and make your first hour productive. If you want the thinking behind this approach — *why* structure follows the person, *why* a vault is a working model rather than an archive, *why* AI-as-collaborator is different from AI-as-retrieval — read [PHILOSOPHY.md](PHILOSOPHY.md). Same ideas, deeper water.
 
 ## The first hour (right now)
 
-In the hour ahead, your job is simple: answer Claude's questions honestly during the discovery phase. That's it. Claude builds the vault structure; you provide the raw material about who you are and what matters to you.
+In the hour ahead, your job is simple: answer the agent's questions honestly during the discovery phase. That's it. The agent builds the vault structure; you provide the raw material about who you are and what matters to you.
 
 By the end of that hour, you'll have:
 
 - A vault structure that reflects **you**, not a template
 - Conventions that will keep it consistent as it grows
 - Foundation notes (`Me.md`, `Areas.md`, `Goals.md`) that make every future session more useful
-- Session continuity infrastructure (CLAUDE.md, memory, session logs) ready to go
+- Session continuity infrastructure (`CLAUDE.md` or `AGENTS.md`, memory, session logs) ready to go
 - A working mental model of how this tool actually works
 
 Then you close the session, come back tomorrow or next week, and compound interest starts.
@@ -134,15 +134,15 @@ Ready? Let's start.
 
 ## How to use this file
 
-**For the human:** Put this file in your Obsidian vault directory. Open Claude Code there. Say something like: "I want to set up my vault. Follow the guide in `seed.md`." Claude will guide you through each phase as a conversation.
+**For the human:** Put this file in your Obsidian vault directory. Open Claude Code or Codex there. Say something like: "I want to set up my vault. Follow the guide in `seed.md`. I am using Codex." The agent will guide you through each phase as a conversation.
 
-**For Claude Code:** This is your playbook. Follow the phases in order. Each phase has a goal, questions to ask, and artifacts to create. Do NOT skip the discovery phase — the entire vault structure depends on understanding the person first.
+**For Claude Code or Codex:** This is your playbook. Follow the phases in order. Each phase has a goal, questions to ask, and artifacts to create. Do NOT skip the discovery phase — the entire vault structure depends on understanding the person first. If the user is using Codex, create `AGENTS.md` instead of `CLAUDE.md` for the agent-facing project instructions. If the user expects to use both tools, create both files and keep their shared vault rules aligned.
 
 ---
 
 ## Setup Questionnaire
 
-**For Claude Code:** Run this questionnaire BEFORE starting the phases. It determines what to install now and what to defer. Present these questions one group at a time, not all at once.
+**For the agent:** Run this questionnaire BEFORE starting the phases. It determines what to install now and what to defer. Present these questions one group at a time, not all at once.
 
 ### Group 1: Basics
 
@@ -215,9 +215,9 @@ Save this plan to `_claude/TODO.md` so it persists.
 Before starting, make sure:
 
 1. **Obsidian** is installed and a vault is created (even if empty)
-2. **Claude Code** is installed and working
-3. **Git** is initialized in the vault directory (`git init` if not). Git is strongly recommended — Claude makes changes directly to files, and git gives you rollback safety. If you don't use git, consider at least backing up before starting.
-4. **kepano/obsidian-skills** are installed — copy them to `.claude/skills/` in the vault. These teach Claude correct Obsidian syntax (wikilinks, callouts, frontmatter, Bases, Canvas). Get them from: https://github.com/kepano/obsidian-skills
+2. **Claude Code or Codex** is installed and working. Ask which one the user wants to use before creating tool-specific files.
+3. **Git** is initialized in the vault directory (`git init` if not). Git is strongly recommended — the agent makes changes directly to files, and git gives you rollback safety. If you don't use git, consider at least backing up before starting.
+4. **kepano/obsidian-skills** are installed if using Claude Code — copy them to `.claude/skills/` in the vault. These teach Claude correct Obsidian syntax (wikilinks, callouts, frontmatter, Bases, Canvas). Get them from: https://github.com/kepano/obsidian-skills. Codex users can still read these as reference material, but Codex will use `AGENTS.md` as the project instruction file.
 5. **Obsidian CLI** (v1.12+) is installed for vault interaction from terminal (optional but recommended)
 6. Allocate **2-3 hours** for the first session. You won't finish everything, but you'll have a working foundation.
 
@@ -225,9 +225,29 @@ Before starting, make sure:
 
 ## Phase 0: Technical Foundation
 
-**Goal:** Set up the files that make Claude Code effective across sessions.
+**Goal:** Set up the files that make the selected coding agent effective across sessions.
 
-### 0.1 — Create `.claude/` directory structure
+### 0.1 — Choose the agent runner
+
+Ask the user:
+
+> "Which agent will you use in this vault: Claude Code, Codex, or both?"
+
+Then create the matching instruction surface:
+
+| Runner | Required project instruction file | Optional support files |
+|---|---|---|
+| Claude Code | `CLAUDE.md` | `.claude/rules/`, `.claude/skills/`, `.claude/commands/` |
+| Codex | `AGENTS.md` | session lifecycle sections inside `AGENTS.md` |
+| Both | `CLAUDE.md` and `AGENTS.md` | keep shared rules textually aligned |
+
+The continuity files remain the same across runners: `_claude/MEMORY.md`, `_claude/TODO.md`, and `_claude/session-logs/`. The `_claude/` name is historical; treat it as Seed's portable workspace, not as Claude-only storage.
+
+For Codex, keep `AGENTS.md` in the vault root. Codex also supports global guidance in `~/.codex/AGENTS.md` and nested overrides, but Seed's vault rules should live next to the vault so they travel with git and are easy to audit.
+
+### 0.2 — For Claude Code: create `.claude/` directory structure
+
+Skip this subsection if the user is Codex-only.
 
 ```
 .claude/
@@ -238,9 +258,11 @@ Before starting, make sure:
 
 > **Skills limitation:** Claude Code only scans `~/.claude/skills/` (global) and `<project>/.claude/skills/` (project-level). Skills placed in intermediate directories (e.g., `~/Obsidian/.claude/skills/`) are NOT loaded. Place all skills in one of these two locations.
 
-### 0.2 — Create a starter CLAUDE.md in vault root
+### 0.3 — Create the agent instruction file
 
-This is the most important file. It tells Claude Code how to behave in this vault. Start minimal — you'll expand it as the vault takes shape.
+This is the most important file. It tells the agent how to behave in this vault. Start minimal — you'll expand it as the vault takes shape.
+
+Use `CLAUDE.md` for Claude Code. Use `AGENTS.md` for Codex. If the user wants both, create both with equivalent vault rules.
 
 ```markdown
 # [Vault Name] — Project Context
@@ -264,7 +286,48 @@ This is the most important file. It tells Claude Code how to behave in this vaul
 - Add .obsidian/ to .gitignore
 ```
 
-### 0.3 — Create a global `~/.claude/CLAUDE.md` (if doesn't exist)
+For Codex, use this `AGENTS.md` starter:
+
+```markdown
+# [Vault Name] — Codex Instructions
+
+## Vault Purpose
+[Will be filled after Phase 1]
+
+## Session Start
+- Read this file, `_claude/MEMORY.md`, the most recent `_claude/session-logs/` entry, and `_claude/TODO.md`
+- Show a short brief: last session, stale TODOs, and likely next steps
+
+## Session Close
+- Update `_claude/TODO.md` with `<!-- since: YYYY-MM-DD -->` markers
+- Update `_claude/MEMORY.md` with high-signal decisions and preferences
+- Finalize the current session log
+- Commit meaningful vault changes when the user approves
+
+## Conventions
+- Use [[wiki links]] for internal references
+- Frontmatter is YAML, always preserve existing fields
+- Dates in ISO format: YYYY-MM-DD
+- Never modify files inside .obsidian/
+- Never delete files without explicit confirmation
+
+## Git Workflow
+- Commit messages: "type: description" (e.g., "add: weekly review", "edit: goals update")
+- Do NOT commit .obsidian/ config changes
+- Add .obsidian/ to .gitignore
+```
+
+After creating `AGENTS.md`, verify Codex sees it:
+
+```bash
+codex -a never -s read-only exec "Summarize the current repository instructions. Do not modify files."
+```
+
+Expected: Codex mentions the vault's `AGENTS.md` and summarizes the session start / session close rules. If it does not, check that you started Codex from the vault root or passed `--cd /path/to/vault`.
+
+### 0.4 — For Claude Code: create a global `~/.claude/CLAUDE.md` (if doesn't exist)
+
+Skip this subsection if the user is Codex-only.
 
 This file applies to ALL projects, not just the vault. Include:
 - Your name and short name (so Claude addresses you naturally)
@@ -274,7 +337,7 @@ This file applies to ALL projects, not just the vault. Include:
 
 > **How the walk-up chain works:** Claude Code reads ALL `CLAUDE.md` files from your current directory up to `~`. So `~/.claude/CLAUDE.md` (who you are) + vault `CLAUDE.md` (how this vault works) compose into one context. Keep identity in the global file, project conventions in the vault file. They stack, not replace.
 
-### 0.4 — Set up `.gitignore`
+### 0.5 — Set up `.gitignore`
 
 ```
 .obsidian/
@@ -282,30 +345,33 @@ This file applies to ALL projects, not just the vault. Include:
 .DS_Store
 ```
 
-### 0.5 — Set up auto-memory
+### 0.6 — Understand tool-specific memory
 
-Claude Code has persistent memory at `~/.claude/projects/<project-path>/memory/`. Create a `MEMORY.md` there. Claude will update it across sessions to remember context, decisions, and patterns. Keep it under 200 lines (Claude sees the first 200 lines automatically).
+Seed's canonical memory lives in the vault at `_claude/MEMORY.md` so it is visible in Obsidian, versioned with git, and portable across machines.
 
-### 0.6 — Understand the environment model
+Claude Code may also have auto-memory at `~/.claude/projects/<project-path>/memory/MEMORY.md`. Treat that as an optional helper: use it to summarize or point back to `_claude/MEMORY.md`, not as the primary source of truth. Keep any tool-specific memory under 200 lines.
+
+Codex users should also treat `_claude/MEMORY.md` as the source of truth. If Codex has separate local or app-level memory in your environment, use it only as a pointer back to the vault memory, not as a replacement.
+
+### 0.7 — Understand the environment model
 
 You don't need to set this up now. But understanding the architecture early saves confusion later.
 
-**Your Claude configuration has three layers:**
+**Your agent configuration has three layers:**
 
 ```
-Layer 1: Person (~/.claude/)
+Layer 1: Person (tool-specific global instructions, if available)
   Who you are, style, universal preferences. Goes with you everywhere.
-  Source: a dotfiles repo (git), symlinked into ~/.claude/
+  Source: a dotfiles repo or app-level instructions.
 
-Layer 2: Domain (intermediate CLAUDE.md files)
-  Domain conventions. Claude reads ALL CLAUDE.md files upward from CWD to ~.
-  Example: ~/Obsidian/CLAUDE.md — shared rules for all vaults in this directory.
+Layer 2: Domain (intermediate instruction files, if your tool supports them)
+  Domain conventions shared by multiple vaults.
 
-Layer 3: Project (vault's CLAUDE.md + .claude/)
+Layer 3: Project (vault's CLAUDE.md or AGENTS.md)
   Vault-specific: protocols, permissions, skills, commands.
 ```
 
-**Why this matters:** Your global `~/.claude/CLAUDE.md` (who you are) + vault `CLAUDE.md` (how this vault works) compose into one context automatically. Keep identity in the global file, conventions in the vault file. They stack, not replace.
+**Why this matters:** keep identity in global or personal instructions when available, and keep vault conventions in the vault's project instruction file. They stack conceptually even when different tools implement the stack differently.
 
 **When you'll want more:**
 
@@ -782,17 +848,27 @@ Respective area folders         # with proper frontmatter, tags, links
 
 ## Phase 9: Session Lifecycle — Continuity Across Conversations
 
-**Goal:** Set up patterns that make every Claude session build on previous ones. This is what transforms Claude from a tool you use into a partner that accumulates context.
+**Goal:** Set up patterns that make every agent session build on previous ones. This is what transforms Claude Code or Codex from a tool you use into a partner that accumulates context.
 
-### Session onboarding (what Claude does at session start)
+The canonical continuity files are:
 
-At the start of every session, Claude should:
+- `CLAUDE.md` or `AGENTS.md` — vault orientation for the selected agent
+- `_claude/MEMORY.md` — portable vault memory for decisions, preferences, and open threads
+- `_claude/TODO.md` — cross-session task tracker with age markers
+- `_claude/session-logs/` — running journal of sessions
+- `.claude/rules/session-onboarding.md` — Claude Code session start behavior
+- `.claude/rules/session-offboarding.md` — Claude Code session end behavior
+- `AGENTS.md` session lifecycle sections — Codex session start and end behavior
 
-1. Read CLAUDE.md, MEMORY.md, last session log, and `_claude/TODO.md`
+### Session onboarding (what the agent does at session start)
+
+At the start of every session, the agent should:
+
+1. Read `CLAUDE.md` or `AGENTS.md`, `_claude/MEMORY.md`, last session log, and `_claude/TODO.md`
 2. Check any cached data (calendar, health — if integrations exist)
 3. Show a brief: today's date, last session title + when, stale TODO items, contextual suggestions
 
-You can codify this in `.claude/rules/session-onboarding.md` — a file Claude reads automatically. The brief doesn't need to be fancy. Even "Last session: Goals Deep Dive (3 days ago). 2 TODO items older than a week." changes the conversation quality.
+For Claude Code, codify this in `.claude/rules/session-onboarding.md`. For Codex, put the same session start checklist directly in `AGENTS.md` under `## Session Start`. The brief doesn't need to be fancy. Even "Last session: Goals Deep Dive (3 days ago). 2 TODO items older than a week." changes the conversation quality.
 
 > **Why this matters:** Session 1 and session 10 feel identical without onboarding — Claude starts from zero every time. With onboarding, session 10 opens with "You haven't touched Goals in two weeks, and there's a Victoria session to process." That's a different relationship.
 
@@ -833,7 +909,7 @@ Rename the file when the theme becomes clear (e.g., `2026-03-01 — Goals Deep D
 
 ### Memory system
 
-Claude Code's auto-memory (`~/.claude/projects/.../memory/MEMORY.md`) is the key to continuity. After each session, update it with:
+The primary Seed memory is `_claude/MEMORY.md`. It lives in the vault so it is visible, versioned, and portable. After each session, update it with:
 
 - Vault structure decisions (what folders exist, why)
 - Key files and what they contain
@@ -841,11 +917,13 @@ Claude Code's auto-memory (`~/.claude/projects/.../memory/MEMORY.md`) is the key
 - Open questions and next steps
 - Conventions that were established
 
-Keep MEMORY.md under 200 lines. For detailed notes, create separate files in the memory directory and link from MEMORY.md.
+Keep `_claude/MEMORY.md` under 200 lines. For detailed notes, create separate files in `_claude/` and link from `_claude/MEMORY.md`.
+
+Tool-specific memory is optional. For Claude Code, this may be `~/.claude/projects/.../memory/MEMORY.md`. If you use any tool-specific memory, keep it short and have it point back to `_claude/MEMORY.md` rather than duplicating the vault memory.
 
 ### Cross-session TODO tracker
 
-Create `_claude/TODO.md` — a task list that persists across sessions. Add a `<!-- since: YYYY-MM-DD -->` marker to each item so Claude can track age:
+Create `_claude/TODO.md` — a task list that persists across sessions. Add a `<!-- since: YYYY-MM-DD -->` marker to each item so the agent can track age:
 
 ```markdown
 # TODO
@@ -861,9 +939,9 @@ Create `_claude/TODO.md` — a task list that persists across sessions. Add a `<
 - [ ] Vipassana research <!-- since: 2026-03-10 -->
 ```
 
-**Deferral escalation** — Claude checks TODO at session start:
+**Deferral escalation** — the agent checks TODO at session start:
 
-| Age | What Claude does |
+| Age | What the agent does |
 |-----|------------------|
 | 7-13 days | Soft mention: "This has been in TODO for 10 days" |
 | 14-20 days | Direct question: "This keeps getting deferred. Intentional?" |
@@ -876,26 +954,26 @@ This prevents the TODO from becoming a graveyard of good intentions.
 When you find yourself doing the same operation repeatedly (daily reflection, weekly review, goal check), formalize it:
 
 - **Protocol** (`_claude/protocols/...` or `_claude/extracts/.../protocol.md`) — step-by-step procedure: what to read, what to create, what format
-- **Skill or command** (`.claude/skills/` or `.claude/commands/`) — one-word trigger for Claude
+- **Skill, command, or instruction section** (`.claude/skills/`, `.claude/commands/`, or a named section in `AGENTS.md`) — one-word or explicit trigger for the agent
 
-Example: `/daily-reflection` → reads protocol → checks calendar + health data → creates structured reflection. One command, reproducible every time, by any Claude session.
+Example: `/daily-reflection` → reads protocol → checks calendar + health data → creates structured reflection. One command, reproducible every time, by any agent session.
 
-You won't need this on day one. But after 2-3 weeks, when you notice yourself explaining the same procedure to Claude for the third time — that's the signal to formalize.
+You won't need this on day one. But after 2-3 weeks, when you notice yourself explaining the same procedure to the agent for the third time — that's the signal to formalize.
 
 ### Session offboarding (2-minute end-of-session checklist)
 
-At session end, Claude should:
+At session end, the agent should:
 
 1. Update `_claude/TODO.md` — close done items, add new ones with `<!-- since: -->` markers
-2. Update memory — capture new preferences, decisions, patterns
+2. Update `_claude/MEMORY.md` — capture new preferences, decisions, patterns
 3. Finalize session log — artifacts table, key decisions, what's next
 4. Commit to git — don't let work pile up uncommitted
 
-This can also live in `.claude/rules/` as an offboarding rule. The key insight: **knowledge loss happens between sessions, not during them.** Two minutes of structured closing prevents hours of re-discovery next time.
+For Claude Code, this can also live in `.claude/rules/session-offboarding.md` as an offboarding rule. For Codex, put the same checklist in `AGENTS.md` under `## Session Close`. The key insight: **knowledge loss happens between sessions, not during them.** Two minutes of structured closing prevents hours of re-discovery next time.
 
 ### What makes sessions productive
 
-1. **Onboarding brief at start** — Claude reads context and shows what matters today
+1. **Onboarding brief at start** — the agent reads context and shows what matters today
 2. **Create the session log early** — don't wait until the end
 3. **Commit after meaningful changes** — git is your safety net
 4. **Offboarding checklist at end** — TODO, memory, log, commit
@@ -907,11 +985,11 @@ The patterns above assume regular use — daily or near-daily sessions where com
 
 The short version:
 
-- **Brain-dump before complex operations.** Spend 5 minutes writing your current head-context into a note *before* asking Claude to do anything complex. Your head has more than the vault knows, and complex operations on thin context produce plausible but wrong output.
+- **Brain-dump before complex operations.** Spend 5 minutes writing your current head-context into a note *before* asking the agent to do anything complex. Your head has more than the vault knows, and complex operations on thin context produce plausible but wrong output.
 - **Weekly reflection even without a task.** Fifteen minutes once a week, just writing what's on your mind. Keeps the vault from going stale between real sessions.
-- **Calibrate memory before serious operations.** Ask Claude "what do you know about X?" before deep work. If the summary is stale, update memory before proceeding.
+- **Calibrate memory before serious operations.** Ask the agent "what do you know about X?" before deep work. If the summary is stale, update memory before proceeding.
 
-**Full patterns (with rationale and examples):** see [`guides/session-workflow.md`](guides/session-workflow.md). That guide covers the episodic pattern in depth, plus complex operation priming, anti-patterns, and the "feels like Claude forgot everything" troubleshooting flow.
+**Full patterns (with rationale and examples):** see [`guides/session-workflow.md`](guides/session-workflow.md). That guide covers the episodic pattern in depth, plus complex operation priming, anti-patterns, and the "feels like the agent forgot everything" troubleshooting flow.
 
 ---
 
@@ -995,31 +1073,31 @@ Things that worked:
 
 4. **Links are the point.** The graph view is what makes Obsidian more than a folder of markdown files. Every note should link to related notes. A `## Related files` section at the bottom is the simplest habit to enforce.
 
-5. **Session logs are the backbone.** They provide continuity across Claude sessions and serve as a decision journal. Creating them at the START (not end) of sessions captures context that would otherwise be lost.
+5. **Session logs are the backbone.** They provide continuity across agent sessions and serve as a decision journal. Creating them at the START (not end) of sessions captures context that would otherwise be lost.
 
-6. **Memory keeps Claude useful.** Without MEMORY.md, every session starts from zero. With it, Claude knows your vault, your conventions, your preferences, and your open questions.
+6. **Memory keeps the agent useful.** Without `_claude/MEMORY.md`, every session starts from zero. With it, the agent knows your vault, your conventions, your preferences, and your open questions.
 
 7. **Conventions before content.** Spending 30 minutes on frontmatter rules and tag taxonomy saves hours of cleanup later.
 
-8. **Git keeps you safe.** Commit after every meaningful change. Claude sometimes makes mistakes. Git lets you roll back.
+8. **Git keeps you safe.** Commit after every meaningful change. Agents sometimes make mistakes. Git lets you roll back.
 
 9. **Don't build everything at once.** Foundation first (Me, Areas, Goals), then fill in organically as topics come up in conversation.
 
-10. **Challenge, don't just organize.** The best Claude sessions aren't just "file these notes" — they're "here's what I'm thinking, push back on the weak parts."
+10. **Challenge, don't just organize.** The best agent sessions aren't just "file these notes" — they're "here's what I'm thinking, push back on the weak parts."
 
 11. **Never batch-replace wiki links with sed/perl.** The `|` character in `[[link|alias]]` syntax causes catastrophic corruption in regex-based replacements. Always use a dedicated edit tool, one file at a time.
 
 12. **`_claude/outputs/` is not `_claude/drafts/`.** Drafts are internal (will become vault notes). Outputs are external-facing (guides for other people, messages to send, posts to publish). Keep them separate.
 
-13. **Health data integrations compound.** Connecting Oura (or similar) to daily reflections takes 30 minutes to set up but transforms every future session — Claude can say "you slept 5 hours, readiness 52, maybe today isn't the day for a deep strategy session."
+13. **Health data integrations compound.** Connecting Oura (or similar) to daily reflections takes 30 minutes to set up but transforms every future session — the agent can say "you slept 5 hours, readiness 52, maybe today isn't the day for a deep strategy session."
 
 14. **Obsidian CLI is powerful but has gotchas.** `property:set` for list fields (like tags) writes comma-separated strings, not YAML arrays. Multi-line JS in `eval` fails — write to temp file first. Always use the Edit tool for frontmatter, CLI for reads and searches.
 
-15. **Session lifecycle is the multiplier.** Onboarding (read context, show brief) + offboarding (update TODO, memory, log, commit) takes 3-4 minutes combined but compounds session over session. Without it, every conversation starts from zero. With it, Claude becomes a partner with a growing model of who you are and what you're working on.
+15. **Session lifecycle is the multiplier.** Onboarding (read context, show brief) + offboarding (update TODO, memory, log, commit) takes 3-4 minutes combined but compounds session over session. Without it, every conversation starts from zero. With it, the agent becomes a partner with a growing model of who you are and what you're working on.
 
-16. **TODO markers prevent drift.** `<!-- since: YYYY-MM-DD -->` on every TODO item lets Claude track age and escalate. Without markers, tasks silently age until they're forgotten or irrelevant. With markers, Claude asks "this has been deferred for 3 weeks — intentional?" That question alone is worth the 5 seconds of adding the marker.
+16. **TODO markers prevent drift.** `<!-- since: YYYY-MM-DD -->` on every TODO item lets the agent track age and escalate. Without markers, tasks silently age until they're forgotten or irrelevant. With markers, the agent asks "this has been deferred for 3 weeks — intentional?" That question alone is worth the 5 seconds of adding the marker.
 
-17. **Context in your head compounds faster than the vault.** For users with any gap between sessions — a few days, a week, more — your mental context about recent events runs ahead of what the vault has seen. If you skip straight to a complex operation without priming Claude, you'll get plausible-but-thin output because Claude is working with stale input. The fix is a 5-minute brain-dump into `_inputs/` before any serious operation — see `guides/session-workflow.md` for the full pattern. Learned from episodic-user feedback: the tool is fine, the pattern is missing.
+17. **Context in your head compounds faster than the vault.** For users with any gap between sessions — a few days, a week, more — your mental context about recent events runs ahead of what the vault has seen. If you skip straight to a complex operation without priming the agent, you'll get plausible-but-thin output because the agent is working with stale input. The fix is a 5-minute brain-dump into `_inputs/` before any serious operation — see `guides/session-workflow.md` for the full pattern. Learned from episodic-user feedback: the tool is fine, the pattern is missing.
 
 ---
 
@@ -1068,16 +1146,17 @@ If you reach that boundary — you'll know.
 For the impatient — the minimum viable setup:
 
 - [ ] Git init + .gitignore (exclude .obsidian/)
-- [ ] Install kepano/obsidian-skills in .claude/skills/
-- [ ] Create minimal CLAUDE.md in vault root
-- [ ] Create ~/.claude/CLAUDE.md with personal preferences
-- [ ] Run Phase 1 discovery conversation with Claude
+- [ ] Choose runner: Claude Code, Codex, or both
+- [ ] If using Claude Code, install kepano/obsidian-skills in .claude/skills/
+- [ ] Create minimal `CLAUDE.md` or `AGENTS.md` in vault root
+- [ ] If using Claude Code, create ~/.claude/CLAUDE.md with personal preferences
+- [ ] Run Phase 1 discovery conversation with the agent
 - [ ] Create _meta/Me.md
 - [ ] Create _meta/Areas.md + folder structure
-- [ ] Establish frontmatter + tag conventions (update CLAUDE.md)
-- [ ] Set up session continuity: `_claude/TODO.md` (with `<!-- since: -->` markers) + `_claude/session-logs/` + MEMORY.md
+- [ ] Establish frontmatter + tag conventions (update `CLAUDE.md` or `AGENTS.md`)
+- [ ] Set up session continuity: `_claude/MEMORY.md` + `_claude/TODO.md` (with `<!-- since: -->` markers) + `_claude/session-logs/`
 - [ ] Create first session log (do this NOW — not at end of session)
-- [ ] Set up session onboarding rule in `.claude/rules/` (even a simple one: read last log + TODO)
+- [ ] Set up session onboarding: `.claude/rules/session-onboarding.md` for Claude Code, or `## Session Start` in `AGENTS.md` for Codex
 - [ ] Create Goals/Goals [YEAR].md
 - [ ] Commit everything
 - [ ] Start using the vault
@@ -1104,12 +1183,12 @@ Community (install via Community Plugins):
 
 ---
 
-## Recommended Claude Code Setup
+## Recommended Agent Setup
 
-### CLAUDE.md structure (final state)
+### Project instruction structure (final state)
 
 ```
-CLAUDE.md (vault root)
+CLAUDE.md or AGENTS.md (vault root)
 ├── Vault Purpose
 ├── Structure (folder tree with descriptions)
 ├── Tag System (layers, rules, examples)
@@ -1118,22 +1197,22 @@ CLAUDE.md (vault root)
 ├── Graph Connectivity (linking rules)
 ├── Language Rules
 ├── Git Workflow
-├── Claude Workspace (_claude/ usage)
+├── Agent Workspace (_claude/ usage)
 └── Conventions (naming, inbox, attachments)
 ```
 
 ### Memory structure
 
 ```
-~/.claude/projects/<path>/memory/
-├── MEMORY.md          # Main memory (< 200 lines)
-├── vault-setup.md     # Detailed vault structure notes
-└── [topic].md         # Topic-specific deep notes
+_claude/
+├── MEMORY.md          # Portable vault memory (< 200 lines)
+├── TODO.md            # Cross-session task tracker
+└── session-logs/      # Session journal
 ```
 
-### MCP integrations
+### External integrations
 
-Claude Code can connect to external services via MCP (Model Context Protocol). Useful personal integrations:
+Some agents can connect to external services through MCP or app connectors. Useful personal integrations:
 
 | Service | What it gives you |
 |---------|------------------|
@@ -1144,13 +1223,13 @@ Claude Code can connect to external services via MCP (Model Context Protocol). U
 | **Notion** | If migrating from Notion — read databases, pages, extract content |
 | **Slack** | Read channels, search messages, draft announcements |
 
-MCP servers are cloud-based integrations configured through Claude settings, not local CLI tools.
+Treat integrations as optional. The vault works without them; add them only when the foundation is stable.
 
-### Hooks and skills
+### Hooks, skills, and instructions
 
 - **kepano/obsidian-skills** — Obsidian syntax (wikilinks, callouts, frontmatter, Bases, Canvas)
 - **Obsidian CLI skill** — if using Obsidian CLI for vault interaction
-- **Session start hook** — can auto-display date, last session info (e.g., show today's date + last session title)
+- **Session start hook or instruction** — can auto-display date, last session info (e.g., show today's date + last session title)
 
 ---
 

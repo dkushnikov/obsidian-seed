@@ -1,8 +1,8 @@
 # Obsidian Seed
 
-**Turn Claude Code from a smart stranger into a thinking partner that actually knows who you are.**
+**Turn Claude Code or Codex from a smart stranger into a thinking partner that actually knows who you are.**
 
-Set up a personal Obsidian vault in 1-2 hours. Claude asks you questions about who you are, what matters, how you think. It builds a vault structure that reflects your life — plus the session continuity infrastructure that makes every future Claude conversation better than the last.
+Set up a personal Obsidian vault in 1-2 hours. Your coding agent asks you questions about who you are, what matters, how you think. It builds a vault structure that reflects your life — plus the session continuity infrastructure that makes every future agent conversation better than the last.
 
 Not a template. Not a chatbot integration. A methodology for building a personal knowledge system where your AI partner has context — and where that context compounds over months.
 
@@ -10,9 +10,9 @@ Not a template. Not a chatbot integration. A methodology for building a personal
 
 ## What shifts for you
 
-**Before:** Claude is a smart stranger every session. You re-explain yourself, paste in context, get plausible-but-generic output. Your notes live in apps that don't talk to each other. Decisions made three weeks ago are gone by the time you need them.
+**Before:** Claude or Codex is a smart stranger every session. You re-explain yourself, paste in context, get plausible-but-generic output. Your notes live in apps that don't talk to each other. Decisions made three weeks ago are gone by the time you need them.
 
-**After:** Claude reads your values, your areas, your working style at every session start. It remembers decisions, pushes back when your reasoning drifts, surfaces patterns across weeks. Your vault is the place hard thinking happens — and your AI actually shows up as a partner.
+**After:** the agent reads your values, your areas, your working style at every session start. It remembers decisions, pushes back when your reasoning drifts, surfaces patterns across weeks. Your vault is the place hard thinking happens — and your AI actually shows up as a partner.
 
 The difference isn't a better model. It's the context layer you build once, that loads forever after.
 
@@ -22,15 +22,15 @@ The difference isn't a better model. It's the context layer you build once, that
 
 - **Professionals with rich context in their head** that lives nowhere searchable. Coaches, consultants, therapists, engineering leaders, writers, researchers, founders. Your mental models are more refined than any of your current tools.
 - **People who want a thinking partner, not a note archive.** You'll use this to work through hard decisions, not to log every thought.
-- **Users comfortable with a little setup.** You'll run `claude` in a terminal, answer discovery questions for 30-60 minutes, and trust the process to build something useful.
-- **Anyone already using Claude Code, or willing to.** This is a Claude Code-first methodology.
+- **Users comfortable with a little setup.** You'll run `claude` or `codex` in a terminal, answer discovery questions for 30-60 minutes, and trust the process to build something useful.
+- **Anyone already using Claude Code or Codex, or willing to.** This is a coding-agent-first methodology.
 
 ## Who this isn't for
 
 - **Task managers.** Use Linear, Todoist, Things.
 - **Daily journals.** Use Day One, Obsidian with a different template, or plain paper.
 - **Team wikis.** Use Notion, Confluence. This is personal.
-- **"AI that runs on its own."** Claude here is reactive — it responds when you ask, doesn't watch in the background.
+- **"AI that runs on its own."** The agent here is reactive — it responds when you ask, doesn't watch in the background.
 - **"I want it done in 15 minutes."** First setup is 1-2 hours. The value compounds over weeks. If that tradeoff sounds bad, this is the wrong tool.
 
 ---
@@ -52,12 +52,22 @@ Three fictional walkthroughs show what setup and early use actually look like. I
 1. Create an empty Obsidian vault
 2. Download [`seed.md`](seed.md) into the vault root
 3. Open a terminal in the vault directory
-4. Run `claude` (requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code))
-5. Say: *"Follow the guide in seed.md"*
+4. Run your agent:
+   - Claude Code: `claude`
+   - Codex: `codex`
+5. Say: *"Follow the guide in seed.md. I am using [Claude Code/Codex]."*
 
-Claude asks questions, you answer, it builds your structure. Takes 1-2 hours. At the end you have a working vault with the full session continuity infrastructure in place.
+The agent asks questions, you answer, it builds your structure. Takes 1-2 hours. At the end you have a working vault with the full session continuity infrastructure in place.
 
-**Before you start**, `seed.md` has a section at the top called *How Claude Works in This System*. Read it. Five minutes. It explains what Claude will and won't do and prevents the single biggest first-time failure mode (expecting a proactive AI, getting a reactive one).
+For Codex, you can verify the setup after `AGENTS.md` exists:
+
+```bash
+codex -a never -s read-only exec "Summarize the current repository instructions. Do not modify files."
+```
+
+Expected: Codex mentions the vault's `AGENTS.md` and summarizes the session start / session close rules.
+
+**Before you start**, `seed.md` has a section at the top called *How the Agent Works in This System*. Read it. Five minutes. It explains what the agent will and won't do and prevents the single biggest first-time failure mode (expecting a proactive AI, getting a reactive one).
 
 ### Path B: You already have an Obsidian vault
 
@@ -78,12 +88,12 @@ No cost to look. The quick start is waiting when you're ready.
 ## Prerequisites
 
 - [Obsidian](https://obsidian.md) — installed, vault created
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — installed and authenticated (signup is free; a [Claude](https://claude.ai) subscription covers real use)
+- Claude Code or Codex — installed and authenticated
 - [Git](https://git-scm.com) — initialized in vault directory (`git init`)
 - **Time:** 1-2 hours for the first session. Can also do 1 hour for just discovery and structure, return later for the rest.
 
 **Recommended but not required:**
-- [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) — copy to `.claude/skills/` to teach Claude correct Obsidian syntax.
+- [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) — copy to `.claude/skills/` if using Claude Code. Codex users can read them as reference, but Codex uses `AGENTS.md` for project instructions.
 
 ---
 
@@ -92,15 +102,15 @@ No cost to look. The quick start is waiting when you're ready.
 After the first session, you have a vault with:
 
 - **Your structure** — folders, areas, conventions emerged from your answers, not a template.
-- **`CLAUDE.md`** at vault root — tells Claude how your vault works. Read at every session start.
-- **`MEMORY.md`** — persistent notes Claude updates across sessions. Decisions remembered, patterns noted.
+- **Agent instructions** at vault root — `CLAUDE.md` for Claude Code, `AGENTS.md` for Codex, or both if you use both. This tells the agent how your vault works.
+- **`_claude/MEMORY.md`** — portable vault memory the agent updates across sessions. Decisions remembered, patterns noted.
 - **Session logs** — a running journal of what each session accomplished, read at the start of the next.
-- **TODO with age markers** — tasks with `<!-- since: YYYY-MM-DD -->` so Claude can track drift and escalate stale items.
-- **Session workflow rules** — small files that tell Claude what to do at session start (read context, show brief) and end (update TODO, memory, log, commit).
+- **TODO with age markers** — tasks with `<!-- since: YYYY-MM-DD -->` so the agent can track drift and escalate stale items.
+- **Session workflow rules** — `.claude/rules/session-onboarding.md` and `.claude/rules/session-offboarding.md` for Claude Code; equivalent lifecycle instructions inside `AGENTS.md` for Codex.
 
 These five pieces together are the **stateful multiplier**. Each alone is modest. Together they're what makes session 10 feel qualitatively different from session 1.
 
-Plus: foundation notes (`Me.md`, `Areas.md`, `Goals.md`) drafted with Claude's help, your first session log, and everything under git with clean commit history.
+Plus: foundation notes (`Me.md`, `Areas.md`, `Goals.md`) drafted with the agent's help, your first session log, and everything under git with clean commit history.
 
 ---
 
@@ -117,7 +127,7 @@ Setup is the start, not the end. Two guides cover ongoing use:
 
 1. **Structure follows the person** — frameworks are tools, not answers. Your vault emerges from your life, not from PARA or Zettelkasten applied on top.
 2. **A vault is a working model, not an archive** — only keep what's alive.
-3. **AI is a collaborator, not a search engine** — Claude remembers, connects, challenges.
+3. **AI is a collaborator, not a search engine** — the agent remembers, connects, challenges.
 4. **Conventions before content** — frontmatter and tags prevent chaos.
 5. **Build incrementally** — foundation first, then grow organically.
 6. **Git is not optional** — safety net and decision journal.
