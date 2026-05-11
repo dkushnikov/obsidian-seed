@@ -1005,19 +1005,19 @@ The short version:
 
 ### Cross-vault communication
 
-The core challenge: each vault runs its own Claude Code session. How do they share context without breaking isolation?
+The core challenge: each vault runs its own agent session. How do they share context without breaking isolation?
 
 **Pattern: Shared directory with context files.**
 
 Create a shared directory (NOT a vault) that each vault symlinks to. Each vault owns one context file summarizing what's relevant for the other vaults. Naming is up to you — the structure matters more than the names.
 
 Key principles:
-- Each vault's Claude Code only edits ITS OWN context file in the shared directory
+- Each vault's agent only edits ITS OWN context file in the shared directory
 - Never copy content between vaults without explicit instruction
-- A top-level `CLAUDE.md` above all vaults defines isolation rules and access topology
+- A top-level `CLAUDE.md` or `AGENTS.md` above all vaults defines isolation rules and access topology, depending on the runner
 - Symlinks make the shared directory visible inside each vault for linking
 
-**Optional: Inter-Claude messaging.** If you run Claude Code in different vaults, they can leave messages for each other through files in the shared directory. Claude in vault A writes a message, Claude in vault B reads it next session. Simple but effective for cross-domain insights.
+**Optional: Inter-agent messaging.** If you run agent sessions in different vaults, they can leave messages for each other through files in the shared directory. The agent in vault A writes a message, the agent in vault B reads it next session. Simple but effective for cross-domain insights.
 
 ### Skip this if
 

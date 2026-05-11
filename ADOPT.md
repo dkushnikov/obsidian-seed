@@ -218,7 +218,7 @@ A merge plan has these properties:
 
 **Structure of the merge plan:**
 
-```markdown
+````markdown
 ## Merge Plan — [level]
 
 I'll propose these changes in order. For each, I'll show you what I'd do, wait for your approval, apply it, and commit. If anything feels wrong at any step, say "stop" and we rethink.
@@ -248,7 +248,7 @@ Expected: Codex mentions the vault's `AGENTS.md` and summarizes the session star
 [user approval]
 
 ### Item 3: ... (continues for each item)
-```
+````
 
 **Between each item:**
 - Show the preview
