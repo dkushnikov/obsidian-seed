@@ -2,7 +2,7 @@
 
 ## What this is
 
-A wizard (single markdown file) that turns Claude Code or Codex into a personal Obsidian vault setup assistant. Discovery-first: interviews the user, derives structure from answers.
+A wizard (single markdown file) that turns Claude Code into a personal Obsidian vault setup assistant. Discovery-first: interviews the user, derives structure from answers.
 
 ## Canonical files
 
@@ -36,7 +36,7 @@ This repo has a mirror in the author's Obsidian vault (`Projects/Obsidian Seed/`
 
 ## Companion project
 
-[claude-environment](https://github.com/dkushnikov/claude-environment) — multi-machine Claude Code setup. Seed = vault content, Environment = infrastructure around it. Codex support lives in Seed's vault instruction layer through `AGENTS.md`; don't make it depend on Claude-specific environment infrastructure.
+[claude-environment](https://github.com/dkushnikov/claude-environment) — multi-machine Claude Code setup. Seed = vault content, Environment = infrastructure around it.
 
 ## When editing seed.md
 

@@ -1,8 +1,8 @@
-<!-- ADOPT.md is an agent-facing document. It is NOT a narrative for the user to read — it is instructions for Claude Code or Codex to execute. The user initiates the flow by saying "Read ADOPT.md and help me adopt seed into my existing vault." Everything below is written as instructions to the agent, with embedded questions, decision logic, and safeguards. -->
+<!-- ADOPT.md is a Claude-facing document. It is NOT a narrative for the user to read — it is instructions for Claude Code to execute. The user initiates the flow by saying "Claude, read ADOPT.md and help me adopt seed into my existing vault." Everything below is written as instructions to Claude, with embedded questions Claude asks the user, decision logic, and safeguards. -->
 
 # Adopt Mode — Adding Obsidian Seed to an Existing Vault
 
-**You are executing the adoption flow for Obsidian Seed. This is NOT the setup wizard from `seed.md`. The user has an existing vault with their own structure, their own conventions, and their own notes. Your job is to add seed's stateful multiplier (`CLAUDE.md` or `AGENTS.md`, `_claude/MEMORY.md`, session logs, TODO with age markers, session workflow rules) without destroying what they already have.**
+**You (Claude) are executing the adoption flow for Obsidian Seed. This is NOT the setup wizard from `seed.md`. The user has an existing vault with their own structure, their own conventions, and their own notes. Your job is to add seed's stateful multiplier (CLAUDE.md, MEMORY.md, session logs, TODO with age markers, session workflow rules) without destroying what they already have.**
 
 **The golden rule of adoption: nothing gets written without explicit user approval. Every scan is read-only until the user approves a merge plan. Every change is committed separately in git so rollback is one command.**
 
@@ -11,6 +11,8 @@
 ## Before you start
 
 Check these preconditions. If any fail, stop and tell the user.
+
+**Codex compatibility:** If the user is running this flow through Codex, use the repository's `AGENTS.md` shim so Codex reads `CLAUDE.md` as the canonical instruction surface. Do not rewrite the adoption flow to be tool-neutral.
 
 1. **The vault must be a git repository.** If `.git/` doesn't exist, stop and say: "Your vault isn't under git. Adopt mode requires git for safety — every change gets committed separately so you can roll back. Run `git init` in your vault directory and commit your current state before we continue."
 
@@ -98,7 +100,7 @@ Example:
 
 | Level | Scan depth |
 |---|---|
-| low_commitment | Surface: folder structure, count of notes per folder, presence/absence of common seed markers (`CLAUDE.md` or `AGENTS.md`, `_claude/MEMORY.md`, `TODO.md`, session logs dir) |
+| low_commitment | Surface: folder structure, count of notes per folder, presence/absence of common seed markers (CLAUDE.md, MEMORY.md, TODO.md, session logs dir) |
 | utility_seeking | Surface + frontmatter convention detection (sample 10 notes — what fields do they use?), tag system (first-layer tags only) |
 | general_engagement | All of above + linking patterns (do notes have `## Related files` sections? wiki vs markdown links?), area/domain detection from folder names |
 | transformation_driven | All of above + deep read of 3-5 key notes to infer methodology, existing protocols (if any), session continuity infrastructure status |
@@ -106,8 +108,8 @@ Example:
 **What to look for:**
 
 1. **Substrate layer** (does the user have the baseline?):
-   - `CLAUDE.md` or `AGENTS.md` in vault root — yes/no, if yes read it
-   - `_claude/MEMORY.md` or memory directory — yes/no
+   - `CLAUDE.md` in vault root — yes/no, if yes read it
+   - `MEMORY.md` or memory directory — yes/no
    - `_claude/` or `.claude/` directory — yes/no, what's inside
    - Session logs directory — yes/no
    - TODO file — yes/no, with since-markers or without
@@ -140,7 +142,7 @@ Example:
 ## What you have
 
 **Substrate:**
-- [✓/✗] CLAUDE.md or AGENTS.md (vault-level instructions for the agent)
+- [✓/✗] CLAUDE.md (vault-level instructions for Claude)
 - [✓/✗] Memory system
 - [✓/✗] Session logs
 - [✓/✗] Structured TODO with age markers
@@ -163,13 +165,13 @@ Example:
 
 ### The stateful multiplier (most important)
 
-These five together transform the agent from a tool into a partner that accumulates context. Missing any one weakens the rest. This list matches the canonical definition in HOW-IT-WORKS — stay consistent.
+These five together transform Claude from a tool into a partner that accumulates context. Missing any one weakens the rest. This list matches the canonical definition in HOW-IT-WORKS — stay consistent.
 
-1. **CLAUDE.md or AGENTS.md** — vault-level orientation for the selected agent. Explain what this does, compare to user's existing instruction file if present.
-2. **`_claude/MEMORY.md`** — portable vault memory for persistent decisions and context across sessions. Explain and show example.
+1. **CLAUDE.md** — vault-level orientation for Claude. Explain what this does, compare to user's existing CLAUDE.md if present.
+2. **MEMORY.md** — persistent decisions and context across sessions. Explain and show example.
 3. **Session logs** — running journal of what each session covered. Explain and show format.
-4. **TODO with age markers** — task list with `<!-- since: YYYY-MM-DD -->` markers so the agent can track drift. Explain and show format.
-5. **Session workflow rules** — small files in `.claude/rules/` for Claude Code, or `## Session Start` / `## Session Close` sections in `AGENTS.md` for Codex. They tell the agent what to do at session start and end.
+4. **TODO with age markers** — task list with `<!-- since: YYYY-MM-DD -->` markers so Claude can track drift. Explain and show format.
+5. **Session workflow rules** — small files in `.claude/rules/` that tell Claude what to do at session start (onboarding: read context, show brief) and session end (offboarding: update TODO, memory, log, commit). Both rules ship as a pair.
 
 ### Conventions (if yours differ significantly)
 
@@ -218,37 +220,29 @@ A merge plan has these properties:
 
 **Structure of the merge plan:**
 
-````markdown
+```markdown
 ## Merge Plan — [level]
 
 I'll propose these changes in order. For each, I'll show you what I'd do, wait for your approval, apply it, and commit. If anything feels wrong at any step, say "stop" and we rethink.
 
 ### Item 1: Create `_claude/` directory with baseline files
-- What: create `_claude/TODO.md`, `_claude/session-logs/`, `_claude/MEMORY.md`
+- What: create `_claude/TODO.md`, `_claude/session-logs/`, `_claude/memory.md`
 - Why: these are the session continuity infrastructure — without them, session workflow rules have no target
 - Changes: 3 new files, 0 modifications
 - Preview: [show file templates]
 
 [user approval]
 
-### Item 2: Create the agent instruction file in vault root
-- What: create `CLAUDE.md` for Claude Code, `AGENTS.md` for Codex, or both if the user uses both
-- Why: this is how the agent learns what YOUR vault is — conventions, structure, what to pay attention to
+### Item 2: Create `CLAUDE.md` in vault root
+- What: create a CLAUDE.md tailored to what you already have
+- Why: this is how Claude learns what YOUR vault is — conventions, structure, what to pay attention to
 - Changes: 1 new file
-- Preview: [show proposed instruction file, informed by scan]
-
-For Codex, include this verification after the file is written:
-
-```bash
-codex -a never -s read-only exec "Summarize the current repository instructions. Do not modify files."
-```
-
-Expected: Codex mentions the vault's `AGENTS.md` and summarizes the session start / session close rules.
+- Preview: [show proposed CLAUDE.md, informed by scan]
 
 [user approval]
 
 ### Item 3: ... (continues for each item)
-````
+```
 
 **Between each item:**
 - Show the preview
@@ -281,14 +275,14 @@ For each approved merge plan item:
 
 After the merge plan is complete (or paused), verify the user has the stateful multiplier in some form:
 
-- CLAUDE.md or AGENTS.md exists and is tailored to their vault: ✓/✗
+- CLAUDE.md exists and is tailored to their vault: ✓/✗
 - Memory system present: ✓/✗
 - Session logs directory present: ✓/✗
 - TODO with age markers: ✓/✗
 - Session workflow rules (onboarding + offboarding) present: ✓/✗
 
 **If they have all five**: adopt is complete. Tell them:
-> "You have the stateful multiplier in place. The real value compounds from here — your next session will feel different from today because the agent will read all of this at session start. Come back tomorrow, say 'read the context', and see what happens."
+> "You have the stateful multiplier in place. The real value compounds from here — your next session will feel different from today because Claude will read all of this at session start. Come back tomorrow, say 'read the context', and see what happens."
 
 **If they have some but not all (common for low_commitment or partial utility_seeking runs)**: tell them:
 > "You now have [X of 5] pieces of the stateful multiplier. That's a partial adoption — it gives you some of the value but not all. The missing pieces: [list]. If you want to add any of these later, come back and say 'continue adoption' — I'll pick up where we left off."
@@ -303,13 +297,13 @@ After the merge plan is complete (or paused), verify the user has the stateful m
 
 Some files that seed would create may already exist in the user's vault. Never silently overwrite. Handle each case explicitly.
 
-### If vault already has `CLAUDE.md` or `AGENTS.md`
+### If vault already has `CLAUDE.md`
 
-This is the most common and most sensitive case. The user may have spent time crafting their instruction file, and overwriting it would be destructive. Handle with care.
+This is the most common and most sensitive case. The user may have spent time crafting their CLAUDE.md, and overwriting it would be destructive. Handle with care.
 
-**Step 1: Read the existing instruction file fully.** Don't just check for existence — read the content so you can reason about it.
+**Step 1: Read the existing CLAUDE.md fully.** Don't just check for existence — read the content so you can reason about it.
 
-**Step 2: Compare against the seed recommended structure.** The seed-recommended `CLAUDE.md` / `AGENTS.md` has these sections (from the "Recommended Agent Setup" section of seed.md):
+**Step 2: Compare against the seed recommended structure.** The seed-recommended CLAUDE.md has these sections (from the "Recommended Claude Code Setup" section of seed.md):
 
 - Vault Purpose
 - Structure (folder tree with descriptions)
@@ -319,32 +313,32 @@ This is the most common and most sensitive case. The user may have spent time cr
 - Graph Connectivity (linking rules)
 - Language Rules
 - Git Workflow
-- Agent Workspace (`_claude/` usage)
+- Claude Workspace (`_claude/` usage)
 - Conventions (naming, inbox, attachments)
 
 **Step 3: For each seed-recommended section, classify:**
 
-- **Missing in user's instruction file** → candidate for append
+- **Missing in user's CLAUDE.md** → candidate for append
 - **Present with similar content** → no action, user's wording wins
 - **Present with conflicting content** → surface as explicit conflict, user decides
 
 **Step 4: Produce a merge report to the user:**
 
 ```markdown
-## Your instruction file — merge analysis
+## Your CLAUDE.md — merge analysis
 
 **Sections you already have:** [list, e.g. "Structure, Git Workflow, Conventions"]
 **Sections seed recommends adding:**
 - Tag System (you don't have an explicit tag system section)
 - Frontmatter Conventions (you mention frontmatter briefly but no standards)
 - Session Logs (not present — this is the session continuity piece you're missing)
-- Agent Workspace (not present — where `_claude/` lives and what's in it)
+- Claude Workspace (not present — where `_claude/` lives and what's in it)
 
 **Sections where yours and seed's differ:**
 - Language Rules: yours says "English only"; seed template is language-agnostic. Keep yours.
 - Graph Connectivity: yours says "use markdown links"; seed strongly recommends wiki links. Worth a conversation.
 
-For each proposed addition, I'll show you the seed text, you approve it, I append it to your instruction file (not replace) with a clear section break.
+For each proposed addition, I'll show you the seed text, you approve it, I append it to your CLAUDE.md (not replace) with a clear section break.
 
 For each difference, I'll show both versions side-by-side and you pick: yours, seed's, or a merged version.
 
@@ -353,8 +347,8 @@ Nothing gets written until you approve each item.
 
 **Step 5: For each addition, one at a time:**
 1. Show the seed-proposed text
-2. Ask: "Append to your instruction file?"
-3. On yes: append with a clear section break, commit separately with message like `adopt: append Tag System section to AGENTS.md` or `adopt: append Tag System section to CLAUDE.md`
+2. Ask: "Append to your CLAUDE.md?"
+3. On yes: append with a clear section break, commit separately with message like `adopt: append Tag System section to CLAUDE.md`
 4. Show the commit hash, remind user of rollback
 
 **Step 6: For each conflict, one at a time:**
@@ -377,7 +371,7 @@ Apply the same principle with lighter ceremony for files that are less sensitive
 - **`_claude/TODO.md`** — if present, read format. If user's format differs from seed's (e.g., no age markers), offer to add markers without changing existing text
 - **`_claude/MEMORY.md`** — if present, leave entirely alone. Memory is personal; seed does not touch it
 - **`_claude/session-logs/` directory** — if present, leave. Adopt mode does not retroactively restructure session logs
-- **`.claude/rules/*.md` / `AGENTS.md` session lifecycle sections** — if present, read each. Propose additions only where the user is missing a rule seed recommends (e.g., they have onboarding but no offboarding)
+- **`.claude/rules/*.md`** — if present, read each. Propose additions only where the user is missing a rule seed recommends (e.g., they have a session-start rule but no session-end rule)
 - **`_meta/Me.md`, `_meta/Areas.md`, `_meta/Goals.md`** — if present, leave alone. These are the user's identity content; adopt does not generate alternatives
 
 **General rule:** the more "identity-like" the content (Me.md, Goals.md, memory), the less adopt mode touches it. The more "infrastructure-like" the content (gitignore, rule files, TODO structure), the more adopt can propose additions with user approval.
@@ -388,7 +382,7 @@ State these explicitly if the user asks, or preemptively if the user seems nervo
 
 - **Not a migration tool.** Will not restructure your folders, rename your notes, or reorganize your content wholesale.
 - **Not a validator.** Does not grade your vault quality. The scan reports facts, not judgments. "You don't have X" is not "you're doing it wrong."
-- **Not a merger.** If you have a `CLAUDE.md` or `AGENTS.md` and seed proposes one, we compare and offer to add to yours, not replace.
+- **Not a merger.** If you have a CLAUDE.md and seed proposes one, we compare and offer to add to yours, not replace.
 - **Not silent.** Every change is proposed before it happens, committed separately when approved, and traceable in git log.
 - **Not greedy.** If you want to stop partway, stop. Your vault is in a valid state at every commit boundary — you can resume or abandon without corruption.
 
@@ -425,7 +419,7 @@ Tell the user: "If anything looks wrong after adoption, git remembers every step
 
 ---
 
-## Notes for you (the agent)
+## Notes for you (Claude)
 
 **Pacing rules:**
 - Low commitment: 15-20 min max, 1-2 files read, 0 writes
