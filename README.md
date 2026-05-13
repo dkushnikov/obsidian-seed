@@ -57,6 +57,8 @@ Three fictional walkthroughs show what setup and early use actually look like. I
 
 Claude asks questions, you answer, it builds your structure. Takes 1-2 hours. At the end you have a working vault with the full session continuity infrastructure in place.
 
+Codex can also work with this repository through the included `AGENTS.md` compatibility shim, which points Codex back to the Claude Code instructions in `CLAUDE.md`.
+
 **Before you start**, `seed.md` has a section at the top called *How Claude Works in This System*. Read it. Five minutes. It explains what Claude will and won't do and prevents the single biggest first-time failure mode (expecting a proactive AI, getting a reactive one).
 
 ### Path B: You already have an Obsidian vault

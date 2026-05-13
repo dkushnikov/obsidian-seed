@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- Added `AGENTS.md` as a Codex compatibility shim that points back to the canonical Claude Code instructions in `CLAUDE.md`.
+
 ## 2026.04.12
 
 Quality pass focused on first-time failure modes and the gap for users with existing vaults.

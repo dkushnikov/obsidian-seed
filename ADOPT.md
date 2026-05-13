@@ -12,6 +12,8 @@
 
 Check these preconditions. If any fail, stop and tell the user.
 
+**Codex compatibility:** If the user is running this flow through Codex, use the repository's `AGENTS.md` shim so Codex reads `CLAUDE.md` as the canonical instruction surface. Do not rewrite the adoption flow to be tool-neutral.
+
 1. **The vault must be a git repository.** If `.git/` doesn't exist, stop and say: "Your vault isn't under git. Adopt mode requires git for safety — every change gets committed separately so you can roll back. Run `git init` in your vault directory and commit your current state before we continue."
 
 2. **The working tree must be clean.** Run `git status`. If there are uncommitted changes, stop and say: "You have uncommitted changes in your vault. Please commit or stash them first — adoption will create new commits, and we want a clean baseline to compare against."
