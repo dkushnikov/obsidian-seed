@@ -1,10 +1,10 @@
-<!-- ADOPT.md is a Claude-facing document. It is NOT a narrative for the user to read — it is instructions for Claude Code to execute. The user initiates the flow by saying "Claude, read ADOPT.md and help me adopt seed into my existing vault." Everything below is written as instructions to Claude, with embedded questions Claude asks the user, decision logic, and safeguards. -->
+<!-- ADOPT.md is an agent-facing document. It is NOT a narrative for the user to read — it is instructions for the agent (Claude Code, Codex; or ChatGPT working on pasted files) to execute. The user initiates the flow by saying "Read ADOPT.md and help me adopt seed into my existing vault." Everything below is written as instructions to the agent, with embedded questions the agent asks the user, decision logic, and safeguards. The word "Claude" below means the agent, whichever it is. -->
 
 # Adopt Mode — Adding Obsidian Seed to an Existing Vault
 
-**You (Claude) are executing the adoption flow for Obsidian Seed. This is NOT the setup wizard from `seed.md`. The user has an existing vault with their own structure, their own conventions, and their own notes. Your job is to add seed's stateful multiplier (CLAUDE.md, MEMORY.md, session logs, TODO with age markers, session workflow rules) without destroying what they already have.**
+**You (the agent) are executing the adoption flow for Obsidian Seed. This is NOT the setup wizard from `seed.md`. The user has an existing vault with their own structure, their own conventions, and their own notes. Your job is to add seed's stateful multiplier (an instruction file `AGENTS.md` + `CLAUDE.md`, `_claude/MEMORY.md`, session logs, TODO with age markers, session procedures) without destroying what they already have. The templates are in `seed.md` § Phase 0; ask the user to put `seed.md` next to this file if it is not there.**
 
-**The golden rule of adoption: nothing gets written without explicit user approval. Every scan is read-only until the user approves a merge plan. Every change is committed separately in git so rollback is one command.**
+**The golden rule of adoption: nothing gets written without explicit user approval. The look is read-only — it writes nothing, not even its report. Every applied change is a separate git commit so that any one of them can be undone with `git revert` while everything else stays.**
 
 ---
 
@@ -12,13 +12,19 @@
 
 Check these preconditions. If any fail, stop and tell the user.
 
-1. **The vault must be a git repository.** If `.git/` doesn't exist, stop and say: "Your vault isn't under git. Adopt mode requires git for safety — every change gets committed separately so you can roll back. Run `git init` in your vault directory and commit your current state before we continue."
+1. **Which environment.** Claude Code or Codex with the vault folder open: you can read the vault and, after approval, write to it. ChatGPT without file access: you can read only what the user pasted or uploaded, and you can write nothing — see "Adopt in ChatGPT" at the end; the rest of this document applies with that limit.
 
-2. **The working tree must be clean.** Run `git status`. If there are uncommitted changes, stop and say: "You have uncommitted changes in your vault. Please commit or stash them first — adoption will create new commits, and we want a clean baseline to compare against."
+2. **The vault must be a git repository** (Claude Code, Codex). If `.git/` doesn't exist, stop and say: "Your vault isn't under git. Adopt mode requires git for safety — every change gets committed separately so you can undo any one of them. Run `git init` in your vault directory and commit your current state before we continue." For a look-only pass, git is not required: nothing is written.
 
-3. **Confirm the user understands adopt mode.** Say something like: "Before we start — quick check. This is adopt mode, which means: I'm going to scan your vault, show you what you have, show you what seed would add, and propose a merge plan. Nothing gets written until you approve. Every change becomes a separate git commit. If anything feels wrong, we stop. Ready?"
+3. **The working tree must be clean** before anything is applied. Run `git status`. If there are uncommitted changes, say: "You have uncommitted changes in your vault. Commit or stash them first — adoption creates new commits, and a clean baseline is what makes undo precise." The look may still run on a dirty tree.
+
+4. **For a look-only pass, prefer a read-only mode of the tool** when the user has one: `codex --sandbox read-only` (or `/permissions` in the session) for Codex; plan mode or declining every write for Claude Code. Then "zero writes" is a property of the run, not a promise.
+
+5. **Confirm the user understands adopt mode.** Say something like: "Before we start — quick check. This is adopt mode, which means: I'm going to scan your vault, show you what you have, show you what seed would add, and propose a merge plan. Nothing gets written until you approve each change. Every change becomes a separate git commit. If anything feels wrong, we stop. Ready?"
 
 Only proceed when the user affirms.
+
+6. **Recognise an earlier adoption.** If the vault already has an `AGENTS.md` carrying the line `<!-- obsidian-seed: vault instructions`, or a `CLAUDE.md` with a seed-shaped "Session Lifecycle" or "Session start" section, or `_claude/MEMORY.md`, say so in the report: these pieces are **installed**. Propose only what is missing. Never append a second copy of a section that is already there.
 
 ---
 
@@ -72,7 +78,7 @@ Based on the answers, classify the user's commitment level:
 
 | Signals | Level | Flow characteristics |
 |---|---|---|
-| Exploration + "нормально" + 20 min + "покажи что именно" | **low_commitment** | Non-destructive scan only. Read-only report. No merge plan proposal. Exit after showing what exists. |
+| Exploration + "нормально" + 20 min + "покажи что именно" | **low_commitment** | Look only: read-only scan, report in the chat, zero writes (the report included). No merge plan proposal. Exit after showing what exists. |
 | Utility + "нормально/неприятно" + hour + either | **utility_seeking** | Targeted ingest of one or two seed patterns (TODO, session logs). No structural changes. |
 | Engagement + "неприятно" + hour+ + "давай посмотрим" | **general_engagement** | Full scan + merge plan. Default path. Propose changes with rationale. |
 | Transformation + "провал" + hours + "давай посмотрим" | **transformation_driven** | Deep scan + ambitious merge plan + explicit check-ins between changes. Push gently past friction. |
@@ -106,11 +112,12 @@ Example:
 **What to look for:**
 
 1. **Substrate layer** (does the user have the baseline?):
-   - `CLAUDE.md` in vault root — yes/no, if yes read it
-   - `MEMORY.md` or memory directory — yes/no
-   - `_claude/` or `.claude/` directory — yes/no, what's inside
+   - `AGENTS.md` in vault root — yes/no, if yes read it; does it carry the seed marker line?
+   - `CLAUDE.md` in vault root — yes/no, if yes read it; is it the one-line `@AGENTS.md` import, or content of its own?
+   - `_claude/MEMORY.md` — yes/no (older installs may keep memory only in Claude Code's auto memory outside the vault: ask)
+   - `_claude/` or `.claude/` directory — yes/no, what's inside (`.claude/rules/session-*.md` = the pre-November-2026 layout, still valid for Claude Code)
    - Session logs directory — yes/no
-   - TODO file — yes/no, with since-markers or without
+   - TODO file — yes/no, with since-markers or without, with a "Next step" section or without
    - `.git` — already checked in preconditions
 
 2. **Conventions layer** (what's their style?):
@@ -140,11 +147,11 @@ Example:
 ## What you have
 
 **Substrate:**
-- [✓/✗] CLAUDE.md (vault-level instructions for Claude)
-- [✓/✗] Memory system
-- [✓/✗] Session logs
-- [✓/✗] Structured TODO with age markers
-- [✓/✗] Session workflow rules
+- [✓/✗/installed] Instruction file: AGENTS.md (+ CLAUDE.md import), or a CLAUDE.md of your own
+- [✓/✗/installed] Memory in the vault: _claude/MEMORY.md
+- [✓/✗/installed] Session logs
+- [✓/✗/installed] Structured TODO with age markers and a Next step
+- [✓/✗/installed] Session procedures (Session start / Session end in AGENTS.md, or .claude/rules/)
 
 **Conventions:**
 - Frontmatter: [summary]
@@ -163,13 +170,13 @@ Example:
 
 ### The stateful multiplier (most important)
 
-These five together transform Claude from a tool into a partner that accumulates context. Missing any one weakens the rest. This list matches the canonical definition in HOW-IT-WORKS — stay consistent.
+These five together transform the agent from a tool into a partner that accumulates context. Missing any one weakens the rest. This list matches the canonical definition in seed.md ("How the agent works in this system") — stay consistent.
 
-1. **CLAUDE.md** — vault-level orientation for Claude. Explain what this does, compare to user's existing CLAUDE.md if present.
-2. **MEMORY.md** — persistent decisions and context across sessions. Explain and show example.
+1. **Instruction file** — `AGENTS.md` (read by Codex directly, by Claude Code through `CLAUDE.md` = `@AGENTS.md`): vault-level orientation for the agent. Explain what this does; compare to the user's existing `CLAUDE.md` or `AGENTS.md` if present (see "Handling files that already exist").
+2. **`_claude/MEMORY.md`** — persistent decisions and context across sessions, as a file in the vault that every tool sees. Explain and show example.
 3. **Session logs** — running journal of what each session covered. Explain and show format.
-4. **TODO with age markers** — task list with `<!-- since: YYYY-MM-DD -->` markers so Claude can track drift. Explain and show format.
-5. **Session workflow rules** — small files in `.claude/rules/` that tell Claude what to do at session start (onboarding: read context, show brief) and session end (offboarding: update TODO, memory, log, commit). Both rules ship as a pair.
+4. **TODO with age markers and a Next step** — task list with `<!-- since: YYYY-MM-DD -->` markers so the agent can track drift, and a "Next step" section the next session opens with. Explain and show format.
+5. **Session procedures** — the "Session start" (read context, show brief, create the log) and "Session end" (update TODO, memory, log, commit) sections of `AGENTS.md`. Both ship as a pair. An existing `.claude/rules/` pair does the same job in Claude Code only.
 
 ### Conventions (if yours differ significantly)
 
@@ -204,7 +211,7 @@ Based on our earlier conversation, I'm treating this as [level]. That means in t
 
 ## Step 4: Merge Plan (not low_commitment only)
 
-**For low_commitment users: skip this step. End the session with "if you want to come back and add any of these, say so — we can do one thing at a time." Save the report somewhere the user can find it (e.g., `_claude/adopt-report-[date].md`).**
+**For low_commitment users: skip this step. End the session with "if you want to come back and add any of these, say so — we can do one thing at a time." Do not write the report into the vault: the look is zero writes, and that includes the report. It stays in the chat. If the user asks to keep it, that is one write they approve explicitly, and the run is no longer look-only.**
 
 **For all other levels: propose a staged merge plan.**
 
@@ -213,7 +220,7 @@ A merge plan has these properties:
 1. **Each item is independent** — can be applied or skipped without affecting the others
 2. **Each item has a rationale** — why this helps, what it costs
 3. **Each item has a "before / after" preview** — what the file looks like now vs after
-4. **Each item is a separate git commit** — rollback is `git reset HEAD~1`
+4. **Each item is a separate git commit** — undo is `git revert <hash>` for that item alone (see Recovery)
 5. **Order matters** — substrate first, conventions second, content last
 
 **Structure of the merge plan:**
@@ -224,18 +231,18 @@ A merge plan has these properties:
 I'll propose these changes in order. For each, I'll show you what I'd do, wait for your approval, apply it, and commit. If anything feels wrong at any step, say "stop" and we rethink.
 
 ### Item 1: Create `_claude/` directory with baseline files
-- What: create `_claude/TODO.md`, `_claude/session-logs/`, `_claude/memory.md`
-- Why: these are the session continuity infrastructure — without them, session workflow rules have no target
+- What: create `_claude/TODO.md`, `_claude/session-logs/`, `_claude/MEMORY.md` (templates: seed.md § Phase 0.2)
+- Why: these are the session continuity infrastructure — without them, the session procedures have no target
 - Changes: 3 new files, 0 modifications
 - Preview: [show file templates]
 
 [user approval]
 
-### Item 2: Create `CLAUDE.md` in vault root
-- What: create a CLAUDE.md tailored to what you already have
-- Why: this is how Claude learns what YOUR vault is — conventions, structure, what to pay attention to
-- Changes: 1 new file
-- Preview: [show proposed CLAUDE.md, informed by scan]
+### Item 2: Create the instruction file
+- What: create `AGENTS.md` tailored to what you already have (template: seed.md § Phase 0.1) and `CLAUDE.md` with `@AGENTS.md`; if a `CLAUDE.md` or `AGENTS.md` with content exists, see "Handling files that already exist" — never overwrite it
+- Why: this is how the agent learns what YOUR vault is — conventions, structure, what to do at the start and end of a session
+- Changes: 1–2 new files, or an addition to an existing one
+- Preview: [show proposed content, informed by scan]
 
 [user approval]
 
@@ -261,7 +268,7 @@ For each approved merge plan item:
 2. `git add <specific files>` (never `git add .` — only add what this item touches)
 3. `git commit -m "adopt: <descriptive message for this specific item>"`
 4. Report commit hash to user
-5. Remind user: "Rollback: `git reset HEAD~1` (not applied yet) or `git revert <hash>` (applied and need to undo)"
+5. Remind user: "Undo this item alone: `git revert <hash>`. It leaves every other item and your own uncommitted work in place."
 
 **Never batch multiple items into one commit.** Single-responsibility commits are how rollback stays simple.
 
@@ -273,14 +280,14 @@ For each approved merge plan item:
 
 After the merge plan is complete (or paused), verify the user has the stateful multiplier in some form:
 
-- CLAUDE.md exists and is tailored to their vault: ✓/✗
-- Memory system present: ✓/✗
+- Instruction file (`AGENTS.md` + `CLAUDE.md` import, or their own `CLAUDE.md`) exists and is tailored to their vault: ✓/✗
+- `_claude/MEMORY.md` present: ✓/✗
 - Session logs directory present: ✓/✗
-- TODO with age markers: ✓/✗
-- Session workflow rules (onboarding + offboarding) present: ✓/✗
+- TODO with age markers and a Next step: ✓/✗
+- Session procedures (start + end) present, in `AGENTS.md` or `.claude/rules/`: ✓/✗
 
 **If they have all five**: adopt is complete. Tell them:
-> "You have the stateful multiplier in place. The real value compounds from here — your next session will feel different from today because Claude will read all of this at session start. Come back tomorrow, say 'read the context', and see what happens."
+> "You have the stateful multiplier in place. The real value compounds from here — your next session will feel different from today because the agent will read all of this at session start. Come back tomorrow, start the agent in the vault, and see the brief."
 
 **If they have some but not all (common for low_commitment or partial utility_seeking runs)**: tell them:
 > "You now have [X of 5] pieces of the stateful multiplier. That's a partial adoption — it gives you some of the value but not all. The missing pieces: [list]. If you want to add any of these later, come back and say 'continue adoption' — I'll pick up where we left off."
@@ -295,24 +302,26 @@ After the merge plan is complete (or paused), verify the user has the stateful m
 
 Some files that seed would create may already exist in the user's vault. Never silently overwrite. Handle each case explicitly.
 
-### If vault already has `CLAUDE.md`
+### If vault already has `CLAUDE.md` (or `AGENTS.md`)
 
-This is the most common and most sensitive case. The user may have spent time crafting their CLAUDE.md, and overwriting it would be destructive. Handle with care.
+This is the most common and most sensitive case. The user may have spent time crafting their instruction file, and overwriting it would be destructive. Handle with care.
 
-**Step 1: Read the existing CLAUDE.md fully.** Don't just check for existence — read the content so you can reason about it.
+**Step 0: Which file is the content, which tool reads it.** A `CLAUDE.md` with content is read by Claude Code and not by Codex; an `AGENTS.md` with content is read by Codex, and by Claude Code only through a `CLAUDE.md` import or when no `CLAUDE.md` exists above the vault. If the user wants both tools, there are two honest options; show both, let the user pick, show the diff before writing:
 
-**Step 2: Compare against the seed recommended structure.** The seed-recommended CLAUDE.md has these sections (from the "Recommended Claude Code Setup" section of seed.md):
+- (a) Move the content into `AGENTS.md`, leave `CLAUDE.md` with `@AGENTS.md` (plus any Claude-only notes). One file, two readers.
+- (b) Keep `CLAUDE.md` as the content and tell Codex to read it: `project_doc_fallback_filenames = ["CLAUDE.md"]` in `~/.codex/config.toml`. That is the user's global Codex config; describe the edit, do not make it. Codex still does not read `.claude/rules/`, so the two session procedures must then be in `CLAUDE.md` itself.
 
-- Vault Purpose
-- Structure (folder tree with descriptions)
-- Tag System
-- Frontmatter Conventions
-- Session Logs (format, triggers)
-- Graph Connectivity (linking rules)
-- Language Rules
-- Git Workflow
-- Claude Workspace (`_claude/` usage)
-- Conventions (naming, inbox, attachments)
+If the user uses only one tool, leave the layout alone and append what is missing to the file that tool reads.
+
+**Step 1: Read the existing file fully.** Don't just check for existence — read the content so you can reason about it.
+
+**Step 2: Compare against the seed recommended structure.** The seed-recommended instruction file has these sections (from the "Recommended Agent Setup" section of seed.md):
+
+- What this vault is
+- Where things are (folder tree with descriptions, `_claude/` usage)
+- Session start / During the session / Session end
+- Conventions: frontmatter, tags, links, naming, language, git
+- Limits
 
 **Step 3: For each seed-recommended section, classify:**
 
@@ -327,10 +336,10 @@ This is the most common and most sensitive case. The user may have spent time cr
 
 **Sections you already have:** [list, e.g. "Structure, Git Workflow, Conventions"]
 **Sections seed recommends adding:**
-- Tag System (you don't have an explicit tag system section)
-- Frontmatter Conventions (you mention frontmatter briefly but no standards)
-- Session Logs (not present — this is the session continuity piece you're missing)
-- Claude Workspace (not present — where `_claude/` lives and what's in it)
+- Conventions: tags (you don't have an explicit tag system)
+- Conventions: frontmatter (you mention frontmatter briefly but no standards)
+- Session start / Session end (not present — this is the session continuity piece you're missing)
+- Where things are: `_claude/` (not present — where memory, TODO and logs live)
 
 **Sections where yours and seed's differ:**
 - Language Rules: yours says "English only"; seed template is language-agnostic. Keep yours.
@@ -366,10 +375,10 @@ Nothing gets written until you approve each item.
 Apply the same principle with lighter ceremony for files that are less sensitive:
 
 - **`.gitignore`** — read existing, propose additions (not replacements) for any patterns seed needs
-- **`_claude/TODO.md`** — if present, read format. If user's format differs from seed's (e.g., no age markers), offer to add markers without changing existing text
-- **`_claude/MEMORY.md`** — if present, leave entirely alone. Memory is personal; seed does not touch it
+- **`_claude/TODO.md`** — if present, read format. If user's format differs from seed's (e.g., no age markers, no Next step), offer to add markers and a Next step section without changing existing text
+- **`_claude/MEMORY.md`** — if present, leave entirely alone. Memory is personal; seed does not touch it. If absent and the user's decisions live in Claude Code's auto memory outside the vault, offer one copy into `_claude/MEMORY.md`, diff first
 - **`_claude/session-logs/` directory** — if present, leave. Adopt mode does not retroactively restructure session logs
-- **`.claude/rules/*.md`** — if present, read each. Propose additions only where the user is missing a rule seed recommends (e.g., they have a session-start rule but no session-end rule)
+- **`.claude/rules/*.md`** — if present, read each. They work in Claude Code and not in Codex. Propose additions only where the user is missing a procedure seed recommends (e.g., they have a session-start rule but no session-end rule). If the user adds Codex, offer to move the two procedures into `AGENTS.md` and leave the rule files as one-line pointers, or delete them with approval; never keep two editable copies
 - **`_meta/Me.md`, `_meta/Areas.md`, `_meta/Goals.md`** — if present, leave alone. These are the user's identity content; adopt does not generate alternatives
 
 **General rule:** the more "identity-like" the content (Me.md, Goals.md, memory), the less adopt mode touches it. The more "infrastructure-like" the content (gitignore, rule files, TODO structure), the more adopt can propose additions with user approval.
@@ -388,32 +397,26 @@ State these explicitly if the user asks, or preemptively if the user seems nervo
 
 ## Recovery
 
-If at any point adopt mode goes wrong:
+If at any point adopt mode goes wrong, undo the specific change, never the whole tree. The user's own uncommitted work and the other adopt items must survive every undo.
 
-**If you (Claude) haven't committed the change yet:**
+**A change you wrote but have not committed yet:**
 ```bash
-git status                    # see what's in the working tree
-git restore <file>           # undo working tree changes for one file
-git restore .                # undo ALL working tree changes (careful)
+git status                          # see what changed
+git restore --staged <file>         # if it was staged: unstage it
+git restore <file>                  # a tracked file you modified: back to the last commit
+rm <new-file>                       # a file adopt created and nothing else touched: delete just that file
 ```
+Name each file. Never `git restore .`, `git checkout .`, `git clean` or `git stash`: they take the user's own uncommitted edits with them.
 
-**If you committed and want to undo the last commit but keep the files:**
+**An item you committed and want to undo:**
 ```bash
-git reset HEAD~1             # uncommit, keep files staged
+git revert <commit-hash>            # a new commit that undoes exactly that item; everything else stays
 ```
+This is why each item is its own commit. If the revert reports a conflict because the user edited the same file afterwards, stop and show the conflict; do not force it.
 
-**If you committed and want to fully undo:**
-```bash
-git revert <commit-hash>     # creates a new commit that undoes the specified commit
-```
+**Several items:** revert them one by one, newest first, each with its hash. Do not use `git reset`: a mixed reset leaves the files in place but forgets which commit made them, and a hard reset deletes the user's uncommitted work. Neither appears in this document on purpose.
 
-**If everything is broken:**
-```bash
-git log --oneline            # find the last good commit
-git reset --hard <hash>      # HARD reset back (loses uncommitted changes — scary!)
-```
-
-Tell the user: "If anything looks wrong after adoption, git remembers every step. Nothing is silently lost."
+Tell the user: "If anything looks wrong after adoption, git remembers every step, and each step can be undone by itself. Nothing is silently lost."
 
 ---
 
@@ -434,3 +437,17 @@ Tell the user: "If anything looks wrong after adoption, git remembers every step
 **If you don't know something:**
 - Say so explicitly. "I don't see X in your vault. Can you tell me about it?"
 - Never fabricate structure. If scan couldn't determine frontmatter conventions, say "your frontmatter looks inconsistent — want to talk about standardizing it, or leave it?"
+
+---
+
+## Adopt in ChatGPT (no file access)
+
+ChatGPT cannot open the user's vault folder and cannot write to it. The flow still works, within these limits, and the limits are said out loud:
+
+- **Scan = what was pasted.** The user pastes or uploads the files to review: their `CLAUDE.md` or `AGENTS.md`, three to five typical notes, their TODO if any, a folder listing if they can produce one. The report's first line says: "Based on the N files you pasted; I have not seen the rest of the vault." Never say the vault was scanned.
+- **Commitment level** is asked the same way. Low commitment ends with the report in the chat.
+- **Merge plan items are blocks, not writes.** For each approved item, print the full new file, or the exact text to append and where, as a Markdown block with the path on the line above. The user applies it by hand and confirms. Never say "I created" or "I updated" a file; say "here is the file to create".
+- **Git** is the user's to run. Suggest the commit message for each item.
+- **Undo** is the user's too: the same per-item commits, the same `git revert`.
+
+If the user later opens the vault with Claude Code or Codex, the files they created by hand are exactly what those agents expect.

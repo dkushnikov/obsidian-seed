@@ -1,5 +1,7 @@
 # Example — Obsidian Power User Adopting Seed
 
+> **A fictional example, not a pilot result.** Written in April 2026 against the Claude Code-only layout of that time: session rules in `.claude/rules/`, memory outside the vault. Since November 2026 a new vault puts the session procedures in `AGENTS.md` (read by Codex and, through `CLAUDE.md`, by Claude Code) and memory in `_claude/MEMORY.md`. The experience described here is the same; only those file names differ. See [guides/environments.md](../guides/environments.md).
+
 **This example follows Chen, an experienced Obsidian user with a vault he's refined over two years. The patterns here — defensive adoption, preserving existing work, selective integration, commitment calibration — apply broadly to anyone with substantial prior Obsidian investment considering whether and how to add seed's methodology without starting over.**
 
 **Chen is fictional. The friction points and the resolution (use `ADOPT.md` not `seed.md`, go section-by-section, git commit per change, preserve existing conventions) are real — observed in multiple existing-vault users who tried seed and either cherry-picked surface features or abandoned the attempt. This example shows what happens when you use the adopt path instead.**

@@ -1,5 +1,7 @@
 # Example — Non-Technical Professional
 
+> **A fictional example, not a pilot result.** Written in April 2026 against the Claude Code-only layout of that time: session rules in `.claude/rules/`, memory outside the vault. Since November 2026 a new vault puts the session procedures in `AGENTS.md` (read by Codex and, through `CLAUDE.md`, by Claude Code) and memory in `_claude/MEMORY.md`. The experience described here is the same; only those file names differ. See [guides/environments.md](../guides/environments.md).
+
 **This example follows Sarah, a coach. The friction patterns — expecting a proactive AI assistant, struggling with terminal and install, navigating "how personal should I be" in notes — apply broadly to non-technical professionals adapting to AI-assisted tools: consultants, therapists, educators, HR practitioners, and similar service providers with deep expertise in their field but limited exposure to developer tooling.**
 
 **Sarah is fictional. The structure of her vault and her experience with the setup are real patterns — based on friction points we've seen, questions people actually ask, and outcomes that work. If any of the above sounds like you, this is what it looks like from inside.**
