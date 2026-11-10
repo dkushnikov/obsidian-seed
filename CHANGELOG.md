@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026.11.10 (unreleased — pending review)
+
+Adaptation for Codex and ChatGPT, keeping Claude Code. Prepared for review; not released.
+
+### Added
+- **`guides/environments.md`** — what Claude Code, Codex and ChatGPT read by themselves; new vault, continue and adopt in each; Claude Code and Codex in one vault; installs from before November 2026; verified runs.
+- **Phase 0 "Continuity first"** in `seed.md` — the instruction file and the `_claude/` state files are created before discovery, with the templates embedded in `seed.md` (self-contained file); "save as we go" so an interrupted session keeps what it decided; a check at the end of Phase 0.
+- **`examples/codex-new-vault.md`** and **`examples/chatgpt-new-vault.md`** — fictional walkthroughs for Codex and for ChatGPT without a terminal.
+- **"Adopt in ChatGPT"** section in `ADOPT.md` — pasted files only, blocks instead of writes, no claim of a vault scan.
+- Repository `AGENTS.md` (developer instructions) with `CLAUDE.md` importing it, mirroring the convention the seed gives users.
+
+### Changed
+- **Instruction file** — `AGENTS.md` (read by Codex directly, by Claude Code through `CLAUDE.md` = `@AGENTS.md`) replaces `CLAUDE.md`-only for new vaults. Session start / end procedures live in `AGENTS.md`; `.claude/rules/` stays valid for existing Claude Code installs and is not renamed.
+- **Memory** — `_claude/MEMORY.md` in the vault is the record for every tool; product memory (Claude Code auto memory, Codex memories, ChatGPT memory) is a supplement. Fixes the earlier inconsistency between `seed.md` (auto memory outside the vault), `guides/session-workflow.md` (`_claude/MEMORY.md`) and `ADOPT.md` (`_claude/memory.md`).
+- **README** — path choice by new/existing vault × Claude Code/Codex/ChatGPT; the first session's result stated honestly; status says what was verified in which product.
+- **`ADOPT.md`** — look mode writes nothing, the report included; recovery uses `git restore <file>` and `git revert <hash>` (the earlier `git reset HEAD~1` was described wrongly and `git reset --hard` is gone); a re-run recognises an installed layout (marker line in `AGENTS.md`) and proposes only what is missing; existing `CLAUDE.md`/`AGENTS.md` handled with two explicit options, never overwritten.
+- **`guides/session-workflow.md`**, **`PHILOSOPHY.md`** — agent-neutral wording; saving as you go; file list updated.
+- The three April examples carry a note that they describe the April 2026 Claude Code layout and are illustrations, not pilot results.
+- `seed.md` H1 drops "Claude Code Edition"; version tag `v2026.11.10`.
+
 ## 2026.04.12
 
 Quality pass focused on first-time failure modes and the gap for users with existing vaults.

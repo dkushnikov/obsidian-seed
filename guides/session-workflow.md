@@ -1,8 +1,8 @@
-# Session Workflow — Working with Claude in Your Vault, Day to Day
+# Session Workflow — Working with Your Agent in Your Vault, Day to Day
 
 **This guide is for after setup. You've run the wizard, your vault exists, the stateful multiplier is in place. Now: how do you actually use this thing session after session?**
 
-> **Related:** seed.md Phase 9 covers the *setup* of session lifecycle infrastructure (onboarding rule, offboarding rule, memory, TODO with age markers). This guide covers the *ongoing use* of that infrastructure — how sessions actually feel, what patterns make them work, and how to handle the most common failure modes. If you haven't set up Phase 9 yet, go back to seed.md first.
+> **Related:** seed.md Phase 0 creates the continuity files (`AGENTS.md` with the session procedures, `_claude/MEMORY.md`, `_claude/TODO.md`, session logs) and Phase 9 deepens them. This guide covers the *ongoing use* of that infrastructure — how sessions actually feel, what patterns make them work, and how to handle the most common failure modes. Which tool reads what, and how to continue in ChatGPT: [environments.md](environments.md). The word "Claude" below means your agent.
 
 ---
 
@@ -12,13 +12,13 @@ A session has three phases — open, work, close. Each is short. Together they'r
 
 ### Open (2 minutes)
 
-You open a terminal in your vault directory, run `claude`, and wait for Claude to show its session brief.
+You open a terminal in your vault directory, run your agent (`claude` or `codex`), and wait for the session brief. In ChatGPT: new chat in your Project, upload the current `AGENTS.md`, `_claude/MEMORY.md`, `_claude/TODO.md` and the newest log, and ask for the brief.
 
-Claude reads:
-- `CLAUDE.md` — vault conventions and structure
-- `MEMORY.md` — persistent decisions and context
+The agent reads (the *Session start* section of `AGENTS.md` tells it to):
+- `AGENTS.md` — vault conventions and structure
+- `_claude/MEMORY.md` — persistent decisions and context
 - Most recent session log(s) — what you worked on last time
-- `_claude/TODO.md` — open items, with age markers flagged
+- `_claude/TODO.md` — open items, with age markers flagged, and the *Next step*
 
 Then it shows you a brief. It looks something like this:
 
@@ -38,6 +38,7 @@ This is the meat of the session. You do the thing you came to do. Along the way:
 
 - **Ask specific questions.** Generic questions get generic answers. The more you can frame your question in terms of what's already in your vault, the better.
 - **Let Claude push back.** If it asks a clarifying question, answer honestly. If it disagrees, consider the disagreement before overriding it.
+- **Save as you go.** A decision goes into `_claude/MEMORY.md` the minute it is made; a result into the session log; a new open item into the TODO. The *During the session* section of `AGENTS.md` asks the agent to do this. If the window closes before the closing ritual, the files already hold what mattered.
 - **Commit after meaningful changes.** You don't have to stop and commit every five minutes, but don't let an hour of work sit uncommitted. Git is your undo button.
 - **Don't batch everything into one ask.** Three focused asks produce better output than one giant "help me with everything."
 
@@ -45,14 +46,14 @@ This is the meat of the session. You do the thing you came to do. Along the way:
 
 At the end of the session, before you close the terminal, do the closing ritual:
 
-1. **Update `_claude/TODO.md`** — mark done items done, add new ones that emerged with `<!-- since: YYYY-MM-DD -->` markers
-2. **Update `MEMORY.md`** — capture any decisions, preferences, or patterns that future sessions should know about. Not every small thing. Just the "if you forgot this, the next session would be worse" stuff.
+1. **Update `_claude/TODO.md`** — mark done items done, add new ones that emerged with `<!-- since: YYYY-MM-DD -->` markers, rewrite *Next step*
+2. **Update `_claude/MEMORY.md`** — capture any decisions, preferences, or patterns that future sessions should know about. Not every small thing. Just the "if you forgot this, the next session would be worse" stuff.
 3. **Finalize the session log** — fill in the artifacts table, the key decisions, and the "what's next" section
-4. **Commit everything to git** — one commit at session end, descriptive message
+4. **Commit everything to git** — one commit at session end, descriptive message. In ChatGPT: replace the old uploads in the Project with the files you just saved, or the next chat reads stale state.
 
 Two minutes. Not a chore. It's the **single highest-leverage habit** in this whole system.
 
-**Why closing matters more than opening:** the open phase is Claude catching up to you. The close phase is you handing context forward to the next session. If you skip the close, the next session is stuck with stale context — and compound interest breaks.
+**Why closing matters more than opening:** the open phase is Claude catching up to you. The close phase is you handing context forward to the next session. If you skip the close, the next session starts from what was saved as you went — the decisions and results, without the tidy summary and the next step. That is why saving as you go is in the rules: the ritual improves continuity, it is no longer the only thing that provides it.
 
 ---
 
@@ -146,8 +147,8 @@ You come back after some time away. You open a session. Claude seems generic, li
 
 **First, check these in order:**
 
-1. **Did the session onboarding rule actually run?** Claude should have read CLAUDE.md, MEMORY.md, recent session logs, and TODO at session start. Ask Claude: "What did you read at session start? Summarize." If the answer is thin, the onboarding rule didn't fire — or it's not pointed at the right files.
-2. **Is MEMORY.md too long?** If MEMORY.md is over 200 lines, Claude may be skipping or summarizing. Prune or restructure.
+1. **Did the Session start section actually run?** The first line of the answer should be `vault context loaded (last log: …)`. If it is missing, the instruction file was not read: in Claude Code, `/context all` shows which memory files loaded (is `CLAUDE.md` there, does it import `AGENTS.md`?); in Codex, is `AGENTS.md` in the vault root or above it, and under 32 KiB together with any global one? In ChatGPT: did you upload the current files to this chat? Ask the agent: "What did you read at session start? Summarize." If the answer is thin, the section didn't fire — or it's not pointed at the right files.
+2. **Is MEMORY.md too long?** If `_claude/MEMORY.md` is over 200 lines, the agent may be skipping or summarizing. Prune or restructure.
 3. **Is there a recent session log at all?** If you stopped writing session logs a month ago, Claude has no recent context. The vault exists but the continuity layer is broken.
 4. **Are there stale contradictions in memory?** If MEMORY.md says "we decided X" but you've since changed your mind, Claude is working with stale data. Fix the memory.
 
@@ -189,19 +190,18 @@ If you're not seeing any compound after 10-15 sessions, something in the statefu
 
 ## For reference — the files that make this work
 
-(If any of these are missing, session workflow breaks. Go back to seed.md Phase 9 to set them up.)
+(If any of these are missing, session workflow breaks. Go back to seed.md Phase 0 to set them up; Phase 9 tunes them.)
 
-- `CLAUDE.md` at vault root — vault orientation for Claude
-- `_claude/MEMORY.md` — persistent decisions and context
+- `AGENTS.md` at vault root — vault orientation for the agent, with the *Session start*, *During the session* and *Session end* procedures; `CLAUDE.md` next to it holds `@AGENTS.md` for Claude Code
+- `_claude/MEMORY.md` — persistent decisions and context, in the vault
 - `_claude/session-logs/` — running journal of sessions
-- `_claude/TODO.md` — task list with `<!-- since: YYYY-MM-DD -->` age markers
-- `.claude/rules/session-start.md` — session onboarding rule (what Claude reads at session start)
-- `.claude/rules/session-end.md` — session offboarding rule (what Claude does at session end)
+- `_claude/TODO.md` — task list with `<!-- since: YYYY-MM-DD -->` age markers and a *Next step* section
+- Installs from before November 2026: `.claude/rules/session-start.md` and `session-end.md` hold the procedures instead; Claude Code reads them, Codex does not ([environments.md § Existing installs](environments.md#existing-installs-from-before-november-2026))
 
-Together, these five files are the **stateful multiplier** — the thing that makes session ten feel different from session one. Without all five, the system is partial. With all five, compound interest kicks in.
+Together, these five pieces are the **stateful multiplier** — the thing that makes session ten feel different from session one. Without all five, the system is partial. With all five, compound interest kicks in.
 
 ---
 
 ## Accessibility note — voice input
 
-If typing at length is uncomfortable for you, voice-to-text tools like [Wispr Flow](https://wisprflow.ai) turn Claude Code into something you can talk to. This is particularly useful for the brain-dump-before-complex-operations pattern — speaking a 5-minute context dump is often faster than typing it, and for some people the spoken version is more natural and complete. Not a requirement; a quality-of-life unlock for the right audience.
+If typing at length is uncomfortable for you, voice-to-text tools like [Wispr Flow](https://wisprflow.ai) turn a terminal agent into something you can talk to. This is particularly useful for the brain-dump-before-complex-operations pattern — speaking a 5-minute context dump is often faster than typing it, and for some people the spoken version is more natural and complete. Not a requirement; a quality-of-life unlock for the right audience.

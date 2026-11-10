@@ -97,14 +97,14 @@ Everything else is raw material. It can sit in `_inputs/` until you decide it ma
 
 Most "AI + notes" integrations treat AI as retrieval: "find me the note about X." That's useful but shallow.
 
-Claude Code in an Obsidian vault is something different. It reads your goals and challenges your assumptions. It remembers that three weeks ago you said you'd start journaling — and asks what happened. It notices that your sessions keep circling the same theme you haven't written about yet.
+An AI agent in an Obsidian vault — Claude Code, Codex, or ChatGPT with the files in front of it — is something different. It reads your goals and challenges your assumptions. It remembers that three weeks ago you said you'd start journaling — and asks what happened. It notices that your sessions keep circling the same theme you haven't written about yet.
 
-This works because of three infrastructure pieces:
-- **CLAUDE.md** — instructions that tell Claude how your vault works (conventions, structure, what to do and what not to)
-- **MEMORY.md** — persistent memory across sessions (decisions made, patterns noticed, preferences learned)
+This works because of three infrastructure pieces, all of them Markdown in the vault:
+- **An instruction file** (`AGENTS.md`, imported by `CLAUDE.md`) — tells the agent how your vault works (conventions, structure, what to do at the start and end of a session)
+- **`_claude/MEMORY.md`** — persistent memory across sessions (decisions made, patterns noticed, preferences learned), in the vault so every tool sees the same record
 - **Session logs** — a running history of what you worked on together, what was decided, what's next
 
-Without these, every conversation starts from zero. With them, Claude becomes a thinking partner that accumulates context over time. The tenth session is qualitatively different from the first.
+Without these, every conversation starts from zero. With them, the agent becomes a thinking partner that accumulates context over time. The tenth session is qualitatively different from the first. The files being plain Markdown in your folder is what makes the partner yours rather than the product's: change tools, keep the context.
 
 ### 4. Conventions before content
 
@@ -130,11 +130,11 @@ Month 1: Patterns emerge. Some areas fill up, others stay empty (and that's info
 
 The wizard handles Day 1. The guides handle Week 1+. But the vault grows organically from use, not from planning.
 
-### 6. Git is not optional
+### 6. Git is the undo
 
-Claude is powerful but imperfect. It occasionally deletes a section it shouldn't, or reformats something in a way you didn't want. Without version control, that's lost work.
+An agent that edits your files is powerful but imperfect. It occasionally deletes a section it shouldn't, or reformats something in a way you didn't want. Without version control, that's lost work.
 
-With git, it's a `git diff` to see what changed and a `git checkout` to undo it. Every meaningful change gets committed. You always have a rollback point.
+With git, it's a `git diff` to see what changed and a `git restore <file>` or `git revert <commit>` to undo it. Every meaningful change gets committed. You always have a rollback point. With ChatGPT, where you make every change yourself, git matters less; with Claude Code or Codex it is the safety net.
 
 This also gives you a decision journal for free — git log shows what you changed and when, session logs explain why.
 
@@ -158,6 +158,8 @@ This approach was developed through building a real personal vault over multiple
 
 "Conventions before content" came from spending two hours fixing frontmatter on 80 notes that should have had it from the start.
 
-"AI as collaborator" came from the first session where Claude remembered a goal from three days ago and asked about progress — and it changed the nature of the conversation.
+"AI as collaborator" came from the first session where the agent remembered a goal from three days ago and asked about progress — and it changed the nature of the conversation.
+
+The method was built with Claude Code. In November 2026 it was adapted for Codex and for ChatGPT without an agent, which forced one more principle into the open: the context layer must be files in your vault, not memory inside a product. Only then does it survive a change of tool.
 
 These aren't theoretical principles. They're scar tissue from real mistakes and real breakthroughs.
