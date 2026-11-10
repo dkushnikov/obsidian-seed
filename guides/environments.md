@@ -20,7 +20,7 @@ Sources for the facts below, checked 2026-11-10: [Claude Code: How Claude rememb
 
 ## Claude Code
 
-**New vault.** Create an empty vault in Obsidian. Put `seed.md` in its root. Open a terminal in the vault folder, run `claude`, say *"Follow the guide in seed.md."* The agent reads and writes files in the folder; it asks before commands it is not allowed to run. Phase 0 of the guide creates `AGENTS.md`, `CLAUDE.md` and the `_claude/` files before discovery starts.
+**New vault.** Create an empty vault in Obsidian. Put `seed.md` in its root. Open a terminal in the vault folder, run `claude`, say *"Follow the guide in seed.md."* The agent reads and writes files in the folder; it asks before commands it is not allowed to run. Phase 0 of the guide creates `AGENTS.md`, `CLAUDE.md` and the `_claude/` files before discovery starts. Expect a few extra approval prompts there: Claude Code asks before it writes `AGENTS.md`, `CLAUDE.md` and files under `_claude/`, even in a mode that auto-accepts other edits (observed on 2.1.319). Approve them; those files are the point.
 
 **What loads by itself.** `CLAUDE.md` from the vault and from every folder above it, `~/.claude/CLAUDE.md`, `.claude/rules/`, and the files they import with `@path`. Through `@AGENTS.md` the vault's instruction file loads at launch. `/context all` lists what loaded under *Memory files*. Claude Code also reads an `AGENTS.md` on its own when no `CLAUDE.md` exists in the vault or above it (v2.1.277+); a vault inside a folder that has its own `CLAUDE.md` would silently lose that, which is why the import is there.
 
@@ -30,7 +30,7 @@ Sources for the facts below, checked 2026-11-10: [Claude Code: How Claude rememb
 
 **Existing vault.** [ADOPT.md](../ADOPT.md). For a look-only pass, start with `claude --permission-mode plan` or decline every write the agent proposes; the report stays in the chat.
 
-**Verified here.** Claude Code 2.1.319, macOS, 2026-11-10, non-interactive runs with a fictional persona: see the table at the end.
+**Verified here.** Claude Code 2.1.319, macOS, 2026-11-10, non-interactive runs with a fictional persona: see the table at the end. The non-interactive runs had to bypass the approval prompts named above; an interactive session shows them and you answer.
 
 ## Codex
 
@@ -46,7 +46,7 @@ Sources for the facts below, checked 2026-11-10: [Claude Code: How Claude rememb
 
 **Skills.** Optional. Codex reads skills from `.agents/skills/` in the vault and from `~/.agents/skills/`; Claude Code reads `.claude/skills/`. The [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) set teaches Obsidian syntax; it is a nicety, not a requirement.
 
-**Verified here.** Codex CLI 0.166.0, macOS, 2026-11-10, non-interactive runs with a fictional persona: see the table at the end. The app and the IDE extension read the same `AGENTS.md`; they were not exercised by the author.
+**Verified here.** Codex CLI 0.166.0, macOS, 2026-11-10, non-interactive runs with a fictional persona: see the table at the end. In those runs the sandbox refused `git commit` outright because nobody could approve it; the agent said so and the user committed by hand. The app and the IDE extension read the same `AGENTS.md`; they were not exercised by the author.
 
 ## ChatGPT
 
@@ -64,7 +64,7 @@ ChatGPT has no access to your vault folder. It reads what you paste or upload an
 
 **Limits.** The assistant cannot change your vault. If a reply says a file was created or edited, it was not. ChatGPT memory may remember facts across chats; it is not a carrier for decisions, the files are.
 
-**Verified here.** Not run by the author in the ChatGPT product on 2026-11-10. The steps above follow the Projects help page; the Markdown-bundle output was checked with a model run outside the product (see the table). A run in ChatGPT itself is the one check left for you.
+**Verified here.** Not run by the author in the ChatGPT product on 2026-11-10 (the only account at hand was a personal one; a run there would have mixed in its memory and settings). The steps above follow the [Projects help page](https://help.openai.com/en/articles/10169521-projects-in-chatgpt) and the custom-instructions page, both read that day; the Markdown-bundle output was checked with a model run outside the product (see the table). A run in ChatGPT itself is the one check left for you.
 
 ## Claude Code and Codex in one vault
 
@@ -83,10 +83,19 @@ Earlier versions of this guide put the session rules in `.claude/rules/session-s
 
 ## Verified runs
 
-Runs by the author on 2026-11-10 with a fictional persona in throw-away folders, non-interactive (the persona's answers were given up front). "Verified" means the named files appeared and the named behaviour was observed in that run; it does not mean every rule is followed every time, and it is not a first-time user's experience.
+Runs by the author on 2026-11-10, macOS, with a fictional persona ("Dana, a product manager") in throw-away folders, non-interactive: the persona's questionnaire and discovery answers were given up front in one message, and the agent was told to stop after Phase 3 without the Session end procedure. "Verified" means the named files appeared and the named behaviour was observed in that run; it does not mean every rule is followed every time, and it is not a first-time user's experience.
 
-| Environment | Version | What ran | Result |
+| Environment | Version | What ran | Observed |
 |---|---|---|---|
-| Claude Code | 2.1.319 | new vault from `seed.md`, first complete session; second run continues from `_claude/`; decision saved mid-session survives without wrap-up | see README § Status |
-| Codex CLI | 0.166.0 | same, in a separate folder; ADOPT look-only in a read-only sandbox (zero writes), apply with per-item commits, re-run recognises the install, one item reverted | see README § Status |
+| Codex CLI | 0.166.0 | New vault from `seed.md`, Phases 0–3 | 148 s. `AGENTS.md` (filled after discovery), `CLAUDE.md` = `@AGENTS.md`, `.gitignore`, `_claude/MEMORY.md`, `_claude/TODO.md` with a Next step, today's log, `_meta/Me.md`, `_meta/Areas.md`, five area folders. The decision made mid-session was in `MEMORY.md` although no wrap-up ran. `git commit` was refused by the non-interactive sandbox (`.git` protected); in an interactive session this is an approval prompt. |
+| Codex CLI | 0.166.0 | New run next day, "let's continue" | 31 s. First line `vault context loaded (last log: 2026-11-10 — Setup.md)`; brief with last session, Next step from TODO, no stale items; created the day's log; proposed Phase 4. |
+| Claude Code | 2.1.319 | Same vault, new session, "let's continue" | 78 s. Same marker line, now naming the log Codex had created; the brief read the same TODO and memory and flagged a stale TODO item. One file write asked for approval (see § Claude Code). |
+| Claude Code | 2.1.319 | New vault from `seed.md` in a separate folder, Phases 0–3; then "let's continue" | see README § Status for the outcome of this run |
+| Codex CLI | 0.166.0 | ADOPT, look only, in a read-only sandbox, on a fixture vault with its own `CLAUDE.md`, notes and a TODO | 58 s. Report in the chat: 1 of 5 pieces, `Clients/` not read, no seed markers found. Git tree hash before and after identical; `git status` clean. Zero writes. |
+| Codex CLI | 0.166.0 | ADOPT, apply (general engagement) | The first `git commit` was refused by the sandbox and the agent stopped as `ADOPT.md` says; one file created, nothing else touched. Interactive Codex asks for approval here instead. The apply path was then run in Claude Code. |
+| Codex CLI | 0.166.0 | ADOPT, look only, second run on a partially adopted vault | 54 s. Reported `_claude/MEMORY.md` as **installed**, contents untouched; proposed only the missing pieces. Zero writes. |
+| Claude Code | 2.1.319 | ADOPT, apply with per-item commits; look again; revert one item with an unrelated uncommitted edit present | see README § Status |
+| model only, no product | gpt-6-astra via Codex CLI, read-only sandbox | The ChatGPT instruction ("I will create every file by hand"), Phases 0–1 | 118 s. Every file printed as a block with its path; the folder stayed unchanged; asked "did you update TODO.md and MEMORY.md?" it answered no, it printed them for the user to save. This checks the wording of the instruction, not the ChatGPT product. |
 | ChatGPT | — | not run in the product | steps above, unverified |
+
+Global files on the test machine (`~/.codex/AGENTS.md`, `~/.claude/settings.json`, the user `CLAUDE.md`) did not change during the runs. Codex CLI added trust entries for the test folders to `~/.codex/config.toml`; they were removed afterwards. The public checkout of this repository stayed clean. One caveat on fidelity: the machine's own global `~/.codex/AGENTS.md` was in Codex's context during these runs, so a first-time user's Codex sees slightly less than these runs did.
