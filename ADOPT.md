@@ -311,7 +311,7 @@ This is the most common and most sensitive case. The user may have spent time cr
 - (a) Move the content into `AGENTS.md`, leave `CLAUDE.md` with `@AGENTS.md` (plus any Claude-only notes). One file, two readers.
 - (b) Keep `CLAUDE.md` as the content and tell Codex to read it: `project_doc_fallback_filenames = ["CLAUDE.md"]` in `~/.codex/config.toml`. That is the user's global Codex config; describe the edit, do not make it. Codex still does not read `.claude/rules/`, so the two session procedures must then be in `CLAUDE.md` itself. The fallback applies only in a folder that has no `AGENTS.md`: where both files exist, Codex reads `AGENTS.md` and skips `CLAUDE.md`. Do not create an `AGENTS.md` in a vault that uses this option.
 
-If the user uses only one tool, leave the layout alone and append what is missing to the file that tool reads.
+If the user uses only one tool and that tool reads the file with the content, leave the layout alone and append what is missing to that file.
 
 The file chosen here is **the instruction file** for the steps below: `AGENTS.md` after option (a); otherwise the file with content that the user's tool reads. Two cases need a choice before any append. If the user's only tool is Codex and the content is in `CLAUDE.md`, Codex does not read that file: pick (a) or (b) first. If both files already hold content, show both and ask the user which one is the source; option (b) does not apply there. Steps 3–5 append to the instruction file. Name it in the report, in the question and in the commit message.
 
@@ -406,7 +406,7 @@ If at any point adopt mode goes wrong, undo the specific change, never the whole
 Read what an undo takes before you run it. `git restore <file>` and `rm` remove every uncommitted line in the file, the user's lines too.
 
 - **A tracked file.** Read `git diff HEAD -- <file>`. If the diff shows a line that adopt did not write (the user edited the same file during the session), stop and show the diff. Do not restore that file. Remove the adopt lines with an edit the user approves.
-- **A new file that adopt created.** Git has no earlier version of it, so the diff shows nothing. Show the file to the user and ask whether any line in it is theirs. Delete the file only when the user says none is.
+- **A new file that adopt created.** Git has no earlier version of it, so no diff separates adopt's lines from the user's. Show the file to the user and ask whether any line in it is theirs. Delete the file only when the user says none is.
 - **You cannot tell which lines adopt wrote** (for example, the session started after an interruption). Ask the user. Do not guess.
 
 ```bash
