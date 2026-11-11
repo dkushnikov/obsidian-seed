@@ -309,9 +309,11 @@ This is the most common and most sensitive case. The user may have spent time cr
 **Step 0: Which file is the content, which tool reads it.** A `CLAUDE.md` with content is read by Claude Code and not by Codex; an `AGENTS.md` with content is read by Codex, and by Claude Code only through a `CLAUDE.md` import or when no `CLAUDE.md` exists above the vault. If the user wants both tools, there are two honest options; show both, let the user pick, show the diff before writing:
 
 - (a) Move the content into `AGENTS.md`, leave `CLAUDE.md` with `@AGENTS.md` (plus any Claude-only notes). One file, two readers.
-- (b) Keep `CLAUDE.md` as the content and tell Codex to read it: `project_doc_fallback_filenames = ["CLAUDE.md"]` in `~/.codex/config.toml`. That is the user's global Codex config; describe the edit, do not make it. Codex still does not read `.claude/rules/`, so the two session procedures must then be in `CLAUDE.md` itself.
+- (b) Keep `CLAUDE.md` as the content and tell Codex to read it: `project_doc_fallback_filenames = ["CLAUDE.md"]` in `~/.codex/config.toml`. That is the user's global Codex config; describe the edit, do not make it. Codex still does not read `.claude/rules/`, so the two session procedures must then be in `CLAUDE.md` itself. The fallback applies only in a folder that has no `AGENTS.md`: where both files exist, Codex reads `AGENTS.md` and skips `CLAUDE.md`. Do not create an `AGENTS.md` in a vault that uses this option.
 
 If the user uses only one tool, leave the layout alone and append what is missing to the file that tool reads.
+
+The file chosen here is **the instruction file** for the steps below: `AGENTS.md` after option (a), the user's existing file otherwise. Steps 3–5 append to that file. Name it in the report, in the question and in the commit message.
 
 **Step 1: Read the existing file fully.** Don't just check for existence — read the content so you can reason about it.
 
@@ -325,14 +327,14 @@ If the user uses only one tool, leave the layout alone and append what is missin
 
 **Step 3: For each seed-recommended section, classify:**
 
-- **Missing in user's CLAUDE.md** → candidate for append
+- **Missing in the user's instruction file** → candidate for append
 - **Present with similar content** → no action, user's wording wins
 - **Present with conflicting content** → surface as explicit conflict, user decides
 
 **Step 4: Produce a merge report to the user:**
 
 ```markdown
-## Your CLAUDE.md — merge analysis
+## Your [AGENTS.md or CLAUDE.md, the file chosen in Step 0] — merge analysis
 
 **Sections you already have:** [list, e.g. "Structure, Git Workflow, Conventions"]
 **Sections seed recommends adding:**
@@ -345,7 +347,7 @@ If the user uses only one tool, leave the layout alone and append what is missin
 - Language Rules: yours says "English only"; seed template is language-agnostic. Keep yours.
 - Graph Connectivity: yours says "use markdown links"; seed strongly recommends wiki links. Worth a conversation.
 
-For each proposed addition, I'll show you the seed text, you approve it, I append it to your CLAUDE.md (not replace) with a clear section break.
+For each proposed addition, I'll show you the seed text, you approve it, I append it to that file (not replace) with a clear section break.
 
 For each difference, I'll show both versions side-by-side and you pick: yours, seed's, or a merged version.
 
@@ -354,8 +356,8 @@ Nothing gets written until you approve each item.
 
 **Step 5: For each addition, one at a time:**
 1. Show the seed-proposed text
-2. Ask: "Append to your CLAUDE.md?"
-3. On yes: append with a clear section break, commit separately with message like `adopt: append Tag System section to CLAUDE.md`
+2. Ask: "Append to your AGENTS.md?" (or "…your CLAUDE.md?": name the file chosen in Step 0)
+3. On yes: append to that file with a clear section break, commit separately with a message that names it, like `adopt: append Tag System section to AGENTS.md`
 4. Show the commit hash, remind user of rollback
 
 **Step 6: For each conflict, one at a time:**
@@ -389,7 +391,7 @@ State these explicitly if the user asks, or preemptively if the user seems nervo
 
 - **Not a migration tool.** Will not restructure your folders, rename your notes, or reorganize your content wholesale.
 - **Not a validator.** Does not grade your vault quality. The scan reports facts, not judgments. "You don't have X" is not "you're doing it wrong."
-- **Not a merger.** If you have a CLAUDE.md and seed proposes one, we compare and offer to add to yours, not replace.
+- **Not a merger.** If you have an instruction file (`CLAUDE.md` or `AGENTS.md`) and seed proposes one, we compare and offer to add to yours, not replace.
 - **Not silent.** Every change is proposed before it happens, committed separately when approved, and traceable in git log.
 - **Not greedy.** If you want to stop partway, stop. Your vault is in a valid state at every commit boundary — you can resume or abandon without corruption.
 
@@ -402,11 +404,14 @@ If at any point adopt mode goes wrong, undo the specific change, never the whole
 **A change you wrote but have not committed yet:**
 ```bash
 git status                          # see what changed
+git diff HEAD -- <file>             # read it before you undo: is every changed line one that adopt wrote?
 git restore --staged <file>         # if it was staged: unstage it
 git restore <file>                  # a tracked file you modified: back to the last commit
 rm <new-file>                       # a file adopt created and nothing else touched: delete just that file
 ```
 Name each file. Never `git restore .`, `git checkout .`, `git clean` or `git stash`: they take the user's own uncommitted edits with them.
+
+`git restore <file>` takes every uncommitted line in that file, the user's lines too. If the diff shows a line that adopt did not write (the user edited the same file during the session), stop and show the diff. Do not restore that file. Remove the adopt lines with an edit the user approves.
 
 **An item you committed and want to undo:**
 ```bash
