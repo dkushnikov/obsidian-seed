@@ -197,7 +197,7 @@ Create a setup plan based on answers:
 ## Setup Plan
 
 ### Today
-- [ ] Phase 0: Technical Foundation
+- [ ] Phase 0: Continuity First
 - [ ] Phase 1: Discovery
 - [ ] Phase 2: Framework
 - [ ] Phase 3: Conventions
@@ -210,7 +210,7 @@ Create a setup plan based on answers:
 - [ ] [integrations, multi-vault, etc.]
 ```
 
-Save this plan to `_claude/TODO.md` so it persists.
+Keep this plan for Phase 0. Do not create `_claude/TODO.md` here: Phase 0.2 creates it from its template, with the **Next step** section, and puts this plan into it.
 
 ---
 
@@ -939,13 +939,15 @@ Keep it under 200 lines. For detailed notes, create separate files in `_claude/`
 
 ### Cross-session TODO tracker
 
-Create `_claude/TODO.md` — a task list that persists across sessions. Add a `<!-- since: YYYY-MM-DD -->` marker to each item so Claude can track age:
+`_claude/TODO.md` is the task list that persists across sessions. Phase 0 created it. Do not create it again and do not replace it: keep its **Next step** section and every item already in it. Here you tune it to the vault. Every item carries a `<!-- since: YYYY-MM-DD -->` marker so Claude can track age:
 
 ```markdown
 # TODO
 
-## This week
+## Next step
 - [ ] Process Victoria coaching notes <!-- since: 2026-03-28 -->
+
+## This week
 - [ ] Goals 2026 deep review <!-- since: 2026-03-15 -->
 
 ## When available
