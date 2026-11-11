@@ -232,7 +232,7 @@ Five changes total. Each in its own commit. `git log` shows exactly what happene
 
 Next day. Chen opened the vault for his usual morning session — processing research papers from a reading list.
 
-He typed `claude`. Claude's first response was the new session brief:
+He typed `claude`, then *"let's continue"*. Claude's first response was the new session brief:
 
 > *"Yesterday's session: adopt setup, 5 commits. No session log recorded (adoption was the work). TODO has 44 items with age markers. 3 items older than 21 days — you may want to review those. Ready for today?"*
 

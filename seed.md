@@ -1170,7 +1170,7 @@ For the impatient — the minimum viable setup:
 - [ ] Create _meta/Me.md
 - [ ] Create _meta/Areas.md + folder structure
 - [ ] Establish frontmatter + tag conventions (fill in `AGENTS.md`)
-- [ ] Put the setup plan and a *Next step* into `_claude/TODO.md` (with `<!-- since: -->` markers)
+- [ ] Check `_claude/TODO.md`: the setup plan from Phase 0 is in it, *Next step* is current, every item has a `<!-- since: -->` marker
 - [ ] Create Goals/Goals [YEAR].md
 - [ ] Commit everything
 - [ ] Your global file, only if you want rules in every project (`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, custom instructions)

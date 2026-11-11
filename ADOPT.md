@@ -313,7 +313,7 @@ This is the most common and most sensitive case. The user may have spent time cr
 
 If the user uses only one tool, leave the layout alone and append what is missing to the file that tool reads.
 
-The file chosen here is **the instruction file** for the steps below: `AGENTS.md` after option (a), the user's existing file otherwise. Steps 3–5 append to that file. Name it in the report, in the question and in the commit message.
+The file chosen here is **the instruction file** for the steps below: `AGENTS.md` after option (a); otherwise the file with content that the user's tool reads. Two cases need a choice before any append. If the user's only tool is Codex and the content is in `CLAUDE.md`, Codex does not read that file: pick (a) or (b) first. If both files already hold content, show both and ask the user which one is the source; option (b) does not apply there. Steps 3–5 append to the instruction file. Name it in the report, in the question and in the commit message.
 
 **Step 1: Read the existing file fully.** Don't just check for existence — read the content so you can reason about it.
 
@@ -402,16 +402,21 @@ State these explicitly if the user asks, or preemptively if the user seems nervo
 If at any point adopt mode goes wrong, undo the specific change, never the whole tree. The user's own uncommitted work and the other adopt items must survive every undo.
 
 **A change you wrote but have not committed yet:**
+
+Read what an undo takes before you run it. `git restore <file>` and `rm` remove every uncommitted line in the file, the user's lines too.
+
+- **A tracked file.** Read `git diff HEAD -- <file>`. If the diff shows a line that adopt did not write (the user edited the same file during the session), stop and show the diff. Do not restore that file. Remove the adopt lines with an edit the user approves.
+- **A new file that adopt created.** Git has no earlier version of it, so the diff shows nothing. Show the file to the user and ask whether any line in it is theirs. Delete the file only when the user says none is.
+- **You cannot tell which lines adopt wrote** (for example, the session started after an interruption). Ask the user. Do not guess.
+
 ```bash
 git status                          # see what changed
-git diff HEAD -- <file>             # read it before you undo: is every changed line one that adopt wrote?
+git diff HEAD -- <file>             # a tracked file: read this first
 git restore --staged <file>         # if it was staged: unstage it
-git restore <file>                  # a tracked file you modified: back to the last commit
-rm <new-file>                       # a file adopt created and nothing else touched: delete just that file
+git restore <file>                  # a tracked file where every changed line is adopt's: back to the last commit
+rm <new-file>                       # a new file adopt created, after the user said no line in it is theirs
 ```
 Name each file. Never `git restore .`, `git checkout .`, `git clean` or `git stash`: they take the user's own uncommitted edits with them.
-
-`git restore <file>` takes every uncommitted line in that file, the user's lines too. If the diff shows a line that adopt did not write (the user edited the same file during the session), stop and show the diff. Do not restore that file. Remove the adopt lines with an edit the user approves.
 
 **An item you committed and want to undo:**
 ```bash

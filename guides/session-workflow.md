@@ -12,7 +12,7 @@ A session has three phases — open, work, close. Each is short. Together they'r
 
 ### Open (2 minutes)
 
-You open a terminal in your vault directory, run your agent (`claude` or `codex`), and wait for the session brief. In ChatGPT: new chat in your Project, upload the current `AGENTS.md`, `_claude/MEMORY.md`, `_claude/TODO.md` and the newest log, and ask for the brief.
+You open a terminal in your vault directory, run your agent (`claude` or `codex`) and say *"let's continue"*. The session brief is the answer to that first message. In ChatGPT: new chat in your Project, upload the current `AGENTS.md`, `_claude/MEMORY.md`, `_claude/TODO.md` and the newest log, and ask for the brief.
 
 The agent reads (the *Session start* section of `AGENTS.md` tells it to):
 - `AGENTS.md` — vault conventions and structure
@@ -147,7 +147,7 @@ You come back after some time away. You open a session. Claude seems generic, li
 
 **First, check these in order:**
 
-1. **Did the Session start section actually run?** The first line of the answer should be `vault context loaded (last log: …)`. If it is missing, the instruction file was not read: in Claude Code, `/context all` shows which memory files loaded (is `CLAUDE.md` there, does it import `AGENTS.md`?); in Codex, is `AGENTS.md` in the vault root or above it, and under 32 KiB together with any global one? In ChatGPT: did you upload the current files to this chat? Ask the agent: "What did you read at session start? Summarize." If the answer is thin, the section didn't fire — or it's not pointed at the right files.
+1. **Did the Session start section actually run?** The first line of the answer should be `vault context loaded (last log: …)`. If it is missing, loading is not confirmed. Check it: in Claude Code, `/context all` shows which memory files loaded (is `CLAUDE.md` there, does it import `AGENTS.md`?); in Codex, is `AGENTS.md` in the vault root or above it, and under 32 KiB together with any global one? In ChatGPT: did you upload the current files to this chat? Ask the agent: "What did you read at session start? Summarize." If the answer is thin, the section didn't fire — or it's not pointed at the right files.
 2. **Is MEMORY.md too long?** If `_claude/MEMORY.md` is over 200 lines, the agent may be skipping or summarizing. Prune or restructure.
 3. **Is there a recent session log at all?** If you stopped writing session logs a month ago, Claude has no recent context. The vault exists but the continuity layer is broken.
 4. **Are there stale contradictions in memory?** If MEMORY.md says "we decided X" but you've since changed your mind, Claude is working with stale data. Fix the memory.
