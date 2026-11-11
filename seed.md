@@ -612,14 +612,14 @@ Every note created by Claude should include:
 ---
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
-origin: human | claude
+origin: human | agent | session
 tags:
   - [area-tag]
   - [optional topic tags]
 ---
 ```
 
-- `origin` tracks who created the note: `human` (user wrote it) or `claude` (Claude created it). Advanced option: add `session` for notes created collaboratively in conversation.
+- `origin` tracks who created the note: `human` (user wrote it), `agent` (the agent created it, whichever agent), `session` (created together in conversation). Same three values as the `AGENTS.md` template in Phase 0; vaults from before November 2026 may carry `claude` instead of `agent`, which is fine to keep.
 - `tags` are always in frontmatter as a YAML array, never inline
 - Tags are lowercase English even if content is in another language
 
