@@ -41,8 +41,8 @@ Two questions: new vault or existing vault, and which tool.
 | | Claude Code | Codex | ChatGPT |
 |---|---|---|---|
 | **New vault** | `claude` in the empty vault, *"Follow the guide in seed.md"* | `codex` in the empty vault, *"Follow the guide in seed.md"* | Upload `seed.md` to a Project; the assistant writes each file as a block, you save it |
-| **Existing vault** | `claude` in the vault, *"Read ADOPT.md"* | `codex --sandbox read-only` for the look, `codex` to apply | Paste the files you want reviewed; changes come as blocks |
-| **Continue next time** | `claude`; the brief appears | `codex`; the brief appears | New chat in the Project; upload the current state files |
+| **Existing vault** | `claude` in the vault, *"Read ADOPT.md"* | `codex --sandbox read-only` for the look, `codex` to apply | Upload `ADOPT.md` and the files you want reviewed; changes come as blocks |
+| **Continue next time** | `claude`, then *"let's continue"*; the brief is the first answer | `codex`, then *"let's continue"*; the brief is the first answer | New chat in the Project; upload the current state files |
 | Guide | [guides/environments.md § Claude Code](guides/environments.md#claude-code) | [§ Codex](guides/environments.md#codex) | [§ ChatGPT](guides/environments.md#chatgpt) |
 
 ### A. New vault

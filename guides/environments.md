@@ -24,7 +24,7 @@ Sources for the facts below, checked 2026-11-10: [Claude Code: How Claude rememb
 
 **What loads by itself.** `CLAUDE.md` from the vault and from every folder above it, `~/.claude/CLAUDE.md`, `.claude/rules/`, and the files they import with `@path`. Through `@AGENTS.md` the vault's instruction file loads at launch. `/context all` lists what loaded under *Memory files*. Claude Code also reads an `AGENTS.md` on its own when no `CLAUDE.md` exists in the vault or above it (v2.1.277+); a vault inside a folder that has its own `CLAUDE.md` would silently lose that, which is why the import is there.
 
-**Continue.** Run `claude` in the vault. The instruction file's *Session start* section makes the agent read memory, TODO and the last log and show a brief. The first line of the answer should be `vault context loaded (last log: …)`.
+**Continue.** Run `claude` in the vault and say *"let's continue"*. The agent does not start by itself: the brief is the answer to your first message. The instruction file's *Session start* section makes the agent read memory, TODO and the last log and show the brief. The first line of that answer should be `vault context loaded (last log: …)`.
 
 **Memory.** Auto memory lives in `~/.claude/projects/<project>/memory/`, outside the vault, and may be off in some session types. A supplement. The vault's `_claude/MEMORY.md` is the record.
 
@@ -36,9 +36,9 @@ Sources for the facts below, checked 2026-11-10: [Claude Code: How Claude rememb
 
 **New vault.** Create an empty vault in Obsidian. Put `seed.md` in its root. Open a terminal in the vault folder, run `codex`, say *"Follow the guide in seed.md."* The default permission mode, *Ask for approval*, lets Codex edit files inside the folder and pauses before anything outside it or on the network. Git commits are one of those pauses: the sandbox protects `.git`, so Codex asks before each `git commit`; approve it, or run the commit yourself. The Codex app and the IDE extension open a folder the same way; pick the vault folder.
 
-**What loads by itself.** `~/.codex/AGENTS.md` (your global file, if any), then `AGENTS.md` from the project root (the Git root, or the folder itself when there is no Git) down to the working directory, up to 32 KiB together. The vault's `AGENTS.md` therefore loads at every run. Codex does not read `CLAUDE.md` or `.claude/rules/` unless you add `project_doc_fallback_filenames = ["CLAUDE.md"]` to `~/.codex/config.toml`.
+**What loads by itself.** `~/.codex/AGENTS.md` (your global file, if any), then `AGENTS.md` from the project root (the Git root, or the folder itself when there is no Git) down to the working directory, up to 32 KiB together. The vault's `AGENTS.md` therefore loads at every run. Codex does not read `CLAUDE.md` or `.claude/rules/`. A fallback (`project_doc_fallback_filenames = ["CLAUDE.md"]` in `~/.codex/config.toml`) makes Codex read `CLAUDE.md` only in a folder that has no `AGENTS.md`. No setting makes it read `.claude/rules/`.
 
-**Continue.** Run `codex` in the vault; same brief, same marker line.
+**Continue.** Run `codex` in the vault and say *"let's continue"*; same brief, same marker line, as the answer to that first message.
 
 **Memory.** Codex memories are local, off by default, and generated from past chats. A supplement.
 
@@ -60,7 +60,7 @@ ChatGPT has no access to your vault folder. It reads what you paste or upload an
 
 **Continue.** In a new chat inside the same Project: upload the current `AGENTS.md`, `_claude/MEMORY.md`, `_claude/TODO.md` and the newest session log, or paste them. Then: *"Read the files; show the brief from the Session start section; then we continue with Next step."* Project files do not update themselves: after a session, replace the old uploads with the new versions you saved, or the next chat reads stale state. Custom instructions (Settings → Personalization) are for rules that apply to all your chats, not for vault state.
 
-**Existing vault.** Paste the files you want reviewed (your `CLAUDE.md` or `AGENTS.md`, three to five typical notes, your TODO if you have one) and say *"Read ADOPT.md, look-only mode, based only on the files I pasted."* The report must say it covers the pasted files, not the vault. Changes come as blocks you apply by hand.
+**Existing vault.** Download [`ADOPT.md`](../ADOPT.md) and upload it to the chat: the assistant cannot follow a file it was not given. Add the files you want reviewed (your `CLAUDE.md` or `AGENTS.md`, three to five typical notes, your TODO if you have one), uploaded or pasted. Then say *"Follow ADOPT.md, look-only mode, based only on the files I gave you."* The report must say it covers those files, not the vault. Changes come as blocks you apply by hand.
 
 **Limits.** The assistant cannot change your vault. If a reply says a file was created or edited, it was not. ChatGPT memory may remember facts across chats; it is not a carrier for decisions, the files are.
 
@@ -77,7 +77,7 @@ Product memories stay separate (Claude's in `~/.claude/projects/`, Codex's in `~
 Earlier versions of this guide put the session rules in `.claude/rules/session-start.md` and `session-end.md`, kept memory in Claude Code's auto memory outside the vault, and used `CLAUDE.md` as the only instruction file. Nothing is renamed or moved automatically.
 
 - **Your `CLAUDE.md` keeps working** in Claude Code as it is.
-- **Adding Codex** to such a vault: two honest options, both shown as a diff before anything changes. (a) Move the content of `CLAUDE.md` into a new `AGENTS.md`, leave `@AGENTS.md` in `CLAUDE.md`, and fold the two rule files into the *Session start* and *Session end* sections; the rule files then become one-line pointers or are deleted with your approval. (b) Keep everything and tell Codex to read `CLAUDE.md` through `project_doc_fallback_filenames = ["CLAUDE.md"]` in `~/.codex/config.toml`; the `.claude/rules/` files stay invisible to Codex, so copy their two procedures into `CLAUDE.md` once.
+- **Adding Codex** to such a vault: two honest options, both shown as a diff before anything changes. (a) Move the content of `CLAUDE.md` into a new `AGENTS.md`, leave `@AGENTS.md` in `CLAUDE.md`, and fold the two rule files into the *Session start* and *Session end* sections; the rule files then become one-line pointers or are deleted with your approval. (b) Keep everything and tell Codex to read `CLAUDE.md` through `project_doc_fallback_filenames = ["CLAUDE.md"]` in `~/.codex/config.toml`; the `.claude/rules/` files stay invisible to Codex, so copy their two procedures into `CLAUDE.md` once. This option holds only while the vault has no `AGENTS.md`: where both files exist, Codex reads `AGENTS.md` and skips `CLAUDE.md`.
 - **Memory.** If your decisions live only in Claude's auto memory, ask Claude once: *"Copy the decisions from your memory into `_claude/MEMORY.md`, show me the diff first."* From then on the vault file is the record.
 - **Where the current decisions are**, when old and new files disagree: `_claude/MEMORY.md` in the vault. A product memory that says otherwise is stale; fix the product memory or ignore it.
 
