@@ -197,7 +197,7 @@ Create a setup plan based on answers:
 ## Setup Plan
 
 ### Today
-- [ ] Phase 0: Technical Foundation
+- [ ] Phase 0: Continuity First
 - [ ] Phase 1: Discovery
 - [ ] Phase 2: Framework
 - [ ] Phase 3: Conventions
@@ -210,7 +210,7 @@ Create a setup plan based on answers:
 - [ ] [integrations, multi-vault, etc.]
 ```
 
-Save this plan to `_claude/TODO.md` so it persists.
+Keep this plan for Phase 0. Do not create `_claude/TODO.md` here: Phase 0.2 creates it from its template, with the **Next step** section, and puts this plan into it.
 
 ---
 
@@ -612,14 +612,14 @@ Every note created by Claude should include:
 ---
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
-origin: human | claude
+origin: human | agent | session
 tags:
   - [area-tag]
   - [optional topic tags]
 ---
 ```
 
-- `origin` tracks who created the note: `human` (user wrote it) or `claude` (Claude created it). Advanced option: add `session` for notes created collaboratively in conversation.
+- `origin` tracks who created the note: `human` (user wrote it), `agent` (the agent created it, whichever agent), `session` (created together in conversation). Same three values as the `AGENTS.md` template in Phase 0; vaults from before November 2026 may carry `claude` instead of `agent`, which is fine to keep.
 - `tags` are always in frontmatter as a YAML array, never inline
 - Tags are lowercase English even if content is in another language
 
@@ -939,13 +939,15 @@ Keep it under 200 lines. For detailed notes, create separate files in `_claude/`
 
 ### Cross-session TODO tracker
 
-Create `_claude/TODO.md` — a task list that persists across sessions. Add a `<!-- since: YYYY-MM-DD -->` marker to each item so Claude can track age:
+`_claude/TODO.md` is the task list that persists across sessions. Phase 0 created it. Do not create it again and do not replace it: keep its **Next step** section and every item already in it. Here you tune it to the vault. Every item carries a `<!-- since: YYYY-MM-DD -->` marker so Claude can track age:
 
 ```markdown
 # TODO
 
-## This week
+## Next step
 - [ ] Process Victoria coaching notes <!-- since: 2026-03-28 -->
+
+## This week
 - [ ] Goals 2026 deep review <!-- since: 2026-03-15 -->
 
 ## When available
@@ -1168,7 +1170,7 @@ For the impatient — the minimum viable setup:
 - [ ] Create _meta/Me.md
 - [ ] Create _meta/Areas.md + folder structure
 - [ ] Establish frontmatter + tag conventions (fill in `AGENTS.md`)
-- [ ] Put the setup plan and a *Next step* into `_claude/TODO.md` (with `<!-- since: -->` markers)
+- [ ] Check `_claude/TODO.md`: the setup plan from Phase 0 is in it and *Next step* is current. Add a `<!-- since: -->` marker to any item that has none
 - [ ] Create Goals/Goals [YEAR].md
 - [ ] Commit everything
 - [ ] Your global file, only if you want rules in every project (`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, custom instructions)

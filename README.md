@@ -41,8 +41,8 @@ Two questions: new vault or existing vault, and which tool.
 | | Claude Code | Codex | ChatGPT |
 |---|---|---|---|
 | **New vault** | `claude` in the empty vault, *"Follow the guide in seed.md"* | `codex` in the empty vault, *"Follow the guide in seed.md"* | Upload `seed.md` to a Project; the assistant writes each file as a block, you save it |
-| **Existing vault** | `claude` in the vault, *"Read ADOPT.md"* | `codex --sandbox read-only` for the look, `codex` to apply | Paste the files you want reviewed; changes come as blocks |
-| **Continue next time** | `claude`; the brief appears | `codex`; the brief appears | New chat in the Project; upload the current state files |
+| **Existing vault** | `claude` in the vault, *"Read ADOPT.md"* | `codex --sandbox read-only` for the look, `codex` to apply | Upload `ADOPT.md` and the files you want reviewed; changes come as blocks |
+| **Continue next time** | `claude`, then *"let's continue"*; the brief is the first answer | `codex`, then *"let's continue"*; the brief is the first answer | New chat in the Project; upload the current state files |
 | Guide | [guides/environments.md § Claude Code](guides/environments.md#claude-code) | [§ Codex](guides/environments.md#codex) | [§ ChatGPT](guides/environments.md#chatgpt) |
 
 ### A. New vault
@@ -134,7 +134,7 @@ The long version: [PHILOSOPHY.md](PHILOSOPHY.md).
 
 Early release. The method was developed through 40+ hours of real vault building, and the author's vault has been in daily use since. `seed.md` has been through v2026.03.29 and v2026.04.12 with feedback from external users; v2026.11.10 (this version, pending release) adds Codex and ChatGPT, moves memory into the vault and the session rules into `AGENTS.md`, and moves continuity into Phase 0.
 
-Verified by the author on 2026-11-10 with a fictional persona, non-interactively: Claude Code 2.1.319 and Codex CLI 0.166.0 for a new vault, continuation, and adopt (look, apply, re-run, revert). Not verified in the product: ChatGPT. Details and limits: [guides/environments.md § Verified runs](guides/environments.md#verified-runs).
+Verified by the author on 2026-11-10 with a fictional persona, non-interactively: Claude Code 2.1.319 and Codex CLI 0.166.0 for a new vault and its continuation, including one vault shared by both tools; adopt look and re-run in Codex; adopt look, apply, re-run and revert in Claude Code. Not verified in the product: ChatGPT. Details and limits: [guides/environments.md § Verified runs](guides/environments.md#verified-runs).
 
 If something breaks, confuses, or surprises you: open an issue. I read every one.
 
